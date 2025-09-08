@@ -1,5 +1,6 @@
 import { KpiCards } from '@/components/kpi-cards'
 import { PerformanceChart } from '@/components/performance-chart'
+import { PriceRefreshButton } from '@/components/price-refresh-button'
 import { getPortfolioData } from '@/lib/data'
 
 export default async function HomePage() {
@@ -7,11 +8,14 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">Portfolio Overview</h1>
-        <p className="text-muted-foreground">
-          Track your TFSA performance against benchmarks
-        </p>
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Portfolio Overview</h1>
+          <p className="text-muted-foreground">
+            Track your TFSA performance against benchmarks
+          </p>
+        </div>
+        <PriceRefreshButton />
       </div>
 
       <KpiCards data={data} />

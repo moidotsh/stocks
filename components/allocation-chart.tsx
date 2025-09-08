@@ -15,6 +15,11 @@ export function AllocationChart({ holdings }: AllocationChartProps) {
       value: pos.shares * pos.market_price,
       color: getColorForTicker(pos.ticker)
     })),
+    ...(holdings.crypto_positions || []).map(pos => ({
+      name: pos.symbol,
+      value: pos.qty * pos.current_price,
+      color: getCryptoColor(pos.symbol)
+    })),
     ...(holdings.cash_cad > 0 ? [{
       name: 'Cash',
       value: holdings.cash_cad,
@@ -67,4 +72,20 @@ function getColorForTicker(ticker: string): string {
   }
   
   return colors[Math.abs(hash) % colors.length]
+}
+
+function getCryptoColor(symbol: string): string {
+  const cryptoColors = {
+    'BTC': '#f7931a',
+    'ETH': '#627eea', 
+    'ADA': '#0d1421',
+    'SOL': '#14f195',
+    'DOT': '#e6007a',
+    'AVAX': '#e84142',
+    'MATIC': '#8247e5',
+    'LINK': '#375bd2'
+  }
+  
+  // Return specific color if defined, otherwise use generic colors
+  return cryptoColors[symbol as keyof typeof cryptoColors] || getColorForTicker(symbol)
 }

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PortfolioData } from '@/lib/types'
-import { formatCurrency, formatPercent } from '@/lib/utils'
+import { formatCurrency } from '@/lib/utils'
 import { TrendingUp, TrendingDown, DollarSign, Target, BarChart3 } from 'lucide-react'
 
 interface KpiCardsProps {
@@ -18,10 +18,40 @@ export function KpiCards({ data }: KpiCardsProps) {
       description: 'Weekly deposits to TFSA'
     },
     {
+      title: 'Stock Portfolio',
+      value: formatCurrency(metrics.stockValue),
+      icon: Target,
+      description: 'Stocks & ETFs'
+    },
+    {
+      title: 'Crypto Portfolio',
+      value: formatCurrency(metrics.cryptoValue),
+      icon: Target,
+      description: 'Cryptocurrency holdings'
+    },
+    {
+      title: 'Cash Value',
+      value: formatCurrency(metrics.cashValue),
+      icon: DollarSign,
+      description: 'Uninvested cash'
+    },
+    {
+      title: 'If HISA (3%)',
+      value: formatCurrency(metrics.hisaValue),
+      icon: BarChart3,
+      description: 'High interest savings'
+    },
+    {
+      title: 'If S&P 500 DCA',
+      value: formatCurrency(metrics.sp500Value),
+      icon: BarChart3,
+      description: 'S&P 500 dollar cost avg'
+    },
+    {
       title: 'Current Value',
       value: formatCurrency(metrics.currentValue),
       icon: Target,
-      description: 'Market value + cash'
+      description: 'Total portfolio value'
     },
     {
       title: 'Unrealized P/L',
@@ -29,32 +59,6 @@ export function KpiCards({ data }: KpiCardsProps) {
       icon: metrics.unrealizedPL >= 0 ? TrendingUp : TrendingDown,
       description: 'Gain/loss vs contributions',
       trend: metrics.unrealizedPL >= 0 ? 'positive' : 'negative'
-    },
-    {
-      title: 'IRR (Money-Weighted)',
-      value: formatPercent(metrics.irr),
-      icon: BarChart3,
-      description: 'Internal rate of return'
-    },
-    {
-      title: 'TWR (Time-Weighted)',
-      value: formatPercent(metrics.twr),
-      icon: BarChart3,
-      description: 'Performance vs timing'
-    },
-    {
-      title: 'vs HISA (3%)',
-      value: formatCurrency(metrics.deltaVsHisa),
-      icon: metrics.deltaVsHisa >= 0 ? TrendingUp : TrendingDown,
-      description: 'Outperformance vs HISA',
-      trend: metrics.deltaVsHisa >= 0 ? 'positive' : 'negative'
-    },
-    {
-      title: 'vs S&P 500 DCA',
-      value: formatCurrency(metrics.deltaVsSP500),
-      icon: metrics.deltaVsSP500 >= 0 ? TrendingUp : TrendingDown,
-      description: 'Outperformance vs index',
-      trend: metrics.deltaVsSP500 >= 0 ? 'positive' : 'negative'
     }
   ]
 

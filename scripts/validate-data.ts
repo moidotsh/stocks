@@ -3,7 +3,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { z } from 'zod'
-import { EntrySchema, HoldingsSchema, BenchmarkSchema, Entry, Holdings } from '../lib/types'
+import { EntrySchema, MarketPricesSchema, BenchmarkSchema, Entry, MarketPrices } from '../lib/types'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 
@@ -65,15 +65,26 @@ async function validateDataIntegrity() {
     console.log('✅ entries.json is valid')
   }
   
-  // Validate holdings.json
-  console.log('\n💼 Validating holdings.json...')
-  const holdingsResult = await validateFile('holdings.json', HoldingsSchema, false)
-  if (!holdingsResult.valid) {
-    console.error('❌ holdings.json validation failed:')
-    holdingsResult.errors?.forEach(error => console.error(`   ${error}`))
+  // Validate crypto_entries.json (optional)
+  console.log('\n🪙 Validating crypto_entries.json...')
+  const cryptoEntriesResult = await validateFile('crypto_entries.json', EntrySchema, true)
+  if (!cryptoEntriesResult.valid) {
+    console.error('❌ crypto_entries.json validation failed:')
+    cryptoEntriesResult.errors?.forEach(error => console.error(`   ${error}`))
     hasErrors = true
   } else {
-    console.log('✅ holdings.json is valid')
+    console.log('✅ crypto_entries.json is valid')
+  }
+  
+  // Validate market-prices.json
+  console.log('\n💰 Validating market-prices.json...')
+  const marketPricesResult = await validateFile('market-prices.json', MarketPricesSchema, false)
+  if (!marketPricesResult.valid) {
+    console.error('❌ market-prices.json validation failed:')
+    marketPricesResult.errors?.forEach(error => console.error(`   ${error}`))
+    hasErrors = true
+  } else {
+    console.log('✅ market-prices.json is valid')
   }
   
   // Validate benchmarks.json
@@ -88,19 +99,19 @@ async function validateDataIntegrity() {
   }
   
   // Cross-validation checks
-  if (entriesResult.valid && holdingsResult.valid) {
+  if (entriesResult.valid && marketPricesResult.valid) {
     console.log('\n🔗 Running cross-validation checks...')
     
     // TypeScript now knows these are the correct types
     const entries = entriesResult.data // Type: Entry[] | undefined
-    const holdings = holdingsResult.data // Type: Holdings | undefined
+    const marketPrices = marketPricesResult.data // Type: MarketPrices | undefined
     
-    if (entries && entries.length > 0 && holdings) {
+    if (entries && entries.length > 0 && marketPrices) {
       const latestEntryDate = Math.max(...entries.map(e => new Date(e.week_start).getTime()))
-      const holdingsDate = new Date(holdings.as_of).getTime()
+      const pricesDate = new Date(marketPrices.as_of).getTime()
       
-      if (holdingsDate < latestEntryDate) {
-        console.warn('⚠️  Holdings date is older than latest entry date')
+      if (pricesDate < latestEntryDate) {
+        console.warn('⚠️  Market prices date is older than latest entry date')
       }
     }
     

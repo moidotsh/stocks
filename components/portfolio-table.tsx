@@ -54,6 +54,31 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                 )
               })}
               
+              {/* Crypto Positions */}
+              {(holdings.crypto_positions || []).map((position) => {
+                const marketValue = position.qty * position.current_price
+                const unrealizedPL = marketValue - (position.qty * position.avg_cost)
+                
+                return (
+                  <tr key={position.symbol} className="border-b hover:bg-muted/50 bg-orange-50 dark:bg-orange-950/20">
+                    <td className="p-3 font-mono font-medium">
+                      {position.symbol}
+                      <span className="text-xs text-muted-foreground ml-1">(Crypto)</span>
+                    </td>
+                    <td className="text-right p-3">{position.qty.toFixed(8)}</td>
+                    <td className="text-right p-3">{formatCurrency(position.avg_cost)}</td>
+                    <td className="text-right p-3">{formatCurrency(position.current_price)}</td>
+                    <td className="text-right p-3">{formatCurrency(marketValue)}</td>
+                    <td className={`text-right p-3 ${
+                      unrealizedPL >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                    }`}>
+                      {formatCurrency(unrealizedPL)}
+                    </td>
+                    <td className="p-3">CAD</td>
+                  </tr>
+                )
+              })}
+              
               {holdings.cash_cad > 0 && (
                 <tr className="border-b hover:bg-muted/50">
                   <td className="p-3 font-medium">Cash</td>

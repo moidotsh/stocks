@@ -1,8 +1,16 @@
 import { Timeline } from '@/components/timeline'
-import { getEntriesData } from '@/lib/data'
+import { getEntriesData, getCryptoEntriesData } from '@/lib/data'
 
 export default async function TimelinePage() {
-  const entries = await getEntriesData()
+  const [entries, cryptoEntries] = await Promise.all([
+    getEntriesData(),
+    getCryptoEntriesData()
+  ])
+
+  // Combine all entries and sort by date
+  const allEntries = [...entries, ...cryptoEntries].sort((a, b) => 
+    new Date(a.week_start).getTime() - new Date(b.week_start).getTime()
+  )
 
   return (
     <div className="space-y-8">
@@ -13,7 +21,7 @@ export default async function TimelinePage() {
         </p>
       </div>
 
-      <Timeline entries={entries} />
+      <Timeline entries={allEntries} />
     </div>
   )
 }

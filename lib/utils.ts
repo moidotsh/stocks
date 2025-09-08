@@ -21,7 +21,11 @@ export function formatPercent(value: number): string {
 }
 
 export function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-CA', {
+  // Parse as local date to avoid timezone issues
+  const [year, month, day] = date.split('-').map(Number)
+  const localDate = new Date(year, month - 1, day)
+  
+  return localDate.toLocaleDateString('en-CA', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

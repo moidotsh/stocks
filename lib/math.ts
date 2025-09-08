@@ -165,9 +165,17 @@ export function calculateMetrics(
   // Calculate total contributions
   const totalContributed = entries.reduce((sum, entry) => sum + entry.deposit_cad, 0)
   
-  // Current portfolio value
-  const currentValue = holdings.positions.reduce((sum, pos) => 
-    sum + (pos.shares * pos.market_price), 0) + holdings.cash_cad
+  // Calculate individual portfolio components
+  const stockValue = holdings.positions.reduce((sum, pos) => 
+    sum + (pos.shares * pos.market_price), 0)
+  
+  const cryptoValue = (holdings.crypto_positions || []).reduce((sum, pos) => 
+    sum + (pos.qty * pos.current_price), 0)
+  
+  const cashValue = holdings.cash_cad
+  
+  // Current portfolio value (total of all components)
+  const currentValue = stockValue + cryptoValue + cashValue
   
   const unrealizedPL = currentValue - totalContributed
   
@@ -191,11 +199,16 @@ export function calculateMetrics(
   return {
     totalContributed,
     currentValue,
+    stockValue,
+    cryptoValue,
+    cashValue,
     unrealizedPL,
     twr,
     irr,
     deltaVsHisa: currentValue - hisaValue,
-    deltaVsSP500: currentValue - sp500Value
+    deltaVsSP500: currentValue - sp500Value,
+    hisaValue,
+    sp500Value
   }
 }
 
@@ -209,27 +222,115 @@ export function generateChartData(
 ): ChartDataPoint[] {
   const data: ChartDataPoint[] = []
   
-  let portfolioValue = 0
+  // Separate stock and crypto entries
+  const stockEntries = entries.filter(e => 
+    e.trades.some(t => !['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD'].includes(t.ticker))
+  )
+  const cryptoEntries = entries.filter(e => 
+    e.trades.some(t => ['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD'].includes(t.ticker))
+  )
   
-  for (const entry of entries) {
+  // Get all entries sorted by date
+  const allEntries = entries.sort((a, b) => new Date(a.week_start).getTime() - new Date(b.week_start).getTime())
+  
+  // Get unique dates to avoid duplicates when both stock and crypto entries have same date
+  const uniqueDates = Array.from(new Set(allEntries.map(e => e.week_start))).sort()
+  
+  for (const dateStr of uniqueDates) {
+    // Calculate separate deposits for stock and crypto up to this date
+    const stockDeposits = stockEntries
+      .filter(e => new Date(e.week_start) <= new Date(dateStr))
+      .reduce((sum, e) => sum + e.deposit_cad, 0)
     
-    // Simplified portfolio value calculation
-    // In reality, this would need historical prices
-    portfolioValue += entry.deposit_cad
+    const cryptoDeposits = cryptoEntries
+      .filter(e => new Date(e.week_start) <= new Date(dateStr))
+      .reduce((sum, e) => sum + e.deposit_cad, 0)
     
-    const depositFlows = entries
-      .filter(e => new Date(e.week_start) <= new Date(entry.week_start))
+    const totalDeposits = stockDeposits + cryptoDeposits
+    
+    // Create separate deposit flows for benchmarking
+    const stockDepositFlows = stockEntries
+      .filter(e => new Date(e.week_start) <= new Date(dateStr))
       .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
     
-    const hisaValue = calculateHisaValue(depositFlows, benchmarks.hisa_rate_apy, new Date(entry.week_start))
-    const sp500Value = calculateSP500DCA(depositFlows, benchmarks.sp500)
+    const cryptoDepositFlows = cryptoEntries
+      .filter(e => new Date(e.week_start) <= new Date(dateStr))
+      .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+    
+    const allDepositFlows = allEntries
+      .filter(e => new Date(e.week_start) <= new Date(dateStr))
+      .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+    
+    // Calculate benchmark values
+    const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, new Date(dateStr))
+    const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500)
+    
+    const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, new Date(dateStr))
+    const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500)
+    
+    const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, new Date(dateStr))
+    const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500)
     
     data.push({
-      date: entry.week_start,
-      portfolio: portfolioValue,
+      date: dateStr,
+      portfolio: totalDeposits,
       hisa: hisaValue,
-      sp500: sp500Value
+      sp500: sp500Value,
+      stockPortfolio: stockDeposits,
+      cryptoPortfolio: cryptoDeposits,
+      stockHisa: stockHisaValue,
+      stockSP500: stockSP500Value,
+      cryptoHisa: cryptoHisaValue,
+      cryptoSP500: cryptoSP500Value
     })
+  }
+  
+  // Add today's data point with current market values if different from last entry date
+  const lastEntryDate = uniqueDates[uniqueDates.length - 1]
+  const todayDate = holdings.as_of
+  
+  if (todayDate !== lastEntryDate) {
+    const stockDepositFlows = stockEntries.map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+    const cryptoDepositFlows = cryptoEntries.map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+    const allDepositFlows = allEntries.map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+    
+    const currentStockValue = holdings.positions.reduce((sum, pos) => sum + (pos.shares * pos.market_price), 0)
+    const currentCryptoValue = (holdings.crypto_positions || []).reduce((sum, pos) => sum + (pos.qty * pos.current_price), 0)
+    const currentPortfolioValue = currentStockValue + currentCryptoValue + holdings.cash_cad
+    
+    const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, new Date(todayDate))
+    const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500)
+    
+    const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, new Date(todayDate))
+    const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500)
+    
+    const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, new Date(todayDate))
+    const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500)
+    
+    data.push({
+      date: todayDate,
+      portfolio: currentPortfolioValue,
+      hisa: hisaValue,
+      sp500: sp500Value,
+      stockPortfolio: currentStockValue,
+      cryptoPortfolio: currentCryptoValue,
+      stockHisa: stockHisaValue,
+      stockSP500: stockSP500Value,
+      cryptoHisa: cryptoHisaValue,
+      cryptoSP500: cryptoSP500Value
+    })
+  } else {
+    // If today is the same as last entry date, update the last data point with current market values
+    const lastIndex = data.length - 1
+    if (lastIndex >= 0) {
+      const currentStockValue = holdings.positions.reduce((sum, pos) => sum + (pos.shares * pos.market_price), 0)
+      const currentCryptoValue = (holdings.crypto_positions || []).reduce((sum, pos) => sum + (pos.qty * pos.current_price), 0)
+      const currentPortfolioValue = currentStockValue + currentCryptoValue + holdings.cash_cad
+      
+      data[lastIndex].portfolio = currentPortfolioValue
+      data[lastIndex].stockPortfolio = currentStockValue
+      data[lastIndex].cryptoPortfolio = currentCryptoValue
+    }
   }
   
   return data
