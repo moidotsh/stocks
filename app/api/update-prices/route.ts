@@ -13,14 +13,14 @@ export async function POST() {
     ])
     
     // Get all unique tickers from regular entries (stocks)
-    const stockTickers = [...new Set(
+    const stockTickers = Array.from(new Set(
       entries.flatMap(entry => entry.trades.map(trade => trade.ticker))
-    )]
+    ))
     
     // Get all unique tickers from crypto entries 
-    const cryptoSymbols = [...new Set(
+    const cryptoSymbols = Array.from(new Set(
       cryptoEntries.flatMap(entry => entry.trades.map(trade => trade.ticker))
-    )]
+    ))
     
     console.log('Fetching prices for stocks:', stockTickers)
     console.log('Fetching prices for crypto:', cryptoSymbols)
