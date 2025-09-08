@@ -145,7 +145,7 @@ export async function getDailySnapshotsData(): Promise<DailySnapshot[]> {
     
     // Validate with Zod
     const snapshots = data.map((snapshot: unknown) => DailySnapshotSchema.parse(snapshot))
-    return snapshots.sort((a: DailySnapshot, b: DailySnapshot) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    return snapshots.sort((a: DailySnapshot, b: DailySnapshot) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
   } catch (error) {
     console.warn('Could not read daily snapshots:', error)
     return []
