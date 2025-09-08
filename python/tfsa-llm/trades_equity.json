@@ -1,0 +1,12 @@
+{
+    "trades": [
+        {
+            "action": "buy",
+            "ticker": "ABX.TO",
+            "qty": 0.25,
+            "limit_price": null
+        }
+    ],
+    "rationale": "Since K.TO is unavailable, allocate available cash to ABX.TO (CAD-listed, strong recent performance, fractional shares likely), ensuring CAD exposure and efficient use of funds while minimizing FX fees.",
+    "risk_notes": "Portfolio will remain highly concentrated in a single equity until further capital is available. Gold sector exposure may increase volatility due to commodity price risks."
+}

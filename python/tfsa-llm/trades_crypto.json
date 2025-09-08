@@ -1,0 +1,11 @@
+{
+    "trades": [
+    { "action": "buy", "symbol": "DOGE", "qty": 7.33, "limit_price": null },
+    { "action": "buy", "symbol": "WLD", "qty": 1.29, "limit_price": null },
+    { "action": "buy", "symbol": "ENA", "qty": 0.98, "limit_price": null },
+    { "action": "buy", "symbol": "AVAX", "qty": 0.07, "limit_price": null },
+    { "action": "buy", "symbol": "DOT", "qty": 0.36, "limit_price": null }
+    ],
+    "rationale": "Initial allocation spread across five top liquid, large-cap coins with added additional DOGE purchase to fully utilize available cash after fees, maintaining minimum trade size and respecting constraints.",
+    "risk_notes": "Higher DOGE allocation increases concentration risk; portfolio remains momentum biased without defensive holdings."
+    }
