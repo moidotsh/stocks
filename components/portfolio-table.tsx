@@ -51,8 +51,141 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        {/* Mobile card layout */}
+        <div className="sm:hidden space-y-3">
+          {(activeTab === 'combined' || activeTab === 'stocks') && holdings.positions.map((position) => {
+            const marketValue = position.shares * position.market_price
+            const unrealizedPL = (position.market_price - position.avg_cost) * position.shares
+            
+            return (
+              <div key={position.ticker} className="border rounded-lg p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-mono font-medium text-lg">{position.ticker}</h4>
+                  <span className="text-sm text-muted-foreground">{position.currency}</span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">Shares:</span>
+                    <div className="font-medium">{position.shares.toFixed(3)}</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Avg Cost:</span>
+                    <div className="font-medium">{formatCurrency(position.avg_cost)}</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Market Price:</span>
+                    <div className="font-medium">{formatCurrency(position.market_price)}</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Market Value:</span>
+                    <div className="font-medium">{formatCurrency(marketValue)}</div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center pt-2 border-t">
+                  <span className="text-sm text-muted-foreground">Unrealized P/L:</span>
+                  <span className={`font-medium ${
+                    unrealizedPL >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {formatCurrency(unrealizedPL)}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
+
+          {/* Crypto positions in mobile card layout */}
+          {(activeTab === 'combined' || activeTab === 'crypto') && (holdings.crypto_positions || []).map((position) => {
+            const marketValue = position.qty * position.current_price
+            const unrealizedPL = marketValue - (position.qty * position.avg_cost)
+            
+            return (
+              <div key={position.symbol} className="border rounded-lg p-4 space-y-2 bg-orange-50/50 dark:bg-orange-950/20">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-mono font-medium text-lg">
+                    {position.symbol}
+                    <span className="text-xs text-muted-foreground ml-1">(Crypto)</span>
+                  </h4>
+                  <span className="text-sm text-muted-foreground">CAD</span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">Quantity:</span>
+                    <div className="font-medium">{position.qty.toFixed(8)}</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Avg Cost:</span>
+                    <div className="font-medium">{formatCurrency(position.avg_cost)}</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Current Price:</span>
+                    <div className="font-medium">{formatCurrency(position.current_price)}</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Market Value:</span>
+                    <div className="font-medium">{formatCurrency(marketValue)}</div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center pt-2 border-t">
+                  <span className="text-sm text-muted-foreground">Unrealized P/L:</span>
+                  <span className={`font-medium ${
+                    unrealizedPL >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {formatCurrency(unrealizedPL)}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
+
+          {/* Cash in mobile layout */}
+          {activeTab === 'combined' && holdings.cash_cad > 0 && (
+            <div className="border rounded-lg p-4 space-y-2">
+              <div className="flex justify-between items-center">
+                <h4 className="font-medium text-lg">Cash</h4>
+                <span className="text-sm text-muted-foreground">CAD</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Value:</span>
+                <span className="font-medium">{formatCurrency(holdings.cash_cad)}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Mobile totals */}
+          <div className="border-2 border-primary/20 rounded-lg p-4 bg-primary/5">
+            <div className="flex justify-between items-center">
+              <h4 className="font-semibold text-lg">Total</h4>
+              <div className="text-right">
+                <div className="font-semibold text-lg">
+                  {formatCurrency(
+                    activeTab === 'stocks' ? stockMarketValue :
+                    activeTab === 'crypto' ? cryptoMarketValue :
+                    totalMarketValue + holdings.cash_cad
+                  )}
+                </div>
+                <div className={`text-sm ${
+                  (activeTab === 'stocks' ? stockUnrealizedPL :
+                   activeTab === 'crypto' ? cryptoUnrealizedPL :
+                   totalUnrealizedPL) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                }`}>
+                  {formatCurrency(
+                    activeTab === 'stocks' ? stockUnrealizedPL :
+                    activeTab === 'crypto' ? cryptoUnrealizedPL :
+                    totalUnrealizedPL
+                  )} P/L
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop table layout with better scroll indicators */}
+        <div className="hidden sm:block">
+          <div className="overflow-x-auto relative">
+            {/* Scroll fade indicators for larger screens */}
+            <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l from-card to-transparent pointer-events-none lg:hidden z-10" />
+            
+            <table className="w-full text-sm min-w-[600px]">
             <thead>
               <tr className="border-b">
                 <th className="text-left p-3">Ticker</th>
@@ -151,6 +284,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
               </tr>
             </tfoot>
           </table>
+          </div>
         </div>
       </CardContent>
     </Card>

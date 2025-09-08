@@ -14,12 +14,12 @@ export default async function PortfolioPage() {
         </p>
       </div>
 
-      <PortfolioTable holdings={holdings} />
-      
       <div className="bg-card rounded-2xl p-6 shadow-sm">
         <h2 className="text-xl font-semibold mb-4">Asset Allocation</h2>
         <AllocationChart holdings={holdings} />
       </div>
+      
+      <PortfolioTable holdings={holdings} />
     </div>
   )
 }
