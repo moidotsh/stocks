@@ -148,5 +148,35 @@
       "ENA": 1.065,
       "WLD": 2.12
     }
+  },
+  {
+    "timestamp": "2025-09-08T22:02:57.873Z",
+    "portfolio_value": 20.90072996,
+    "stock_value": 10.17778,
+    "crypto_value": 10.717599960000001,
+    "cash_value": 0.005349999999999966,
+    "market_prices": {
+      "ABX": 40.07,
+      "DOGE": 0.334412,
+      "AVAX": 35.1,
+      "DOT": 5.6,
+      "ENA": 1.067,
+      "WLD": 2.13
+    }
+  },
+  {
+    "timestamp": "2025-09-08T22:04:21.097Z",
+    "portfolio_value": 20.90227437,
+    "stock_value": 10.17778,
+    "crypto_value": 10.71914437,
+    "cash_value": 0.005349999999999966,
+    "market_prices": {
+      "ABX": 40.07,
+      "DOGE": 0.334489,
+      "AVAX": 35.1,
+      "DOT": 5.6,
+      "ENA": 1.068,
+      "WLD": 2.13
+    }
   }
 ]

@@ -15,6 +15,17 @@ export async function POST() {
       getMarketPricesData()
     ])
     
+    // Validate that we have crypto prices if we have crypto positions
+    const hasCrypto = holdings.crypto_positions && holdings.crypto_positions.length > 0
+    const hasCryptoPrices = Object.keys(marketPrices.crypto).length > 0
+    
+    if (hasCrypto && !hasCryptoPrices) {
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Crypto prices are not available. Please refresh prices first.'
+      }, { status: 400 })
+    }
+    
     // Calculate current values
     const stockValue = holdings.positions.reduce((sum, pos) => sum + (pos.shares * pos.market_price), 0)
     const cryptoValue = (holdings.crypto_positions || []).reduce((sum, pos) => sum + (pos.qty * pos.current_price), 0)

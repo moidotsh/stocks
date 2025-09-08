@@ -343,46 +343,55 @@ export function generateChartData(
   
   // If we have daily snapshots, integrate them into the data
   if (dailySnapshots && dailySnapshots.length > 0) {
-    // Add data points for each daily snapshot
+    // Add data points for each daily snapshot (preserve full timestamp for multiple daily snapshots)
     for (const snapshot of dailySnapshots) {
-      // Extract date from timestamp
-      const snapshotDate = snapshot.timestamp.split('T')[0]
+      // Use full timestamp as date for intraday points, but readable format for chart
+      const snapshotDateTime = new Date(snapshot.timestamp)
+      const snapshotDateStr = snapshot.timestamp.split('T')[0]
+      const timeStr = snapshotDateTime.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: false 
+      })
       
-      // Check if we already have this exact date from entries
-      const existingPoint = data.find(d => d.date === snapshotDate)
+      // Use timestamp as unique identifier but display as date + time
+      const displayDate = `${snapshotDateStr} ${timeStr}`
       
-      if (existingPoint) {
-        // Update existing data point with actual snapshot values
-        existingPoint.portfolio = snapshot.portfolio_value
-        existingPoint.stockPortfolio = snapshot.stock_value
-        existingPoint.cryptoPortfolio = snapshot.crypto_value
+      // Check if we already have a data point for the base date from entries
+      const existingEntryPoint = data.find(d => d.date === snapshotDateStr)
+      
+      if (existingEntryPoint && data.filter(d => d.date.startsWith(snapshotDateStr)).length === 1) {
+        // If there's only one point for this date (from entries), update it with snapshot data
+        existingEntryPoint.portfolio = snapshot.portfolio_value
+        existingEntryPoint.stockPortfolio = snapshot.stock_value
+        existingEntryPoint.cryptoPortfolio = snapshot.crypto_value
       } else {
         // Add new data point from snapshot
         
         // Calculate benchmark values for this date
         const allDepositFlows = allEntries
-          .filter(e => new Date(e.week_start) <= new Date(snapshotDate))
+          .filter(e => new Date(e.week_start) <= new Date(snapshotDateStr))
           .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
         
         const stockDepositFlows = stockEntries
-          .filter(e => new Date(e.week_start) <= new Date(snapshotDate))
+          .filter(e => new Date(e.week_start) <= new Date(snapshotDateStr))
           .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
         
         const cryptoDepositFlows = cryptoEntries
-          .filter(e => new Date(e.week_start) <= new Date(snapshotDate))
+          .filter(e => new Date(e.week_start) <= new Date(snapshotDateStr))
           .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
         
-        const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, new Date(snapshotDate))
-        const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500, new Date(snapshotDate))
+        const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, snapshotDateTime)
+        const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500, snapshotDateTime)
         
-        const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, new Date(snapshotDate))
-        const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500, new Date(snapshotDate))
+        const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, snapshotDateTime)
+        const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500, snapshotDateTime)
         
-        const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, new Date(snapshotDate))
-        const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500, new Date(snapshotDate))
+        const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, snapshotDateTime)
+        const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500, snapshotDateTime)
         
         data.push({
-          date: snapshotDate,
+          date: displayDate,
           portfolio: snapshot.portfolio_value,
           hisa: hisaValue,
           sp500: sp500Value,
