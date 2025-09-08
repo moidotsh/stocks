@@ -1,0 +1,51 @@
+[
+    {
+      "week_start": "2025-09-07",
+      "deposit_cad": 100.0,
+      "trades": [
+        {
+          "action": "buy",
+          "ticker": "XIU.TO",
+          "qty": 3.0,
+          "price": 33.10,
+          "currency": "CAD"
+        }
+      ],
+      "notes": "Initial purchase of Canadian equity ETF"
+    },
+    {
+      "week_start": "2025-09-14",
+      "deposit_cad": 100.0,
+      "trades": [
+        {
+          "action": "buy",
+          "ticker": "VTI",
+          "qty": 0.4,
+          "price": 250.0,
+          "currency": "USD"
+        }
+      ],
+      "notes": "Added US market exposure"
+    },
+    {
+      "week_start": "2025-09-21",
+      "deposit_cad": 100.0,
+      "trades": [
+        {
+          "action": "buy",
+          "ticker": "XIU.TO",
+          "qty": 2.0,
+          "price": 33.25,
+          "currency": "CAD"
+        },
+        {
+          "action": "buy",
+          "ticker": "TDB902",
+          "qty": 3.5,
+          "price": 10.15,
+          "currency": "CAD"
+        }
+      ],
+      "notes": "Diversified with bonds"
+    }
+  ]

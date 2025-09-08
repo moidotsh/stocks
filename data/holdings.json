@@ -1,0 +1,27 @@
+{
+    "as_of": "2025-09-21",
+    "positions": [
+      {
+        "ticker": "XIU.TO",
+        "shares": 5.0,
+        "avg_cost": 33.16,
+        "currency": "CAD",
+        "market_price": 33.25
+      },
+      {
+        "ticker": "VTI",
+        "shares": 0.4,
+        "currency": "USD",
+        "avg_cost": 250.0,
+        "market_price": 252.0
+      },
+      {
+        "ticker": "TDB902",
+        "shares": 3.5,
+        "avg_cost": 10.15,
+        "currency": "CAD",
+        "market_price": 10.18
+      }
+    ],
+    "cash_cad": 34.18
+  }

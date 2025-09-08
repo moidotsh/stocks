@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
+// next.config.ts
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    appDir: true,
+  },
+  eslint: {
+    dirs: ['app', 'components', 'lib'],
+  },
+}
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+module.exports = nextConfig
