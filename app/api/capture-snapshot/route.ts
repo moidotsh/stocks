@@ -37,7 +37,7 @@ export async function POST() {
     try {
       const existingData = await fs.readFile(snapshotsPath, 'utf8')
       snapshots = JSON.parse(existingData)
-    } catch (error) {
+    } catch {
       console.log('No existing snapshots file, creating new one')
     }
     
