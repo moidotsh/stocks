@@ -15,13 +15,88 @@ type ChartView = 'combined' | 'stock' | 'crypto'
 export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
   
-  const chartData = data.chartData.map(point => ({
+  const chartData = data.chartData.map(point => {
+    // Check if this is a snapshot point (has time in format "YYYY-MM-DD HH:MM")
+    const isSnapshot = point.date.includes(' ') && point.date.includes(':')
+    
+    let dateFormatted
+    let sortKey
+    
+    if (isSnapshot) {
+      // For snapshots, use the full timestamp for sorting but display just time
+      sortKey = new Date(point.date.replace(' ', 'T')).getTime() // Convert to timestamp for sorting
+      dateFormatted = point.date.split(' ')[1] || point.date // Show just time for display
+    } else {
+      // For regular entries, use date
+      sortKey = new Date(point.date).getTime()
+      dateFormatted = formatDate(point.date)
+    }
+    
+    return {
+      ...point,
+      dateFormatted,
+      sortKey,
+      isSnapshot
+    }
+  })
+
+  // Sort chart data chronologically using sortKey
+  chartData.sort((a, b) => a.sortKey - b.sortKey)
+  
+  // Debug: Log the first few sorted data points to see ordering
+  console.log('First 5 chart data points after sorting:', 
+    chartData.slice(0, 5).map(p => ({ 
+      date: p.date, 
+      dateFormatted: p.dateFormatted, 
+      portfolio: p.portfolio, 
+      isSnapshot: p.isSnapshot 
+    }))
+  )
+
+  // Group snapshots by date and find median for each day
+  const snapshotsByDate = chartData
+    .filter(point => point.isSnapshot)
+    .reduce((acc, point) => {
+      const date = point.date.split(' ')[0] // Extract date part
+      if (!acc[date]) acc[date] = []
+      acc[date].push(point)
+      return acc
+    }, {} as Record<string, typeof chartData>)
+
+  // Find median snapshot for each date - ensure only ONE per date
+  const medianSnapshots = new Set<string>()
+  Object.entries(snapshotsByDate).forEach(([date, snapshots]) => {
+    if (snapshots.length > 0) {
+      // Sort by portfolio value, then by timestamp to break ties consistently
+      const sorted = snapshots.sort((a, b) => {
+        const portfolioDiff = a.portfolio - b.portfolio
+        if (portfolioDiff !== 0) return portfolioDiff
+        // If portfolio values are the same, sort by timestamp to ensure consistent selection
+        return a.date.localeCompare(b.date)
+      })
+      
+      const medianIndex = Math.floor(sorted.length / 2)
+      const medianSnapshot = sorted[medianIndex]
+      
+      // Only add the ONE median snapshot for this date
+      medianSnapshots.add(medianSnapshot.date)
+      console.log(`Median for ${date}: ${medianSnapshot.date} (${snapshots.length} snapshots, portfolio: ${medianSnapshot.portfolio})`)
+    }
+  })
+
+  // Add isMedianSnapshot flag to chart data
+  const chartDataWithMedian = chartData.map(point => ({
     ...point,
-    dateFormatted: formatDate(point.date)
+    isMedianSnapshot: point.isSnapshot && medianSnapshots.has(point.date)
   }))
 
+  // Debug: Log how many median snapshots we have
+  const medianCount = chartDataWithMedian.filter(point => point.isMedianSnapshot).length
+  console.log(`Total median snapshots marked: ${medianCount}`)
+  console.log('Median snapshots:', Array.from(medianSnapshots))
+
   // Calculate consistent Y-axis domain across all views
-  const allValues = chartData.flatMap(point => [
+  const allValues = chartDataWithMedian.flatMap(point => [
     point.portfolio,
     point.hisa,
     point.sp500,
@@ -165,7 +240,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       <div className="w-full h-96">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart 
-            data={chartData} 
+            data={chartDataWithMedian} 
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
@@ -174,6 +249,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               dataKey="dateFormatted" 
               className="text-sm"
               tick={{ fontSize: 12 }}
+              type="category"
             />
             <YAxis 
               className="text-sm"
@@ -183,6 +259,18 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
             <Tooltip 
               formatter={(value: number) => [formatCurrency(value), '']}
+              labelFormatter={(label: string, payload: any) => {
+                if (payload && payload.length > 0) {
+                  const dataPoint = payload[0].payload
+                  if (dataPoint?.isSnapshot) {
+                    // For snapshots, show full date and time
+                    const fullDate = dataPoint.date // This is the full "YYYY-MM-DD HH:MM" format
+                    const [datePart, timePart] = fullDate.split(' ')
+                    return `${formatDate(datePart)} at ${timePart}`
+                  }
+                }
+                return label
+              }}
               labelStyle={{ color: 'hsl(var(--foreground))' }}
               contentStyle={{
                 backgroundColor: 'hsl(var(--card))',
@@ -192,17 +280,64 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
             <Legend />
             {renderLines()}
-            {/* Show dots for daily data points */}
-            <Line 
-              type="monotone" 
-              dataKey="portfolio" 
-              stroke="transparent"
-              strokeWidth={0}
-              dot={{ fill: 'hsl(var(--primary))', r: 3 }}
-              activeDot={{ r: 5 }}
-              name=""
-              connectNulls={false}
-            />
+            {/* Show dots only for median snapshots per day */}
+            {view === 'combined' && (
+              <Line 
+                type="monotone" 
+                dataKey="portfolio" 
+                stroke="transparent"
+                strokeWidth={0}
+                dot={(props: any) => {
+                  const { payload } = props
+                  return payload?.isMedianSnapshot ? (
+                    <circle cx={props.cx} cy={props.cy} r={4} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={2} />
+                  ) : (
+                    <g></g>
+                  )
+                }}
+                activeDot={{ r: 5 }}
+                name=""
+                connectNulls={false}
+              />
+            )}
+            {view === 'stock' && (
+              <Line 
+                type="monotone" 
+                dataKey="stockPortfolio" 
+                stroke="transparent"
+                strokeWidth={0}
+                dot={(props: any) => {
+                  const { payload } = props
+                  return payload?.isMedianSnapshot ? (
+                    <circle cx={props.cx} cy={props.cy} r={4} fill="#3b82f6" stroke="#fff" strokeWidth={2} />
+                  ) : (
+                    <g></g>
+                  )
+                }}
+                activeDot={{ r: 5 }}
+                name=""
+                connectNulls={false}
+              />
+            )}
+            {view === 'crypto' && (
+              <Line 
+                type="monotone" 
+                dataKey="cryptoPortfolio" 
+                stroke="transparent"
+                strokeWidth={0}
+                dot={(props: any) => {
+                  const { payload } = props
+                  return payload?.isMedianSnapshot ? (
+                    <circle cx={props.cx} cy={props.cy} r={4} fill="#8b5cf6" stroke="#fff" strokeWidth={2} />
+                  ) : (
+                    <g></g>
+                  )
+                }}
+                activeDot={{ r: 5 }}
+                name=""
+                connectNulls={false}
+              />
+            )}
           </LineChart>
         </ResponsiveContainer>
       </div>

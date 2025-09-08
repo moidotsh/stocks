@@ -30,21 +30,6 @@
     }
   },
   {
-    "timestamp": "2025-09-08T19:31:03.836Z",
-    "portfolio_value": 20.80417465,
-    "stock_value": 10.172699999999999,
-    "crypto_value": 10.62612465,
-    "cash_value": 0.005349999999999966,
-    "market_prices": {
-      "ABX": 40.05,
-      "DOGE": 0.329605,
-      "AVAX": 35.16,
-      "DOT": 5.57,
-      "ENA": 1.069,
-      "WLD": 2.09
-    }
-  },
-  {
     "timestamp": "2025-09-08T19:31:20.724Z",
     "portfolio_value": 20.80671465,
     "stock_value": 10.17524,
@@ -52,21 +37,6 @@
     "cash_value": 0.005349999999999966,
     "market_prices": {
       "ABX": 40.06,
-      "DOGE": 0.329605,
-      "AVAX": 35.16,
-      "DOT": 5.57,
-      "ENA": 1.069,
-      "WLD": 2.09
-    }
-  },
-  {
-    "timestamp": "2025-09-08T19:31:42.195Z",
-    "portfolio_value": 20.80417465,
-    "stock_value": 10.172699999999999,
-    "crypto_value": 10.62612465,
-    "cash_value": 0.005349999999999966,
-    "market_prices": {
-      "ABX": 40.05,
       "DOGE": 0.329605,
       "AVAX": 35.16,
       "DOT": 5.57,
@@ -177,6 +147,51 @@
       "DOT": 5.6,
       "ENA": 1.068,
       "WLD": 2.13
+    }
+  },
+  {
+    "timestamp": "2025-09-08T22:13:46.405Z",
+    "portfolio_value": 20.92977271,
+    "stock_value": 10.17778,
+    "crypto_value": 10.746642710000001,
+    "cash_value": 0.005349999999999966,
+    "market_prices": {
+      "ABX": 40.07,
+      "DOGE": 0.334587,
+      "AVAX": 35.1,
+      "DOT": 5.6,
+      "ENA": 1.069,
+      "WLD": 2.15
+    }
+  },
+  {
+    "timestamp": "2025-09-08T22:14:09.519Z",
+    "portfolio_value": 20.92977271,
+    "stock_value": 10.17778,
+    "crypto_value": 10.746642710000001,
+    "cash_value": 0.005349999999999966,
+    "market_prices": {
+      "ABX": 40.07,
+      "DOGE": 0.334587,
+      "AVAX": 35.1,
+      "DOT": 5.6,
+      "ENA": 1.069,
+      "WLD": 2.15
+    }
+  },
+  {
+    "timestamp": "2025-09-08T23:34:18.623Z",
+    "portfolio_value": 20.86105869,
+    "stock_value": 10.17778,
+    "crypto_value": 10.67792869,
+    "cash_value": 0.005349999999999966,
+    "market_prices": {
+      "ABX": 40.07,
+      "DOGE": 0.333993,
+      "AVAX": 34.96,
+      "DOT": 5.57,
+      "ENA": 1.077,
+      "WLD": 2.11
     }
   }
 ]
