@@ -36,3 +36,5 @@ coverage/
 
 # Temporary files
 *.tsbuildinfo
+
+python/

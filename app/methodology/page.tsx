@@ -52,7 +52,7 @@ export default function MethodologyPage() {
   
             <h3 className="text-lg font-medium">S&P 500 Dollar-Cost Averaging</h3>
             <p>
-              Each weekly deposit is treated as purchasing S&P 500 index units at that week's 
+              Each weekly deposit is treated as purchasing S&P 500 index units at that week&apos;s 
               closing level. The accumulated units are then marked to the latest index level.
             </p>
           </section>

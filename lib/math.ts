@@ -209,11 +209,9 @@ export function generateChartData(
 ): ChartDataPoint[] {
   const data: ChartDataPoint[] = []
   
-  let cumulativeDeposits = 0
   let portfolioValue = 0
   
   for (const entry of entries) {
-    cumulativeDeposits += entry.deposit_cad
     
     // Simplified portfolio value calculation
     // In reality, this would need historical prices

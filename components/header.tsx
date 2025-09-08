@@ -8,7 +8,7 @@ export function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
             <Link href="/" className="text-xl font-bold">
-              Arman's TFSA Journey
+              Arman&apos;s TFSA Journey
             </Link>
             
             <nav className="hidden md:flex space-x-6">

@@ -28,7 +28,7 @@ export function AdminForm() {
     setTrades(trades.filter((_, i) => i !== index))
   }
 
-  const updateTrade = (index: number, field: keyof Trade, value: any) => {
+  const updateTrade = (index: number, field: keyof Trade, value: string | number) => {
     const updatedTrades = trades.map((trade, i) => 
       i === index ? { ...trade, [field]: value } : trade
     )

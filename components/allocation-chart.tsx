@@ -22,8 +22,6 @@ export function AllocationChart({ holdings }: AllocationChartProps) {
     }] : [])
   ]
 
-  const total = data.reduce((sum, item) => sum + item.value, 0)
-
   return (
     <div className="w-full h-96">
       <ResponsiveContainer width="100%" height="100%">
