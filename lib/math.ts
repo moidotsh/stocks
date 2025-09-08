@@ -24,20 +24,27 @@ export function calculateHisaValue(
 }
 
 /**
- * Calculate S&P 500 DCA value
+ * Calculate S&P 500 DCA value at a specific date
  */
 export function calculateSP500DCA(
   flows: Array<{ date: string; amount: number }>,
-  sp500Levels: Array<{ date: string; level: number }>
+  sp500Levels: Array<{ date: string; level: number }>,
+  asOfDate?: Date
 ): number {
   let totalUnits = 0
-  const currentLevel = sp500Levels[sp500Levels.length - 1]?.level || 0
+  
+  // Use provided date or latest available date
+  const targetDate = asOfDate || new Date(sp500Levels[sp500Levels.length - 1].date)
+  const currentLevel = findClosestLevel(targetDate.toISOString().split('T')[0], sp500Levels)
   
   for (const flow of flows) {
-    // Find the S&P 500 level for this week (or closest)
-    const level = findClosestLevel(flow.date, sp500Levels)
-    if (level > 0) {
-      totalUnits += flow.amount / level
+    // Only process flows up to the target date
+    if (new Date(flow.date) <= targetDate) {
+      // Find the S&P 500 level for this week (or closest)
+      const level = findClosestLevel(flow.date, sp500Levels)
+      if (level > 0) {
+        totalUnits += flow.amount / level
+      }
     }
   }
   
@@ -190,7 +197,7 @@ export function calculateMetrics(
   // Calculate benchmarks
   const depositFlows = entries.map(entry => ({ date: entry.week_start, amount: entry.deposit_cad }))
   const hisaValue = calculateHisaValue(depositFlows, benchmarks.hisa_rate_apy, new Date(holdings.as_of))
-  const sp500Value = calculateSP500DCA(depositFlows, benchmarks.sp500)
+  const sp500Value = calculateSP500DCA(depositFlows, benchmarks.sp500, new Date(holdings.as_of))
   
   // For TWR, we'll use a simplified calculation
   // In a real implementation, this would be more complex with period-by-period returns
@@ -263,13 +270,13 @@ export function generateChartData(
     
     // Calculate benchmark values
     const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, new Date(dateStr))
-    const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500)
+    const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500, new Date(dateStr))
     
     const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, new Date(dateStr))
-    const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500)
+    const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500, new Date(dateStr))
     
     const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, new Date(dateStr))
-    const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500)
+    const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500, new Date(dateStr))
     
     data.push({
       date: dateStr,
@@ -299,13 +306,13 @@ export function generateChartData(
     const currentPortfolioValue = currentStockValue + currentCryptoValue + holdings.cash_cad
     
     const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, new Date(todayDate))
-    const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500)
+    const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500, new Date(todayDate))
     
     const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, new Date(todayDate))
-    const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500)
+    const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500, new Date(todayDate))
     
     const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, new Date(todayDate))
-    const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500)
+    const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500, new Date(todayDate))
     
     data.push({
       date: todayDate,
