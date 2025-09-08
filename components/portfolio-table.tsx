@@ -1,22 +1,54 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Holdings } from '@/lib/types'
 import { formatCurrency } from '@/lib/utils'
+import { useState } from 'react'
 
 interface PortfolioTableProps {
   holdings: Holdings
 }
 
 export function PortfolioTable({ holdings }: PortfolioTableProps) {
-  const totalMarketValue = holdings.positions.reduce((sum, pos) => 
+  const [activeTab, setActiveTab] = useState<'combined' | 'stocks' | 'crypto'>('combined')
+  
+  // Stock calculations
+  const stockMarketValue = holdings.positions.reduce((sum, pos) => 
     sum + (pos.shares * pos.market_price), 0)
   
-  const totalUnrealizedPL = holdings.positions.reduce((sum, pos) => 
+  const stockUnrealizedPL = holdings.positions.reduce((sum, pos) => 
     sum + ((pos.market_price - pos.avg_cost) * pos.shares), 0)
+  
+  // Crypto calculations
+  const cryptoMarketValue = (holdings.crypto_positions || []).reduce((sum, pos) => 
+    sum + (pos.qty * pos.current_price), 0)
+  
+  const cryptoUnrealizedPL = (holdings.crypto_positions || []).reduce((sum, pos) => 
+    sum + ((pos.qty * pos.current_price) - (pos.qty * pos.avg_cost)), 0)
+  
+  // Combined totals
+  const totalMarketValue = stockMarketValue + cryptoMarketValue
+  const totalUnrealizedPL = stockUnrealizedPL + cryptoUnrealizedPL
 
   return (
     <Card className="shadow-sm">
       <CardHeader>
         <CardTitle>Holdings Breakdown</CardTitle>
+        <div className="flex space-x-1 mt-4">
+          {(['combined', 'stocks', 'crypto'] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-3 py-1.5 text-sm rounded-md capitalize transition-colors ${
+                activeTab === tab
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted hover:bg-muted/80'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
@@ -33,7 +65,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
               </tr>
             </thead>
             <tbody>
-              {holdings.positions.map((position) => {
+              {(activeTab === 'combined' || activeTab === 'stocks') && holdings.positions.map((position) => {
                 const marketValue = position.shares * position.market_price
                 const unrealizedPL = (position.market_price - position.avg_cost) * position.shares
                 
@@ -55,7 +87,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
               })}
               
               {/* Crypto Positions */}
-              {(holdings.crypto_positions || []).map((position) => {
+              {(activeTab === 'combined' || activeTab === 'crypto') && (holdings.crypto_positions || []).map((position) => {
                 const marketValue = position.qty * position.current_price
                 const unrealizedPL = marketValue - (position.qty * position.avg_cost)
                 
@@ -79,7 +111,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                 )
               })}
               
-              {holdings.cash_cad > 0 && (
+              {activeTab === 'combined' && holdings.cash_cad > 0 && (
                 <tr className="border-b hover:bg-muted/50">
                   <td className="p-3 font-medium">Cash</td>
                   <td className="text-right p-3">-</td>
@@ -97,11 +129,23 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                 <td className="text-right p-3">-</td>
                 <td className="text-right p-3">-</td>
                 <td className="text-right p-3">-</td>
-                <td className="text-right p-3">{formatCurrency(totalMarketValue + holdings.cash_cad)}</td>
+                <td className="text-right p-3">
+                  {formatCurrency(
+                    activeTab === 'stocks' ? stockMarketValue :
+                    activeTab === 'crypto' ? cryptoMarketValue :
+                    totalMarketValue + holdings.cash_cad
+                  )}
+                </td>
                 <td className={`text-right p-3 ${
-                  totalUnrealizedPL >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  (activeTab === 'stocks' ? stockUnrealizedPL :
+                   activeTab === 'crypto' ? cryptoUnrealizedPL :
+                   totalUnrealizedPL) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                 }`}>
-                  {formatCurrency(totalUnrealizedPL)}
+                  {formatCurrency(
+                    activeTab === 'stocks' ? stockUnrealizedPL :
+                    activeTab === 'crypto' ? cryptoUnrealizedPL :
+                    totalUnrealizedPL
+                  )}
                 </td>
                 <td className="p-3">-</td>
               </tr>
