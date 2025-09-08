@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PortfolioData } from '@/lib/types'
 import { formatCurrency } from '@/lib/utils'
-import { TrendingUp, TrendingDown, DollarSign, Target, BarChart3 } from 'lucide-react'
+import { TrendingUp, TrendingDown, DollarSign, Target, BarChart3, Trophy } from 'lucide-react'
 
 interface KpiCardsProps {
   data: PortfolioData
@@ -9,6 +9,18 @@ interface KpiCardsProps {
 
 export function KpiCards({ data }: KpiCardsProps) {
   const { metrics } = data
+
+  // Calculate performance winner - comparing individual $10 portions
+  const performances = [
+    { name: 'Stock Portfolio', value: metrics.stockValue },
+    { name: 'Crypto Portfolio', value: metrics.cryptoValue },
+    { name: 'HISA (3%)', value: metrics.hisaValue / 2 }, // Half of total HISA for $10 comparison
+    { name: 'S&P 500', value: metrics.sp500Value / 2 }   // Half of total S&P for $10 comparison
+  ]
+  
+  const winner = performances.reduce((prev, current) => 
+    current.value > prev.value ? current : prev
+  )
 
   const kpis = [
     {
@@ -30,10 +42,10 @@ export function KpiCards({ data }: KpiCardsProps) {
       description: 'Cryptocurrency holdings'
     },
     {
-      title: 'Cash Value',
-      value: formatCurrency(metrics.cashValue),
-      icon: DollarSign,
-      description: 'Uninvested cash'
+      title: 'Best Performer',
+      value: winner.name,
+      icon: Trophy,
+      description: `Leading by ${formatCurrency(winner.value - Math.max(...performances.filter(p => p.name !== winner.name).map(p => p.value)))}`
     },
     {
       title: 'If HISA (3%)',

@@ -7,42 +7,42 @@
           "action": "buy",
           "ticker": "DOGE",
           "qty": 3.17,
-          "price": 0.3176,
+          "price": 0.325,
           "currency": "CAD"
         },
         {
           "action": "buy",
           "ticker": "DOGE",
           "qty": 4.16,
-          "price": 0.3172,
+          "price": 0.322,
           "currency": "CAD"
         },
         {
           "action": "buy",
           "ticker": "AVAX",
           "qty": 0.07,
-          "price": 34.35,
+          "price": 35.0,
           "currency": "CAD"
         },
         {
           "action": "buy",
           "ticker": "DOT",
           "qty": 0.36,
-          "price": 5.59,
+          "price": 5.72,
           "currency": "CAD"
         },
         {
           "action": "buy",
           "ticker": "ENA",
           "qty": 0.98,
-          "price": 1.03,
+          "price": 1.06,
           "currency": "CAD"
         },
         {
           "action": "buy",
           "ticker": "WLD",
           "qty": 1.29,
-          "price": 1.57,
+          "price": 1.61,
           "currency": "CAD"
         }
       ]

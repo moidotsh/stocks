@@ -6,7 +6,8 @@ import { getHoldingsData, getMarketPricesData } from '@/lib/data'
 
 export async function POST() {
   try {
-    const today = new Date().toISOString().split('T')[0]
+    const now = new Date()
+    const timestamp = now.toISOString()
     
     // Get current portfolio values
     const [holdings, marketPrices] = await Promise.all([
@@ -22,7 +23,7 @@ export async function POST() {
     
     // Create snapshot
     const snapshot: DailySnapshot = {
-      date: today,
+      timestamp,
       portfolio_value: portfolioValue,
       stock_value: stockValue,
       crypto_value: cryptoValue,
@@ -41,19 +42,12 @@ export async function POST() {
       console.log('No existing snapshots file, creating new one')
     }
     
-    // Check if snapshot for today already exists
-    const existingIndex = snapshots.findIndex(s => s.date === today)
+    // Always add new snapshot (no more date-based deduplication)
+    snapshots.push(snapshot)
     
-    if (existingIndex >= 0) {
-      // Update existing snapshot
-      snapshots[existingIndex] = snapshot
-      console.log(`Updated snapshot for ${today}`)
-    } else {
-      // Add new snapshot and sort by date
-      snapshots.push(snapshot)
-      snapshots.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      console.log(`Added new snapshot for ${today}`)
-    }
+    // Sort by timestamp
+    snapshots.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+    console.log(`Added new snapshot for ${timestamp}`)
     
     // Validate all snapshots
     const validatedSnapshots = snapshots.map(s => DailySnapshotSchema.parse(s))
@@ -63,7 +57,7 @@ export async function POST() {
     
     return NextResponse.json({ 
       success: true, 
-      message: `Snapshot captured for ${today}`,
+      message: `Snapshot captured at ${timestamp}`,
       snapshot
     })
   } catch (error) {

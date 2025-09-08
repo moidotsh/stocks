@@ -5,8 +5,9 @@ export const TradeSchema = z.object({
   action: z.enum(['buy', 'sell']),
   ticker: z.string(),
   qty: z.number().positive(),
-  price: z.number().positive(),
+  price: z.number().positive(), // Should include fees for accurate cost basis
   currency: z.enum(['CAD', 'USD']),
+  fee: z.number().min(0).optional(), // Optional separate fee tracking
 })
 
 export type Trade = z.infer<typeof TradeSchema>
@@ -16,8 +17,9 @@ export const CryptoTradeSchema = z.object({
   action: z.enum(['buy', 'sell']),
   symbol: z.string(), // e.g., BTC, ETH, ADA
   qty: z.number().positive(),
-  price: z.number().positive(), // price per unit in CAD
+  price: z.number().positive(), // price per unit in CAD (should include fees)
   platform: z.string().optional(), // e.g., Coinbase, Binance, etc.
+  fee: z.number().min(0).optional(), // Optional separate fee tracking
 })
 
 export type CryptoTrade = z.infer<typeof CryptoTradeSchema>
@@ -90,7 +92,7 @@ export type MarketPrices = z.infer<typeof MarketPricesSchema>
 
 // Daily snapshot schema
 export const DailySnapshotSchema = z.object({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  timestamp: z.string(), // ISO timestamp for exact time
   portfolio_value: z.number(),
   stock_value: z.number(),
   crypto_value: z.number(),

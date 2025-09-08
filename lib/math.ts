@@ -226,7 +226,7 @@ export function generateChartData(
   entries: Entry[],
   holdings: Holdings,
   benchmarks: Benchmark,
-  dailySnapshots?: Array<{ date: string; portfolio_value: number; stock_value: number; crypto_value: number }>
+  dailySnapshots?: Array<{ timestamp: string; portfolio_value: number; stock_value: number; crypto_value: number }>
 ): ChartDataPoint[] {
   const data: ChartDataPoint[] = []
   
@@ -343,22 +343,21 @@ export function generateChartData(
   
   // If we have daily snapshots, integrate them into the data
   if (dailySnapshots && dailySnapshots.length > 0) {
-    // Add data points for each daily snapshot between entry dates
-    const allDates = [...uniqueDates]
-    
+    // Add data points for each daily snapshot
     for (const snapshot of dailySnapshots) {
-      // Skip if we already have this date from entries
-      if (allDates.includes(snapshot.date)) {
+      // Extract date from timestamp
+      const snapshotDate = snapshot.timestamp.split('T')[0]
+      
+      // Check if we already have this exact date from entries
+      const existingPoint = data.find(d => d.date === snapshotDate)
+      
+      if (existingPoint) {
         // Update existing data point with actual snapshot values
-        const existingPoint = data.find(d => d.date === snapshot.date)
-        if (existingPoint) {
-          existingPoint.portfolio = snapshot.portfolio_value
-          existingPoint.stockPortfolio = snapshot.stock_value
-          existingPoint.cryptoPortfolio = snapshot.crypto_value
-        }
+        existingPoint.portfolio = snapshot.portfolio_value
+        existingPoint.stockPortfolio = snapshot.stock_value
+        existingPoint.cryptoPortfolio = snapshot.crypto_value
       } else {
         // Add new data point from snapshot
-        const snapshotDate = snapshot.date
         
         // Calculate benchmark values for this date
         const allDepositFlows = allEntries

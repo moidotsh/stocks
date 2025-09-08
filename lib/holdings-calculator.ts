@@ -157,6 +157,7 @@ export function applyMarketPrices(
 
 /**
  * Calculate total cash deposited minus spent on trades
+ * Note: Small amounts may remain due to fractional crypto purchases
  */
 export function calculateCashRemaining(entries: Entry[], cryptoEntries?: Entry[]): number {
   let totalDeposited = 0
