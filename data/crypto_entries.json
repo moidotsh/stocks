@@ -1,0 +1,44 @@
+[
+    {
+      "week_start": "2025-09-07",
+      "deposit_cad": 10.0,
+      "trades": [
+        {
+          "action": "buy",
+          "symbol": "DOGE",
+          "qty": 3.17,
+          "price": 0.3176
+        },
+        {
+          "action": "buy",
+          "symbol": "DOGE",
+          "qty": 4.16,
+          "price": 0.3172
+        },
+        {
+          "action": "buy",
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "price": 34.35
+        },
+        {
+          "action": "buy",
+          "symbol": "DOT",
+          "qty": 0.36,
+          "price": 5.59
+        },
+        {
+          "action": "buy",
+          "symbol": "ENA",
+          "qty": 0.98,
+          "price": 1.03
+        },
+        {
+          "action": "buy",
+          "symbol": "WLD",
+          "qty": 1.29,
+          "price": 1.57
+        }
+      ]
+    }
+  ]
