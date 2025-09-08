@@ -1,0 +1,27 @@
+[
+  {
+    "date": "2025-09-07",
+    "portfolio_value": 20,
+    "stock_value": 10,
+    "crypto_value": 10,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX": 39.37,
+      "DOGE": 0.32,
+      "AVAX": 34.35,
+      "DOT": 5.59,
+      "ENA": 1.03,
+      "WLD": 1.57
+    }
+  },
+  {
+    "date": "2025-09-08",
+    "portfolio_value": 20.19939,
+    "stock_value": 10.19937,
+    "crypto_value": 9.777944000000002,
+    "cash_value": 0.22207600000000127,
+    "market_prices": {
+      "ABX": 40.155
+    }
+  }
+]

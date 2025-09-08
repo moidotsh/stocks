@@ -88,6 +88,18 @@ export const MarketPricesSchema = z.object({
 
 export type MarketPrices = z.infer<typeof MarketPricesSchema>
 
+// Daily snapshot schema
+export const DailySnapshotSchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  portfolio_value: z.number(),
+  stock_value: z.number(),
+  crypto_value: z.number(),
+  cash_value: z.number(),
+  market_prices: z.record(z.number()),
+})
+
+export type DailySnapshot = z.infer<typeof DailySnapshotSchema>
+
 // Computed data types
 export interface PerformanceMetrics {
   totalContributed: number

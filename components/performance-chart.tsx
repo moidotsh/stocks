@@ -192,6 +192,17 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
             <Legend />
             {renderLines()}
+            {/* Show dots for daily data points */}
+            <Line 
+              type="monotone" 
+              dataKey="portfolio" 
+              stroke="transparent"
+              strokeWidth={0}
+              dot={{ fill: 'hsl(var(--primary))', r: 3 }}
+              activeDot={{ r: 5 }}
+              name=""
+              connectNulls={false}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>

@@ -225,7 +225,8 @@ export function calculateMetrics(
 export function generateChartData(
   entries: Entry[],
   holdings: Holdings,
-  benchmarks: Benchmark
+  benchmarks: Benchmark,
+  dailySnapshots?: Array<{ date: string; portfolio_value: number; stock_value: number; crypto_value: number }>
 ): ChartDataPoint[] {
   const data: ChartDataPoint[] = []
   
@@ -338,6 +339,66 @@ export function generateChartData(
       data[lastIndex].stockPortfolio = currentStockValue
       data[lastIndex].cryptoPortfolio = currentCryptoValue
     }
+  }
+  
+  // If we have daily snapshots, integrate them into the data
+  if (dailySnapshots && dailySnapshots.length > 0) {
+    // Add data points for each daily snapshot between entry dates
+    const allDates = [...uniqueDates]
+    
+    for (const snapshot of dailySnapshots) {
+      // Skip if we already have this date from entries
+      if (allDates.includes(snapshot.date)) {
+        // Update existing data point with actual snapshot values
+        const existingPoint = data.find(d => d.date === snapshot.date)
+        if (existingPoint) {
+          existingPoint.portfolio = snapshot.portfolio_value
+          existingPoint.stockPortfolio = snapshot.stock_value
+          existingPoint.cryptoPortfolio = snapshot.crypto_value
+        }
+      } else {
+        // Add new data point from snapshot
+        const snapshotDate = snapshot.date
+        
+        // Calculate benchmark values for this date
+        const allDepositFlows = allEntries
+          .filter(e => new Date(e.week_start) <= new Date(snapshotDate))
+          .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+        
+        const stockDepositFlows = stockEntries
+          .filter(e => new Date(e.week_start) <= new Date(snapshotDate))
+          .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+        
+        const cryptoDepositFlows = cryptoEntries
+          .filter(e => new Date(e.week_start) <= new Date(snapshotDate))
+          .map(e => ({ date: e.week_start, amount: e.deposit_cad }))
+        
+        const hisaValue = calculateHisaValue(allDepositFlows, benchmarks.hisa_rate_apy, new Date(snapshotDate))
+        const sp500Value = calculateSP500DCA(allDepositFlows, benchmarks.sp500, new Date(snapshotDate))
+        
+        const stockHisaValue = calculateHisaValue(stockDepositFlows, benchmarks.hisa_rate_apy, new Date(snapshotDate))
+        const stockSP500Value = calculateSP500DCA(stockDepositFlows, benchmarks.sp500, new Date(snapshotDate))
+        
+        const cryptoHisaValue = calculateHisaValue(cryptoDepositFlows, benchmarks.hisa_rate_apy, new Date(snapshotDate))
+        const cryptoSP500Value = calculateSP500DCA(cryptoDepositFlows, benchmarks.sp500, new Date(snapshotDate))
+        
+        data.push({
+          date: snapshotDate,
+          portfolio: snapshot.portfolio_value,
+          hisa: hisaValue,
+          sp500: sp500Value,
+          stockPortfolio: snapshot.stock_value,
+          cryptoPortfolio: snapshot.crypto_value,
+          stockHisa: stockHisaValue,
+          stockSP500: stockSP500Value,
+          cryptoHisa: cryptoHisaValue,
+          cryptoSP500: cryptoSP500Value
+        })
+      }
+    }
+    
+    // Sort all data by date
+    data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
   }
   
   return data

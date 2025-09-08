@@ -1,10 +1,10 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { RefreshCw } from 'lucide-react'
+import { Camera } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-export function PriceRefreshButton() {
+export function SnapshotButton() {
   const [isLoading, setIsLoading] = useState(false)
   const [isLocalhost, setIsLocalhost] = useState(false)
 
@@ -18,21 +18,21 @@ export function PriceRefreshButton() {
     )
   }, [])
 
-  const handleRefresh = async () => {
+  const handleSnapshot = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/update-prices', {
+      const response = await fetch('/api/capture-snapshot', {
         method: 'POST',
       })
       
       if (response.ok) {
-        // Refresh the page to show updated prices
+        // Refresh the page to show updated snapshot data
         window.location.reload()
       } else {
-        console.error('Failed to update prices')
+        console.error('Failed to capture snapshot')
       }
     } catch (error) {
-      console.error('Error updating prices:', error)
+      console.error('Error capturing snapshot:', error)
     } finally {
       setIsLoading(false)
     }
@@ -45,14 +45,14 @@ export function PriceRefreshButton() {
 
   return (
     <Button 
-      onClick={handleRefresh} 
+      onClick={handleSnapshot} 
       disabled={isLoading}
       variant="outline"
       size="sm"
-      title="Refresh live market prices for public portfolio"
+      title="Capture daily snapshot for public portfolio"
     >
-      <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-      {isLoading ? 'Updating...' : 'Refresh Prices'}
+      <Camera className={`h-4 w-4 mr-2 ${isLoading ? 'animate-pulse' : ''}`} />
+      {isLoading ? 'Capturing...' : 'Capture Snapshot'}
     </Button>
   )
 }

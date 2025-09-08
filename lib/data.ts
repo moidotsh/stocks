@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { Entry, Holdings, Benchmark, PortfolioData, MarketPrices } from './types'
-import { EntrySchema, HoldingsSchema, BenchmarkSchema, MarketPricesSchema } from './types'
+import { Entry, Holdings, Benchmark, PortfolioData, MarketPrices, DailySnapshot } from './types'
+import { EntrySchema, HoldingsSchema, BenchmarkSchema, MarketPricesSchema, DailySnapshotSchema } from './types'
 import { calculateMetrics, generateChartData } from './math'
 import { 
   calculateStockPositions, 
@@ -137,12 +137,28 @@ export async function getBenchmarkData(): Promise<Benchmark> {
   return BenchmarkSchema.parse(data)
 }
 
+export async function getDailySnapshotsData(): Promise<DailySnapshot[]> {
+  try {
+    const filePath = path.join(DATA_DIR, 'daily-snapshots.json')
+    const fileContent = await fs.readFile(filePath, 'utf8')
+    const data = JSON.parse(fileContent)
+    
+    // Validate with Zod
+    const snapshots = data.map((snapshot: unknown) => DailySnapshotSchema.parse(snapshot))
+    return snapshots.sort((a: DailySnapshot, b: DailySnapshot) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  } catch (error) {
+    console.warn('Could not read daily snapshots:', error)
+    return []
+  }
+}
+
 export async function getPortfolioData(): Promise<PortfolioData> {
-  const [entries, cryptoEntries, holdings, benchmarks] = await Promise.all([
+  const [entries, cryptoEntries, holdings, benchmarks, dailySnapshots] = await Promise.all([
     getEntriesData(),
     getCryptoEntriesData(),
     getHoldingsData(),
-    getBenchmarkData()
+    getBenchmarkData(),
+    getDailySnapshotsData()
   ])
 
   // Combine all entries for metrics and chart calculations
@@ -151,7 +167,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
   )
 
   const metrics = calculateMetrics(allEntries, holdings, benchmarks)
-  const chartData = generateChartData(allEntries, holdings, benchmarks)
+  const chartData = generateChartData(allEntries, holdings, benchmarks, dailySnapshots)
 
   return {
     metrics,

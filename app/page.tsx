@@ -1,6 +1,7 @@
 import { KpiCards } from '@/components/kpi-cards'
 import { PerformanceChart } from '@/components/performance-chart'
 import { PriceRefreshButton } from '@/components/price-refresh-button'
+import { SnapshotButton } from '@/components/snapshot-button'
 import { getPortfolioData } from '@/lib/data'
 
 export default async function HomePage() {
@@ -15,7 +16,10 @@ export default async function HomePage() {
             Track your TFSA performance against benchmarks
           </p>
         </div>
-        <PriceRefreshButton />
+        <div className="flex gap-2">
+          <SnapshotButton />
+          <PriceRefreshButton />
+        </div>
       </div>
 
       <KpiCards data={data} />
