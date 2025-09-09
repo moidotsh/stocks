@@ -1,5 +1,5 @@
 import { PortfolioTable } from '@/components/portfolio-table'
-import { AllocationChart } from '@/components/allocation-chart'
+import { AssetAllocationCharts } from '@/components/asset-allocation-charts'
 import { getHoldingsData } from '@/lib/data'
 
 export default async function PortfolioPage() {
@@ -16,7 +16,7 @@ export default async function PortfolioPage() {
 
       <div className="bg-card rounded-2xl p-6 shadow-sm">
         <h2 className="text-xl font-semibold mb-4">Asset Allocation</h2>
-        <AllocationChart holdings={holdings} />
+        <AssetAllocationCharts holdings={holdings} />
       </div>
       
       <PortfolioTable holdings={holdings} />
