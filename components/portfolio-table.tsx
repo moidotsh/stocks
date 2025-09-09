@@ -12,6 +12,21 @@ interface PortfolioTableProps {
 export function PortfolioTable({ holdings }: PortfolioTableProps) {
   const [activeTab, setActiveTab] = useState<'combined' | 'stocks' | 'crypto'>('combined')
   
+  // Smart number formatting to remove trailing zeros
+  const formatQuantity = (num: number) => {
+    if (num === 0) return '0'
+    // For very small numbers, show up to 8 decimals but remove trailing zeros
+    if (num < 0.001) {
+      return parseFloat(num.toFixed(8)).toString()
+    }
+    // For larger numbers, show up to 6 decimals but remove trailing zeros
+    if (num < 1) {
+      return parseFloat(num.toFixed(6)).toString()
+    }
+    // For numbers >= 1, show up to 3 decimals but remove trailing zeros
+    return parseFloat(num.toFixed(3)).toString()
+  }
+  
   // Stock calculations
   const stockMarketValue = holdings.positions.reduce((sum, pos) => 
     sum + (pos.shares * pos.market_price), 0)
@@ -66,7 +81,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-muted-foreground">Shares:</span>
-                    <div className="font-medium">{position.shares.toFixed(3)}</div>
+                    <div className="font-medium">{formatQuantity(position.shares)}</div>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Avg Cost:</span>
@@ -110,7 +125,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-muted-foreground">Quantity:</span>
-                    <div className="font-medium">{position.qty.toFixed(8)}</div>
+                    <div className="font-medium">{formatQuantity(position.qty)}</div>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Avg Cost:</span>
@@ -205,7 +220,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                 return (
                   <tr key={position.ticker} className="border-b hover:bg-muted/50">
                     <td className="p-3 font-mono font-medium">{position.ticker}</td>
-                    <td className="text-right p-3">{position.shares.toFixed(3)}</td>
+                    <td className="text-right p-3">{formatQuantity(position.shares)}</td>
                     <td className="text-right p-3">{formatCurrency(position.avg_cost)}</td>
                     <td className="text-right p-3">{formatCurrency(position.market_price)}</td>
                     <td className="text-right p-3">{formatCurrency(marketValue)}</td>
@@ -230,7 +245,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                       {position.symbol}
                       <span className="text-xs text-muted-foreground ml-1">(Crypto)</span>
                     </td>
-                    <td className="text-right p-3">{position.qty.toFixed(8)}</td>
+                    <td className="text-right p-3">{formatQuantity(position.qty)}</td>
                     <td className="text-right p-3">{formatCurrency(position.avg_cost)}</td>
                     <td className="text-right p-3">{formatCurrency(position.current_price)}</td>
                     <td className="text-right p-3">{formatCurrency(marketValue)}</td>

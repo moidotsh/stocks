@@ -18,15 +18,27 @@ const COLORS = {
   'XIU.TO': '#8b5cf6',
   VTI: '#06b6d4',
   TDB902: '#84cc16',
-  // Individual crypto colors
-  DOGE: '#fbbf24',
-  AVAX: '#f87171',
-  DOT: '#a78bfa',
-  ENA: '#34d399',
-  WLD: '#fb7185',
-  BTC: '#f97316',
-  ETH: '#6366f1'
+  // Individual crypto colors - better palette
+  DOGE: '#F7931A',  // Bitcoin orange
+  AVAX: '#E84142',  // Avalanche red
+  DOT: '#E6007A',   // Polkadot pink
+  ENA: '#00D4AA',   // Teal
+  WLD: '#6366F1',   // Indigo (changed from black)
+  BTC: '#F7931A',   // Bitcoin orange
+  ETH: '#627EEA'    // Ethereum blue
 }
+
+// Backup color palette for any missing cryptos
+const CRYPTO_BACKUP_COLORS = [
+  '#8B5CF6', // Purple
+  '#10B981', // Emerald
+  '#F59E0B', // Amber
+  '#EF4444', // Red
+  '#3B82F6', // Blue
+  '#84CC16', // Lime
+  '#F97316', // Orange
+  '#EC4899', // Pink
+]
 
 export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) {
   // Calculate total values
@@ -35,12 +47,12 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
   const cashValue = holdings.cash_cad
   const totalValue = stockValue + cryptoValue + cashValue
 
-  // 1. Stocks vs Crypto vs Cash
+  // 1. Stocks vs Crypto vs Cash (filter out 0% values)
   const overallData = [
     { name: 'Stocks', value: stockValue, percentage: (stockValue / totalValue * 100).toFixed(1) },
     { name: 'Crypto', value: cryptoValue, percentage: (cryptoValue / totalValue * 100).toFixed(1) },
     { name: 'Cash', value: cashValue, percentage: (cashValue / totalValue * 100).toFixed(1) }
-  ].filter(item => item.value > 0)
+  ].filter(item => item.value > 0 && parseFloat(item.percentage) > 0)
 
   // 2. Individual stock allocation
   const stockData = holdings.positions.map(pos => ({
@@ -51,10 +63,14 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
 
   // 3. Individual crypto allocation
   const cryptoData = (holdings.crypto_positions || []).map(pos => ({
-    name: pos.ticker,
+    name: pos.symbol, // Fixed: crypto positions use 'symbol' not 'ticker'
     value: pos.qty * pos.current_price,
-    percentage: ((pos.qty * pos.current_price) / cryptoValue * 100).toFixed(1)
+    percentage: cryptoValue > 0 ? ((pos.qty * pos.current_price) / cryptoValue * 100).toFixed(1) : '0'
   })).filter(item => item.value > 0)
+  
+  // Debug crypto data
+  console.log('Crypto positions:', holdings.crypto_positions)
+  console.log('Crypto data for chart:', cryptoData)
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -69,8 +85,33 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
     return null
   }
 
-  const renderCustomLabel = ({ name, percentage }: any) => {
-    return `${name} (${percentage}%)`
+  const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, name, percentage }: any) => {
+    const RADIAN = Math.PI / 180
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+    const x = cx + radius * Math.cos(-midAngle * RADIAN)
+    const y = cy + radius * Math.sin(-midAngle * RADIAN)
+
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        fill="white" 
+        textAnchor={x > cx ? 'start' : 'end'} 
+        dominantBaseline="central"
+        fontSize="12"
+        fontWeight="bold"
+        stroke="rgba(0,0,0,0.8)"
+        strokeWidth="0.5"
+        paintOrder="stroke fill"
+      >
+        {`${name} (${percentage}%)`}
+      </text>
+    )
+  }
+
+  // Simple label for smaller charts to avoid clipping
+  const renderSimpleLabel = ({ name, percentage }: any) => {
+    return `${percentage}%`
   }
 
   return (
@@ -124,7 +165,7 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
                     cy="50%"
                     labelLine={false}
                     label={renderCustomLabel}
-                    outerRadius={80}
+                    outerRadius={70}
                     fill="#8884d8"
                     dataKey="value"
                   >
@@ -163,16 +204,20 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
                     cy="50%"
                     labelLine={false}
                     label={renderCustomLabel}
-                    outerRadius={80}
+                    outerRadius={70}
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {cryptoData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={COLORS[entry.name as keyof typeof COLORS] || COLORS.crypto} 
-                      />
-                    ))}
+                    {cryptoData.map((entry, index) => {
+                      const color = COLORS[entry.name as keyof typeof COLORS] || CRYPTO_BACKUP_COLORS[index % CRYPTO_BACKUP_COLORS.length]
+                      console.log(`Crypto ${entry.name} gets color:`, color)
+                      return (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={color} 
+                        />
+                      )
+                    })}
                   </Pie>
                   <Tooltip content={<CustomTooltip />} />
                 </PieChart>
