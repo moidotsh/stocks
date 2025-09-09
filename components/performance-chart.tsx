@@ -16,16 +16,23 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
   
   const chartData = data.chartData.map(point => {
-    // Check if this is a snapshot point (has time in format "YYYY-MM-DD HH:MM")
-    const isSnapshot = point.date.includes(' ') && point.date.includes(':')
+    // Check if this is a snapshot point (has pipe separator or time format)
+    const isSnapshot = point.date.includes('|') || (point.date.includes(' ') && point.date.includes(':'))
     
     let dateFormatted
     let sortKey
     
     if (isSnapshot) {
-      // For snapshots, use the full timestamp for sorting but display just time
-      sortKey = new Date(point.date.replace(' ', 'T')).getTime() // Convert to timestamp for sorting
-      dateFormatted = point.date.split(' ')[1] || point.date // Show just time for display
+      if (point.date.includes('|')) {
+        // New format with full timestamp: "2025-09-09T11:45:35.209Z|07:45"
+        const [fullTimestamp, displayTime] = point.date.split('|')
+        sortKey = new Date(fullTimestamp).getTime()
+        dateFormatted = displayTime
+      } else {
+        // Legacy format: "2025-09-09 07:45"
+        sortKey = new Date(point.date.replace(' ', 'T')).getTime()
+        dateFormatted = point.date.split(' ')[1] || point.date
+      }
     } else {
       // For regular entries, use date
       sortKey = new Date(point.date).getTime()
@@ -42,6 +49,32 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   // Sort chart data chronologically using sortKey
   chartData.sort((a, b) => a.sortKey - b.sortKey)
+  
+  // Identify ticks that should show dates (start of new days)
+  const dayStartTicks: { [key: string]: string } = {}
+  let lastDate = ''
+  
+  chartData.forEach((point, index) => {
+    let currentDate = ''
+    
+    if (point.isSnapshot && point.date.includes('|')) {
+      // New format: "2025-09-09T11:45:35.209Z|07:45"
+      currentDate = point.date.split('T')[0]
+    } else if (point.isSnapshot) {
+      // Legacy format: "2025-09-09 07:45"
+      currentDate = point.date.split(' ')[0]
+    } else {
+      // Regular date format: "2025-09-07"
+      currentDate = point.date
+    }
+    
+    if (currentDate !== lastDate) {
+      // For day starts, use formatted date instead of time
+      const dayLabel = formatDate(currentDate)
+      dayStartTicks[point.dateFormatted] = dayLabel
+      lastDate = currentDate
+    }
+  })
   
   // Debug: Log the first few sorted data points to see ordering
   console.log('First 5 chart data points after sorting:', 
@@ -250,6 +283,11 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               className="text-sm"
               tick={{ fontSize: 12 }}
               type="category"
+              interval={0}
+              tickFormatter={(value) => {
+                // Only show tick labels for day starts, using formatted date
+                return dayStartTicks[value] || ''
+              }}
             />
             <YAxis 
               className="text-sm"
@@ -264,9 +302,17 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                   const dataPoint = payload[0].payload
                   if (dataPoint?.isSnapshot) {
                     // For snapshots, show full date and time
-                    const fullDate = dataPoint.date // This is the full "YYYY-MM-DD HH:MM" format
-                    const [datePart, timePart] = fullDate.split(' ')
-                    return `${formatDate(datePart)} at ${timePart}`
+                    const fullDate = dataPoint.date
+                    if (fullDate.includes('|')) {
+                      // New format: "2025-09-09T11:45:35.209Z|07:45"
+                      const [fullTimestamp, displayTime] = fullDate.split('|')
+                      const datePart = fullTimestamp.split('T')[0]
+                      return `${formatDate(datePart)} at ${displayTime}`
+                    } else {
+                      // Legacy format: "2025-09-09 07:45"
+                      const [datePart, timePart] = fullDate.split(' ')
+                      return `${formatDate(datePart)} at ${timePart}`
+                    }
                   }
                 }
                 return label
@@ -287,14 +333,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 dataKey="portfolio" 
                 stroke="transparent"
                 strokeWidth={0}
-                dot={(props: { cx?: number; cy?: number; payload?: { isMedianSnapshot?: boolean } }) => {
-                  const { payload } = props
-                  return payload?.isMedianSnapshot ? (
-                    <circle cx={props.cx} cy={props.cy} r={4} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={2} />
-                  ) : (
-                    <g></g>
-                  )
-                }}
+                dot={false}
                 activeDot={{ r: 5 }}
                 name=""
                 connectNulls={false}
@@ -306,14 +345,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 dataKey="stockPortfolio" 
                 stroke="transparent"
                 strokeWidth={0}
-                dot={(props: { cx?: number; cy?: number; payload?: { isMedianSnapshot?: boolean } }) => {
-                  const { payload } = props
-                  return payload?.isMedianSnapshot ? (
-                    <circle cx={props.cx} cy={props.cy} r={4} fill="#3b82f6" stroke="#fff" strokeWidth={2} />
-                  ) : (
-                    <g></g>
-                  )
-                }}
+                dot={false}
                 activeDot={{ r: 5 }}
                 name=""
                 connectNulls={false}
@@ -325,14 +357,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 dataKey="cryptoPortfolio" 
                 stroke="transparent"
                 strokeWidth={0}
-                dot={(props: { cx?: number; cy?: number; payload?: { isMedianSnapshot?: boolean } }) => {
-                  const { payload } = props
-                  return payload?.isMedianSnapshot ? (
-                    <circle cx={props.cx} cy={props.cy} r={4} fill="#8b5cf6" stroke="#fff" strokeWidth={2} />
-                  ) : (
-                    <g></g>
-                  )
-                }}
+                dot={false}
                 activeDot={{ r: 5 }}
                 name=""
                 connectNulls={false}

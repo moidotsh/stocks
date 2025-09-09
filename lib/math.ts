@@ -362,8 +362,8 @@ export function generateChartData(
         hour12: false 
       })
       
-      // Use timestamp as unique identifier but display as date + time
-      const displayDate = `${snapshotDateStr} ${timeStr}`
+      // Use full timestamp for accurate sorting, but create display date  
+      const displayDate = `${snapshot.timestamp}|${timeStr}` // Store both for sorting
       
       // Calculate benchmark values for this date
       const allDepositFlows = allEntries
