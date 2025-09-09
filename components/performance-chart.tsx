@@ -54,7 +54,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   const dayStartTicks: { [key: string]: string } = {}
   let lastDate = ''
   
-  chartData.forEach((point, index) => {
+  chartData.forEach((point) => {
     let currentDate = ''
     
     if (point.isSnapshot && point.date.includes('|')) {
