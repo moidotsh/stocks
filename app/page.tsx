@@ -1,5 +1,6 @@
 import { KpiCards } from '@/components/kpi-cards'
 import { PerformanceChart } from '@/components/performance-chart'
+import { AssetAllocationCharts } from '@/components/asset-allocation-charts'
 import { PriceRefreshButton } from '@/components/price-refresh-button'
 import { SnapshotButton } from '@/components/snapshot-button'
 import { getPortfolioData } from '@/lib/data'
@@ -23,6 +24,11 @@ export default async function HomePage() {
       </div>
 
       <KpiCards data={data} />
+
+      <div className="bg-card rounded-2xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold mb-4">Asset Allocation</h2>
+        <AssetAllocationCharts holdings={data.holdings} />
+      </div>
       
       <div className="bg-card rounded-2xl p-6 shadow-sm">
         <h2 className="text-xl font-semibold mb-4">Performance Comparison</h2>
