@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Button } from '@/components/ui/button'
 import { PortfolioData } from '@/lib/types'
@@ -11,9 +11,19 @@ interface PerformanceChartProps {
 }
 
 type ChartView = 'combined' | 'stock' | 'crypto'
+type DateRange = 'all' | '30d' | '7d' | '1d'
 
 export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
+  const [dateRange, setDateRange] = useState<DateRange>('all')
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
   
   const chartData = data.chartData.map(point => {
     // Check if this is a snapshot point (has pipe separator or time format)
@@ -50,11 +60,24 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   // Sort chart data chronologically using sortKey
   chartData.sort((a, b) => a.sortKey - b.sortKey)
   
+  // Filter data based on date range
+  const filterDataByRange = (data: typeof chartData, range: DateRange) => {
+    if (range === 'all') return data
+    
+    const now = new Date()
+    const cutoffDays = range === '30d' ? 30 : range === '7d' ? 7 : 1
+    const cutoffTime = now.getTime() - (cutoffDays * 24 * 60 * 60 * 1000)
+    
+    return data.filter(point => point.sortKey >= cutoffTime)
+  }
+  
+  const filteredChartData = filterDataByRange(chartData, dateRange)
+  
   // Identify ticks that should show dates (start of new days)
   const dayStartTicks: { [key: string]: string } = {}
   let lastDate = ''
   
-  chartData.forEach((point) => {
+  filteredChartData.forEach((point) => {
     let currentDate = ''
     
     if (point.isSnapshot && point.date.includes('|')) {
@@ -77,8 +100,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   })
   
   // Debug: Log the first few sorted data points to see ordering
-  console.log('First 5 chart data points after sorting:', 
-    chartData.slice(0, 5).map(p => ({ 
+  console.log('First 5 filtered chart data points:', 
+    filteredChartData.slice(0, 5).map(p => ({ 
       date: p.date, 
       dateFormatted: p.dateFormatted, 
       portfolio: p.portfolio, 
@@ -87,14 +110,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   )
 
   // Group snapshots by date and find median for each day
-  const snapshotsByDate = chartData
+  const snapshotsByDate = filteredChartData
     .filter(point => point.isSnapshot)
     .reduce((acc, point) => {
       const date = point.date.split(' ')[0] // Extract date part
       if (!acc[date]) acc[date] = []
       acc[date].push(point)
       return acc
-    }, {} as Record<string, typeof chartData>)
+    }, {} as Record<string, typeof filteredChartData>)
 
   // Find median snapshot for each date - ensure only ONE per date
   const medianSnapshots = new Set<string>()
@@ -118,7 +141,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   })
 
   // Add isMedianSnapshot flag to chart data
-  const chartDataWithMedian = chartData.map(point => ({
+  const chartDataWithMedian = filteredChartData.map(point => ({
     ...point,
     isMedianSnapshot: point.isSnapshot && medianSnapshots.has(point.date)
   }))
@@ -246,54 +269,115 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   return (
     <div className="w-full space-y-4">
-      <div className="flex gap-2 justify-center">
-        <Button
-          variant={view === 'combined' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setView('combined')}
-        >
-          Combined
-        </Button>
-        <Button
-          variant={view === 'stock' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setView('stock')}
-        >
-          Stock
-        </Button>
-        <Button
-          variant={view === 'crypto' ? 'default' : 'outline'}
-          size="sm"
-          onClick={() => setView('crypto')}
-        >
-          Crypto
-        </Button>
+      {/* Controls - Stack vertically on mobile */}
+      <div className="flex flex-col space-y-3 md:space-y-4">
+        {/* View Toggle Buttons */}
+        <div className={`flex gap-2 ${isMobile ? 'flex-col' : 'justify-center'}`}>
+          <Button
+            variant={view === 'combined' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setView('combined')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            Combined
+          </Button>
+          <Button
+            variant={view === 'stock' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setView('stock')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            Stock
+          </Button>
+          <Button
+            variant={view === 'crypto' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setView('crypto')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            Crypto
+          </Button>
+        </div>
+        
+        {/* Date Range Selector */}
+        <div className={`flex gap-2 ${isMobile ? 'flex-col' : 'justify-center'}`}>
+          <Button
+            variant={dateRange === '1d' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setDateRange('1d')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            1 Day
+          </Button>
+          <Button
+            variant={dateRange === '7d' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setDateRange('7d')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            7 Days
+          </Button>
+          <Button
+            variant={dateRange === '30d' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setDateRange('30d')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            30 Days
+          </Button>
+          <Button
+            variant={dateRange === 'all' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setDateRange('all')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            All Time
+          </Button>
+        </div>
       </div>
       
-      <div className="w-full h-96">
+      <div className={`w-full ${isMobile ? 'h-80' : 'h-96'}`}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart 
             data={chartDataWithMedian} 
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            margin={isMobile ? 
+              { top: 5, right: 10, left: 10, bottom: 5 } : 
+              { top: 5, right: 30, left: 20, bottom: 5 }
+            }
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
             <XAxis 
               dataKey="dateFormatted" 
               className="text-sm"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: isMobile ? 10 : 12 }}
               type="category"
-              interval={0}
+              interval={isMobile ? 'preserveStartEnd' : 0}
+              angle={isMobile ? -45 : 0}
+              textAnchor={isMobile ? 'end' : 'middle'}
+              height={isMobile ? 60 : 30}
               tickFormatter={(value) => {
                 // Only show tick labels for day starts, using formatted date
-                return dayStartTicks[value] || ''
+                const label = dayStartTicks[value] || ''
+                // On mobile, truncate longer labels
+                if (isMobile && label.length > 8) {
+                  return label.split(' ')[0] // Just show the date part
+                }
+                return label
               }}
             />
             <YAxis 
               className="text-sm"
-              tick={{ fontSize: 12 }}
-              tickFormatter={formatCurrency}
+              tick={{ fontSize: isMobile ? 10 : 12 }}
+              tickFormatter={(value) => {
+                // On mobile, use shorter currency format
+                if (isMobile) {
+                  return value >= 1000 ? `$${(value/1000).toFixed(0)}k` : `$${value.toFixed(0)}`
+                }
+                return formatCurrency(value)
+              }}
               domain={[minValue, maxValue]}
+              width={isMobile ? 50 : 60}
             />
             <Tooltip 
               formatter={(value: number) => [formatCurrency(value), '']}
@@ -324,7 +408,12 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 borderRadius: '8px'
               }}
             />
-            <Legend />
+            <Legend 
+              wrapperStyle={{ fontSize: isMobile ? '12px' : '14px' }}
+              layout={isMobile ? 'vertical' : 'horizontal'}
+              align={isMobile ? 'right' : 'center'}
+              verticalAlign={isMobile ? 'middle' : 'bottom'}
+            />
             {renderLines()}
             {/* Show dots only for median snapshots per day */}
             {view === 'combined' && (
