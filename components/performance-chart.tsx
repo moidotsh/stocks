@@ -287,7 +287,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 dataKey="portfolio" 
                 stroke="transparent"
                 strokeWidth={0}
-                dot={(props: any) => {
+                dot={(props: { cx?: number; cy?: number; payload?: { isMedianSnapshot?: boolean } }) => {
                   const { payload } = props
                   return payload?.isMedianSnapshot ? (
                     <circle cx={props.cx} cy={props.cy} r={4} fill="hsl(var(--primary))" stroke="#fff" strokeWidth={2} />
@@ -306,7 +306,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 dataKey="stockPortfolio" 
                 stroke="transparent"
                 strokeWidth={0}
-                dot={(props: any) => {
+                dot={(props: { cx?: number; cy?: number; payload?: { isMedianSnapshot?: boolean } }) => {
                   const { payload } = props
                   return payload?.isMedianSnapshot ? (
                     <circle cx={props.cx} cy={props.cy} r={4} fill="#3b82f6" stroke="#fff" strokeWidth={2} />
@@ -325,7 +325,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 dataKey="cryptoPortfolio" 
                 stroke="transparent"
                 strokeWidth={0}
-                dot={(props: any) => {
+                dot={(props: { cx?: number; cy?: number; payload?: { isMedianSnapshot?: boolean } }) => {
                   const { payload } = props
                   return payload?.isMedianSnapshot ? (
                     <circle cx={props.cx} cy={props.cy} r={4} fill="#8b5cf6" stroke="#fff" strokeWidth={2} />

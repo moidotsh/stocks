@@ -1,6 +1,6 @@
 'use client'
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Holdings } from '@/lib/types'
 import { formatCurrency } from '@/lib/utils'
@@ -72,7 +72,7 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
   console.log('Crypto positions:', holdings.crypto_positions)
   console.log('Crypto data for chart:', cryptoData)
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { payload: { name: string; value: number; percentage: string } }[] }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload
       return (
@@ -85,7 +85,15 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
     return null
   }
 
-  const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, name, percentage }: any) => {
+  const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, name, percentage }: {
+    cx: number
+    cy: number
+    midAngle: number
+    innerRadius: number
+    outerRadius: number
+    name: string
+    percentage: string
+  }) => {
     const RADIAN = Math.PI / 180
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5
     const x = cx + radius * Math.cos(-midAngle * RADIAN)
@@ -109,10 +117,6 @@ export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) 
     )
   }
 
-  // Simple label for smaller charts to avoid clipping
-  const renderSimpleLabel = ({ name, percentage }: any) => {
-    return `${percentage}%`
-  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
