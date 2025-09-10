@@ -10,7 +10,7 @@ interface PerformanceChartProps {
   data: PortfolioData
 }
 
-type ChartView = 'combined' | 'stock' | 'crypto'
+type ChartView = 'combined' | 'stock' | 'crypto' | 'stock-vs-crypto'
 type DateRange = 'all' | '30d' | '7d' | '1d'
 
 export function PerformanceChart({ data }: PerformanceChartProps) {
@@ -264,6 +264,46 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
           </>
         )
+      
+      case 'stock-vs-crypto':
+        return (
+          <>
+            <Line 
+              type="monotone" 
+              dataKey="stockPortfolio" 
+              stroke="#3b82f6" 
+              strokeWidth={3}
+              name="Stock Portfolio"
+              dot={false}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="cryptoPortfolio" 
+              stroke="#8b5cf6" 
+              strokeWidth={3}
+              name="Crypto Portfolio"
+              dot={false}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="stockHisa" 
+              stroke="#10b981" 
+              strokeWidth={2}
+              name="If HISA (3%)"
+              dot={false}
+              strokeDasharray="5 5"
+            />
+            <Line 
+              type="monotone" 
+              dataKey="stockSP500" 
+              stroke="#f59e0b" 
+              strokeWidth={2}
+              name="If S&P 500"
+              dot={false}
+              strokeDasharray="5 5"
+            />
+          </>
+        )
     }
   }
 
@@ -296,6 +336,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             className={isMobile ? 'w-full' : ''}
           >
             Crypto
+          </Button>
+          <Button
+            variant={view === 'stock-vs-crypto' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setView('stock-vs-crypto')}
+            className={isMobile ? 'w-full' : ''}
+          >
+            Stock vs Crypto
           </Button>
         </div>
         
@@ -451,6 +499,30 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 name=""
                 connectNulls={false}
               />
+            )}
+            {view === 'stock-vs-crypto' && (
+              <>
+                <Line 
+                  type="monotone" 
+                  dataKey="stockPortfolio" 
+                  stroke="transparent"
+                  strokeWidth={0}
+                  dot={false}
+                  activeDot={{ r: 5 }}
+                  name=""
+                  connectNulls={false}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="cryptoPortfolio" 
+                  stroke="transparent"
+                  strokeWidth={0}
+                  dot={false}
+                  activeDot={{ r: 5 }}
+                  name=""
+                  connectNulls={false}
+                />
+              </>
             )}
           </LineChart>
         </ResponsiveContainer>
