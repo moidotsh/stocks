@@ -7,7 +7,7 @@ import { useCurrency } from '@/lib/currency-context'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { isSwedishMode, isSwedishUser, exchangeRate } = useCurrency()
+  const { isSwedishMode, exchangeRate } = useCurrency()
   return (
     <header className="border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 md:py-4">
