@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
 import path from 'path'
 import { updateMarketPrices } from '@/lib/price-api'
 import { getEntriesData, getCryptoEntriesData } from '@/lib/data'
@@ -67,6 +66,6 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
-  return POST() // Allow GET requests too for easier testing
+export async function GET(request: Request) {
+  return POST(request) // Allow GET requests too for easier testing
 }

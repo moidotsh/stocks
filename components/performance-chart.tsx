@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { Button } from '@/components/ui/button'
 import { PortfolioData } from '@/lib/types'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -12,6 +11,17 @@ interface PerformanceChartProps {
 
 type ChartView = 'combined' | 'stock' | 'crypto' | 'stock-vs-crypto'
 type DateRange = 'all' | '30d' | '7d' | '1d'
+
+// Filter data based on date range - moved outside component to avoid dependency issues
+const filterDataByRange = (data: any[], range: DateRange) => {
+  if (range === 'all') return data
+  
+  const now = new Date()
+  const cutoffDays = range === '30d' ? 30 : range === '7d' ? 7 : 1
+  const cutoffTime = now.getTime() - (cutoffDays * 24 * 60 * 60 * 1000)
+  
+  return data.filter(point => point.sortKey >= cutoffTime)
+}
 
 export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
@@ -24,6 +34,18 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Handle view changes with animation
+  const handleViewChange = (newView: ChartView) => {
+    if (newView === view) return
+    setView(newView)
+  }
+
+  // Handle date range changes with animation
+  const handleDateRangeChange = (newRange: DateRange) => {
+    if (newRange === dateRange) return
+    setDateRange(newRange)
+  }
   
   const chartData = useMemo(() => data.chartData.map(point => {
     // Check if this is a snapshot point (has pipe separator or time format)
@@ -59,17 +81,6 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   // Sort chart data chronologically using sortKey
   chartData.sort((a, b) => a.sortKey - b.sortKey)
-  
-  // Filter data based on date range
-  const filterDataByRange = (data: typeof chartData, range: DateRange) => {
-    if (range === 'all') return data
-    
-    const now = new Date()
-    const cutoffDays = range === '30d' ? 30 : range === '7d' ? 7 : 1
-    const cutoffTime = now.getTime() - (cutoffDays * 24 * 60 * 60 * 1000)
-    
-    return data.filter(point => point.sortKey >= cutoffTime)
-  }
   
   const filteredChartData = useMemo(() => filterDataByRange(chartData, dateRange), [chartData, dateRange])
   
@@ -120,25 +131,29 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     }, {} as Record<string, typeof filteredChartData>), [filteredChartData])
 
   // Find median snapshot for each date - ensure only ONE per date
-  const medianSnapshots = new Set<string>()
-  Object.entries(snapshotsByDate).forEach(([date, snapshots]) => {
-    if (snapshots.length > 0) {
-      // Sort by portfolio value, then by timestamp to break ties consistently
-      const sorted = snapshots.sort((a, b) => {
-        const portfolioDiff = a.portfolio - b.portfolio
-        if (portfolioDiff !== 0) return portfolioDiff
-        // If portfolio values are the same, sort by timestamp to ensure consistent selection
-        return a.date.localeCompare(b.date)
-      })
-      
-      const medianIndex = Math.floor(sorted.length / 2)
-      const medianSnapshot = sorted[medianIndex]
-      
-      // Only add the ONE median snapshot for this date
-      medianSnapshots.add(medianSnapshot.date)
-      console.log(`Median for ${date}: ${medianSnapshot.date} (${snapshots.length} snapshots, portfolio: ${medianSnapshot.portfolio})`)
-    }
-  })
+  const medianSnapshots = useMemo(() => {
+    const result = new Set<string>()
+    Object.entries(snapshotsByDate).forEach(([date, snapshots]) => {
+      const typedSnapshots = snapshots as typeof filteredChartData
+      if (typedSnapshots.length > 0) {
+        // Sort by portfolio value, then by timestamp to break ties consistently
+        const sorted = typedSnapshots.sort((a, b) => {
+          const portfolioDiff = a.portfolio - b.portfolio
+          if (portfolioDiff !== 0) return portfolioDiff
+          // If portfolio values are the same, sort by timestamp to ensure consistent selection
+          return a.date.localeCompare(b.date)
+        })
+        
+        const medianIndex = Math.floor(sorted.length / 2)
+        const medianSnapshot = sorted[medianIndex]
+        
+        // Only add the ONE median snapshot for this date
+        result.add(medianSnapshot.date)
+        console.log(`Median for ${date}: ${medianSnapshot.date} (${typedSnapshots.length} snapshots, portfolio: ${medianSnapshot.portfolio})`)
+      }
+    })
+    return result
+  }, [snapshotsByDate])
 
   // Add isMedianSnapshot flag to chart data
   const chartDataWithMedian = useMemo(() => filteredChartData.map(point => ({
@@ -166,12 +181,28 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         default:
           return [point.portfolio, point.hisa, point.sp500]
       }
-    })
+    }).filter(value => value !== null && value !== undefined && !isNaN(value))
     
-    const minValue = Math.min(...allValues) * 0.95 // Add 5% padding
-    const maxValue = Math.max(...allValues) * 1.05 // Add 5% padding
+    if (allValues.length === 0) return [0, 100]
     
-    return [minValue, maxValue]
+    const minValue = Math.min(...allValues)
+    const maxValue = Math.max(...allValues)
+    const range = maxValue - minValue
+    
+    // If range is very small, set a minimum range
+    const minRange = Math.max(range, (maxValue * 0.1) || 1)
+    
+    // Add padding that ensures nice round numbers
+    const padding = minRange * 0.15 // 15% padding
+    const paddedMin = minValue - padding
+    const paddedMax = maxValue + padding
+    
+    // Round to nice numbers for better Y-axis labels
+    const step = Math.pow(10, Math.floor(Math.log10(minRange)))
+    const niceMin = Math.floor(paddedMin / step) * step
+    const niceMax = Math.ceil(paddedMax / step) * step
+    
+    return [niceMin, niceMax]
   }
   
   const [minValue, maxValue] = getYAxisDomain()
@@ -188,6 +219,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="My Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -197,6 +230,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -206,6 +241,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
           </>
         )
@@ -220,6 +257,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Stock Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -229,6 +268,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Stock → HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -238,6 +279,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Stock → S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
           </>
         )
@@ -252,6 +295,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Crypto Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -261,6 +306,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Crypto → HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -270,6 +317,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Crypto → S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
           </>
         )
@@ -284,6 +333,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Stock Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -292,6 +343,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Crypto Portfolio"
               dot={false}
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -301,6 +354,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -310,97 +365,123 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={600}
+              animationDuration={800}
             />
           </>
         )
     }
   }
 
+  // Generate mobile legend items based on current view
+  const getMobileLegendItems = () => {
+    const items = []
+    
+    switch (view) {
+      case 'combined':
+        items.push(
+          { name: 'Portfolio', color: '#8884d8' },
+          { name: 'HISA (3%)', color: '#82ca9d' },
+          { name: 'S&P 500', color: '#ffc658' }
+        )
+        break
+      case 'stock':
+        items.push(
+          { name: 'Stock Portfolio', color: '#8884d8' },
+          { name: 'If HISA (3%)', color: '#82ca9d' },
+          { name: 'If S&P 500', color: '#ffc658' }
+        )
+        break
+      case 'crypto':
+        items.push(
+          { name: 'Crypto Portfolio', color: '#8884d8' },
+          { name: 'If HISA (3%)', color: '#82ca9d' },
+          { name: 'If S&P 500', color: '#ffc658' }
+        )
+        break
+      case 'stock-vs-crypto':
+        items.push(
+          { name: 'Stock Portfolio', color: '#8884d8' },
+          { name: 'Crypto Portfolio', color: '#ff7300' },
+          { name: 'If HISA (3%)', color: '#82ca9d' },
+          { name: 'If S&P 500', color: '#ffc658' }
+        )
+        break
+    }
+    
+    return items
+  }
+
   return (
     <div className="w-full space-y-4">
-      {/* Controls - Stack vertically on mobile */}
-      <div className="flex flex-col space-y-3 md:space-y-4">
-        {/* View Toggle Buttons */}
-        <div className={`flex gap-2 ${isMobile ? 'flex-col' : 'justify-center'}`}>
-          <Button
-            variant={view === 'combined' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('combined')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Combined
-          </Button>
-          <Button
-            variant={view === 'stock' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('stock')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Stock
-          </Button>
-          <Button
-            variant={view === 'crypto' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('crypto')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Crypto
-          </Button>
-          <Button
-            variant={view === 'stock-vs-crypto' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('stock-vs-crypto')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Stock vs Crypto
-          </Button>
+      {/* Mobile-First Controls */}
+      <div className="space-y-4">
+        {/* View Selector - Segmented Control Style */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">Portfolio View</label>
+          <div className="flex flex-wrap gap-1 p-1 bg-muted rounded-lg">
+            {[
+              { key: 'combined', label: 'All', short: 'All' },
+              { key: 'stock', label: 'Stock', short: 'Stock' },
+              { key: 'crypto', label: 'Crypto', short: 'Crypto' },
+              { key: 'stock-vs-crypto', label: 'Stock vs Crypto', short: 'Compare' }
+            ].map((option) => (
+              <button
+                key={option.key}
+                onClick={() => handleViewChange(option.key as ChartView)}
+                className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                  view === option.key
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+                } ${isMobile ? 'min-w-0' : ''}`}
+              >
+                <span className={isMobile ? 'hidden sm:inline' : ''}>{option.label}</span>
+                <span className={isMobile ? 'sm:hidden' : 'hidden'}>{option.short}</span>
+              </button>
+            ))}
+          </div>
         </div>
         
-        {/* Date Range Selector */}
-        <div className={`flex gap-2 ${isMobile ? 'flex-col' : 'justify-center'}`}>
-          <Button
-            variant={dateRange === '1d' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('1d')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            1 Day
-          </Button>
-          <Button
-            variant={dateRange === '7d' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('7d')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            7 Days
-          </Button>
-          <Button
-            variant={dateRange === '30d' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('30d')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            30 Days
-          </Button>
-          <Button
-            variant={dateRange === 'all' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('all')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            All Time
-          </Button>
+        {/* Time Range Selector - Horizontal Scroll on Mobile */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">Time Range</label>
+          <div className="flex gap-1 overflow-x-auto pb-2 scrollbar-hide">
+            {[
+              { key: '1d', label: '1 Day', short: '1D' },
+              { key: '7d', label: '7 Days', short: '7D' },
+              { key: '30d', label: '30 Days', short: '30D' },
+              { key: 'all', label: 'All Time', short: 'All' }
+            ].map((option) => (
+              <button
+                key={option.key}
+                onClick={() => handleDateRangeChange(option.key as DateRange)}
+                className={`flex-shrink-0 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                  dateRange === option.key
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80'
+                }`}
+              >
+                <span className={isMobile ? 'hidden' : ''}>{option.label}</span>
+                <span className={isMobile ? '' : 'hidden'}>{option.short}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       
-      <div className={`w-full ${isMobile ? 'h-80' : 'h-96'}`}>
-        <ResponsiveContainer width="100%" height="100%">
+      <div className={`w-full ${isMobile ? 'h-80' : 'h-96'} relative`}>
+        <ResponsiveContainer 
+          width="100%" 
+          height="100%"
+          className="transition-all duration-300"
+        >
           <LineChart 
             data={chartDataWithMedian} 
             margin={isMobile ? 
               { top: 5, right: 10, left: 10, bottom: 5 } : 
               { top: 5, right: 30, left: 20, bottom: 5 }
             }
+            key={`${view}-${dateRange}`} // Force re-render for smooth transitions
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -434,13 +515,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 return formatCurrency(value)
               }}
               domain={[minValue, maxValue]}
+              tickCount={6}
               width={isMobile ? 50 : 60}
             />
             <Tooltip 
               formatter={(value: number) => [formatCurrency(value), '']}
-              labelFormatter={(label: string, payload: any) => {
-                if (payload && payload.length > 0) {
-                  const dataPoint = payload[0].payload
+              labelFormatter={(label: string, payload: unknown) => {
+                if (payload && Array.isArray(payload) && payload.length > 0) {
+                  const dataPoint = (payload[0] as { payload: any }).payload
                   if (dataPoint?.isSnapshot) {
                     // For snapshots, show full date and time
                     const fullDate = dataPoint.date
@@ -465,12 +547,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 borderRadius: '8px'
               }}
             />
-            <Legend 
-              wrapperStyle={{ fontSize: isMobile ? '12px' : '14px' }}
-              layout={isMobile ? 'vertical' : 'horizontal'}
-              align={isMobile ? 'right' : 'center'}
-              verticalAlign={isMobile ? 'middle' : 'bottom'}
-            />
+            {!isMobile && (
+              <Legend 
+                wrapperStyle={{ fontSize: '14px' }}
+                layout="horizontal"
+                align="center"
+                verticalAlign="bottom"
+              />
+            )}
             {renderLines()}
             {/* Show dots only for median snapshots per day */}
             {view === 'combined' && (
@@ -536,6 +620,29 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           </LineChart>
         </ResponsiveContainer>
       </div>
+      
+      {/* Mobile Legend */}
+      {isMobile && (
+        <div className="mt-4 p-3 bg-muted/50 rounded-lg transition-all duration-300">
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            {getMobileLegendItems().map((item, index) => (
+              <div 
+                key={`${view}-${index}`} 
+                className="flex items-center gap-2 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div 
+                  className="w-3 h-0.5 rounded-full transition-all duration-300" 
+                  style={{ backgroundColor: item.color }}
+                />
+                <span className="text-muted-foreground font-medium">
+                  {item.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
