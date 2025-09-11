@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Entry } from '@/lib/types'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency-context'
+import { formatDate } from '@/lib/utils'
 import { Copy, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface TimelineProps {
@@ -13,6 +14,7 @@ interface TimelineProps {
 
 export function Timeline({ entries }: TimelineProps) {
   const [expandedWeeks, setExpandedWeeks] = useState<Set<string>>(new Set())
+  const { formatCurrency } = useCurrency()
 
   const toggleWeek = (weekStart: string) => {
     const newExpanded = new Set(expandedWeeks)

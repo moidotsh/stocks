@@ -1,7 +1,9 @@
+'use client'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PortfolioData } from '@/lib/types'
-import { formatCurrency } from '@/lib/utils'
 import { TrendingUp, TrendingDown, DollarSign, Target, BarChart3, Trophy, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { useCurrency } from '@/lib/currency-context'
 
 interface KpiCardsProps {
   data: PortfolioData
@@ -9,6 +11,7 @@ interface KpiCardsProps {
 
 export function KpiCards({ data }: KpiCardsProps) {
   const { metrics } = data
+  const { formatCurrency } = useCurrency()
 
   // Calculate performance winner - comparing individual $10 portions
   const performances = [

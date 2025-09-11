@@ -3,7 +3,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { PortfolioData } from '@/lib/types'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency-context'
+import { formatDate } from '@/lib/utils'
 
 interface PerformanceChartProps {
   data: PortfolioData
@@ -26,6 +27,7 @@ const filterDataByRange = (data: any[], range: DateRange) => {
 export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
   const [dateRange, setDateRange] = useState<DateRange>('all')
+  const { formatCurrency } = useCurrency()
   const [isMobile, setIsMobile] = useState(false)
   
   useEffect(() => {

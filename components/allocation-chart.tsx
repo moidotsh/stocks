@@ -2,13 +2,14 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
 import { Holdings } from '@/lib/types'
-import { formatCurrency } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency-context'
 
 interface AllocationChartProps {
   holdings: Holdings
 }
 
 export function AllocationChart({ holdings }: AllocationChartProps) {
+  const { formatCurrency } = useCurrency()
   const data = [
     ...holdings.positions.map(pos => ({
       name: pos.ticker,

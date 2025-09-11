@@ -3,9 +3,11 @@
 import Link from 'next/link'
 import { Github, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { useCurrency } from '@/lib/currency-context'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { isSwedishMode, isSwedishUser, exchangeRate } = useCurrency()
   return (
     <header className="border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 md:py-4">
@@ -44,6 +46,14 @@ export function Header() {
           </button>
           
           <div className="hidden md:flex items-center space-x-4">
+            {/* Currency indicator */}
+            {isSwedishMode && exchangeRate && (
+              <div className="flex items-center space-x-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                <span>SEK Mode</span>
+                <span className="text-blue-600 dark:text-blue-300">{exchangeRate.toFixed(2)}</span>
+              </div>
+            )}
             <Link 
               href="https://github.com/moidotsh/stocks" 
               className="p-2 hover:bg-accent rounded-lg transition-colors"
@@ -59,6 +69,14 @@ export function Header() {
         {/* Mobile Navigation Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t">
+            {/* Mobile currency indicator */}
+            {isSwedishMode && exchangeRate && (
+              <div className="flex items-center justify-center space-x-2 px-3 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-lg text-sm font-medium mt-4">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                <span>SEK Mode Active</span>
+                <span className="text-blue-600 dark:text-blue-300">{exchangeRate.toFixed(2)}</span>
+              </div>
+            )}
             <nav className="flex flex-col space-y-1 pt-4">
               <Link 
                 href="/" 

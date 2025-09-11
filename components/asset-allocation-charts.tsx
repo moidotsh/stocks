@@ -3,7 +3,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Holdings } from '@/lib/types'
-import { formatCurrency } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency-context'
 
 interface AssetAllocationChartsProps {
   holdings: Holdings
@@ -41,6 +41,7 @@ const CRYPTO_BACKUP_COLORS = [
 ]
 
 export function AssetAllocationCharts({ holdings }: AssetAllocationChartsProps) {
+  const { formatCurrency } = useCurrency()
   // Calculate total values
   const stockValue = holdings.positions.reduce((sum, pos) => sum + (pos.shares * pos.market_price), 0)
   const cryptoValue = (holdings.crypto_positions || []).reduce((sum, pos) => sum + (pos.qty * pos.current_price), 0)

@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
+import { CurrencyProvider } from '@/lib/currency-context'
 import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={cn(inter.className, 'min-h-screen flex flex-col')}>
-        <Header />
-        <main className="flex-1 container mx-auto px-4 py-8">
-          {children}
-        </main>
-        <Footer />
+        <CurrencyProvider>
+          <Header />
+          <main className="flex-1 container mx-auto px-4 py-8">
+            {children}
+          </main>
+          <Footer />
+        </CurrencyProvider>
       </body>
     </html>
   )

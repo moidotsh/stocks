@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Holdings } from '@/lib/types'
-import { formatCurrency } from '@/lib/utils'
+import { useCurrency } from '@/lib/currency-context'
 import { useState } from 'react'
 
 interface PortfolioTableProps {
@@ -11,6 +11,10 @@ interface PortfolioTableProps {
 
 export function PortfolioTable({ holdings }: PortfolioTableProps) {
   const [activeTab, setActiveTab] = useState<'combined' | 'stocks' | 'crypto'>('combined')
+  const { formatCurrency, isSwedishMode } = useCurrency()
+  
+  // Get display currency based on mode
+  const displayCurrency = isSwedishMode ? 'SEK' : 'CAD'
   
   // Smart number formatting to remove trailing zeros
   const formatQuantity = (num: number) => {
@@ -120,7 +124,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                     {position.symbol}
                     <span className="text-xs text-muted-foreground ml-1">(Crypto)</span>
                   </h4>
-                  <span className="text-sm text-muted-foreground">CAD</span>
+                  <span className="text-sm text-muted-foreground">{displayCurrency}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
@@ -157,7 +161,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
             <div className="border rounded-lg p-4 space-y-2">
               <div className="flex justify-between items-center">
                 <h4 className="font-medium text-lg">Cash</h4>
-                <span className="text-sm text-muted-foreground">CAD</span>
+                <span className="text-sm text-muted-foreground">{displayCurrency}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Value:</span>
@@ -254,7 +258,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                     }`}>
                       {formatCurrency(unrealizedPL)}
                     </td>
-                    <td className="p-3">CAD</td>
+                    <td className="p-3">{displayCurrency}</td>
                   </tr>
                 )
               })}
@@ -267,7 +271,7 @@ export function PortfolioTable({ holdings }: PortfolioTableProps) {
                   <td className="text-right p-3">-</td>
                   <td className="text-right p-3">{formatCurrency(holdings.cash_cad)}</td>
                   <td className="text-right p-3">-</td>
-                  <td className="p-3">CAD</td>
+                  <td className="p-3">{displayCurrency}</td>
                 </tr>
               )}
             </tbody>
