@@ -34,6 +34,18 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Handle view changes with animation
+  const handleViewChange = (newView: ChartView) => {
+    if (newView === view) return
+    setView(newView)
+  }
+
+  // Handle date range changes with animation
+  const handleDateRangeChange = (newRange: DateRange) => {
+    if (newRange === dateRange) return
+    setDateRange(newRange)
+  }
   
   const chartData = useMemo(() => data.chartData.map(point => {
     // Check if this is a snapshot point (has pipe separator or time format)
@@ -169,12 +181,28 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         default:
           return [point.portfolio, point.hisa, point.sp500]
       }
-    })
+    }).filter(value => value !== null && value !== undefined && !isNaN(value))
     
-    const minValue = Math.min(...allValues) * 0.95 // Add 5% padding
-    const maxValue = Math.max(...allValues) * 1.05 // Add 5% padding
+    if (allValues.length === 0) return [0, 100]
     
-    return [minValue, maxValue]
+    const minValue = Math.min(...allValues)
+    const maxValue = Math.max(...allValues)
+    const range = maxValue - minValue
+    
+    // If range is very small, set a minimum range
+    const minRange = Math.max(range, (maxValue * 0.1) || 1)
+    
+    // Add padding that ensures nice round numbers
+    const padding = minRange * 0.15 // 15% padding
+    const paddedMin = minValue - padding
+    const paddedMax = maxValue + padding
+    
+    // Round to nice numbers for better Y-axis labels
+    const step = Math.pow(10, Math.floor(Math.log10(minRange)))
+    const niceMin = Math.floor(paddedMin / step) * step
+    const niceMax = Math.ceil(paddedMax / step) * step
+    
+    return [niceMin, niceMax]
   }
   
   const [minValue, maxValue] = getYAxisDomain()
@@ -191,6 +219,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="My Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -200,6 +230,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -209,6 +241,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
           </>
         )
@@ -223,6 +257,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Stock Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -232,6 +268,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Stock → HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -241,6 +279,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Stock → S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
           </>
         )
@@ -255,6 +295,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Crypto Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -264,6 +306,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Crypto → HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -273,6 +317,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If Crypto → S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
           </>
         )
@@ -287,6 +333,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Stock Portfolio"
               dot={false}
+              animationBegin={0}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -295,6 +343,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeWidth={3}
               name="Crypto Portfolio"
               dot={false}
+              animationBegin={200}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -304,6 +354,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If HISA (3%)"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={400}
+              animationDuration={800}
             />
             <Line 
               type="monotone" 
@@ -313,6 +365,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               name="If S&P 500"
               dot={false}
               strokeDasharray="5 5"
+              animationBegin={600}
+              animationDuration={800}
             />
           </>
         )
@@ -374,7 +428,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             ].map((option) => (
               <button
                 key={option.key}
-                onClick={() => setView(option.key as ChartView)}
+                onClick={() => handleViewChange(option.key as ChartView)}
                 className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   view === option.key
                     ? 'bg-background text-foreground shadow-sm'
@@ -400,7 +454,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             ].map((option) => (
               <button
                 key={option.key}
-                onClick={() => setDateRange(option.key as DateRange)}
+                onClick={() => handleDateRangeChange(option.key as DateRange)}
                 className={`flex-shrink-0 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
                   dateRange === option.key
                     ? 'bg-primary text-primary-foreground'
@@ -415,14 +469,19 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         </div>
       </div>
       
-      <div className={`w-full ${isMobile ? 'h-80' : 'h-96'}`}>
-        <ResponsiveContainer width="100%" height="100%">
+      <div className={`w-full ${isMobile ? 'h-80' : 'h-96'} relative`}>
+        <ResponsiveContainer 
+          width="100%" 
+          height="100%"
+          className="transition-all duration-300"
+        >
           <LineChart 
             data={chartDataWithMedian} 
             margin={isMobile ? 
               { top: 5, right: 10, left: 10, bottom: 5 } : 
               { top: 5, right: 30, left: 20, bottom: 5 }
             }
+            key={`${view}-${dateRange}`} // Force re-render for smooth transitions
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -456,6 +515,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 return formatCurrency(value)
               }}
               domain={[minValue, maxValue]}
+              tickCount={6}
               width={isMobile ? 50 : 60}
             />
             <Tooltip 
@@ -563,12 +623,16 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       
       {/* Mobile Legend */}
       {isMobile && (
-        <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+        <div className="mt-4 p-3 bg-muted/50 rounded-lg transition-all duration-300">
           <div className="grid grid-cols-2 gap-2 text-xs">
             {getMobileLegendItems().map((item, index) => (
-              <div key={index} className="flex items-center gap-2">
+              <div 
+                key={`${view}-${index}`} 
+                className="flex items-center gap-2 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 <div 
-                  className="w-3 h-0.5 rounded-full" 
+                  className="w-3 h-0.5 rounded-full transition-all duration-300" 
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-muted-foreground font-medium">
