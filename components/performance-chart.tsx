@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { Button } from '@/components/ui/button'
 import { PortfolioData } from '@/lib/types'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -12,6 +11,17 @@ interface PerformanceChartProps {
 
 type ChartView = 'combined' | 'stock' | 'crypto' | 'stock-vs-crypto'
 type DateRange = 'all' | '30d' | '7d' | '1d'
+
+// Filter data based on date range - moved outside component to avoid dependency issues
+const filterDataByRange = (data: any[], range: DateRange) => {
+  if (range === 'all') return data
+  
+  const now = new Date()
+  const cutoffDays = range === '30d' ? 30 : range === '7d' ? 7 : 1
+  const cutoffTime = now.getTime() - (cutoffDays * 24 * 60 * 60 * 1000)
+  
+  return data.filter(point => point.sortKey >= cutoffTime)
+}
 
 export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
@@ -59,17 +69,6 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   // Sort chart data chronologically using sortKey
   chartData.sort((a, b) => a.sortKey - b.sortKey)
-  
-  // Filter data based on date range
-  const filterDataByRange = (data: typeof chartData, range: DateRange) => {
-    if (range === 'all') return data
-    
-    const now = new Date()
-    const cutoffDays = range === '30d' ? 30 : range === '7d' ? 7 : 1
-    const cutoffTime = now.getTime() - (cutoffDays * 24 * 60 * 60 * 1000)
-    
-    return data.filter(point => point.sortKey >= cutoffTime)
-  }
   
   const filteredChartData = useMemo(() => filterDataByRange(chartData, dateRange), [chartData, dateRange])
   
@@ -120,25 +119,29 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     }, {} as Record<string, typeof filteredChartData>), [filteredChartData])
 
   // Find median snapshot for each date - ensure only ONE per date
-  const medianSnapshots = new Set<string>()
-  Object.entries(snapshotsByDate).forEach(([date, snapshots]) => {
-    if (snapshots.length > 0) {
-      // Sort by portfolio value, then by timestamp to break ties consistently
-      const sorted = snapshots.sort((a, b) => {
-        const portfolioDiff = a.portfolio - b.portfolio
-        if (portfolioDiff !== 0) return portfolioDiff
-        // If portfolio values are the same, sort by timestamp to ensure consistent selection
-        return a.date.localeCompare(b.date)
-      })
-      
-      const medianIndex = Math.floor(sorted.length / 2)
-      const medianSnapshot = sorted[medianIndex]
-      
-      // Only add the ONE median snapshot for this date
-      medianSnapshots.add(medianSnapshot.date)
-      console.log(`Median for ${date}: ${medianSnapshot.date} (${snapshots.length} snapshots, portfolio: ${medianSnapshot.portfolio})`)
-    }
-  })
+  const medianSnapshots = useMemo(() => {
+    const result = new Set<string>()
+    Object.entries(snapshotsByDate).forEach(([date, snapshots]) => {
+      const typedSnapshots = snapshots as typeof filteredChartData
+      if (typedSnapshots.length > 0) {
+        // Sort by portfolio value, then by timestamp to break ties consistently
+        const sorted = typedSnapshots.sort((a: any, b: any) => {
+          const portfolioDiff = a.portfolio - b.portfolio
+          if (portfolioDiff !== 0) return portfolioDiff
+          // If portfolio values are the same, sort by timestamp to ensure consistent selection
+          return a.date.localeCompare(b.date)
+        })
+        
+        const medianIndex = Math.floor(sorted.length / 2)
+        const medianSnapshot = sorted[medianIndex]
+        
+        // Only add the ONE median snapshot for this date
+        result.add(medianSnapshot.date)
+        console.log(`Median for ${date}: ${medianSnapshot.date} (${typedSnapshots.length} snapshots, portfolio: ${medianSnapshot.portfolio})`)
+      }
+    })
+    return result
+  }, [snapshotsByDate])
 
   // Add isMedianSnapshot flag to chart data
   const chartDataWithMedian = useMemo(() => filteredChartData.map(point => ({
@@ -457,9 +460,9 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
             <Tooltip 
               formatter={(value: number) => [formatCurrency(value), '']}
-              labelFormatter={(label: string, payload: any) => {
-                if (payload && payload.length > 0) {
-                  const dataPoint = payload[0].payload
+              labelFormatter={(label: string, payload: unknown) => {
+                if (payload && Array.isArray(payload) && payload.length > 0) {
+                  const dataPoint = (payload[0] as any).payload
                   if (dataPoint?.isSnapshot) {
                     // For snapshots, show full date and time
                     const fullDate = dataPoint.date
