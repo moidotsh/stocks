@@ -22,6 +22,11 @@ export function KpiCards({ data }: KpiCardsProps) {
     current.value > prev.value ? current : prev
   )
 
+  // Calculate percentage gain/loss for Unrealized P/L
+  const percentageGainLoss = metrics.totalContributed > 0 
+    ? ((metrics.unrealizedPL / metrics.totalContributed) * 100).toFixed(1)
+    : '0.0'
+
   const kpis = [
     {
       title: 'Total Contributed',
@@ -67,7 +72,7 @@ export function KpiCards({ data }: KpiCardsProps) {
     },
     {
       title: 'Unrealized P/L',
-      value: formatCurrency(metrics.unrealizedPL),
+      value: `${formatCurrency(metrics.unrealizedPL)} (${percentageGainLoss}%)`,
       icon: metrics.unrealizedPL >= 0 ? TrendingUp : TrendingDown,
       description: 'Gain/loss vs contributions',
       trend: metrics.unrealizedPL >= 0 ? 'positive' : 'negative'

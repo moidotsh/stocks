@@ -151,21 +151,30 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   console.log(`Total median snapshots marked: ${medianCount}`)
   console.log('Median snapshots:', Array.from(medianSnapshots))
 
-  // Calculate consistent Y-axis domain across all views
-  const allValues = chartDataWithMedian.flatMap(point => [
-    point.portfolio,
-    point.hisa,
-    point.sp500,
-    point.stockPortfolio,
-    point.stockHisa,
-    point.stockSP500,
-    point.cryptoPortfolio,
-    point.cryptoHisa,
-    point.cryptoSP500
-  ])
+  // Calculate Y-axis domain based on current view
+  const getYAxisDomain = () => {
+    const allValues = chartDataWithMedian.flatMap(point => {
+      switch (view) {
+        case 'combined':
+          return [point.portfolio, point.hisa, point.sp500]
+        case 'stock':
+          return [point.stockPortfolio, point.stockHisa, point.stockSP500]
+        case 'crypto':
+          return [point.cryptoPortfolio, point.cryptoHisa, point.cryptoSP500]
+        case 'stock-vs-crypto':
+          return [point.stockPortfolio, point.cryptoPortfolio, point.stockHisa, point.stockSP500]
+        default:
+          return [point.portfolio, point.hisa, point.sp500]
+      }
+    })
+    
+    const minValue = Math.min(...allValues) * 0.95 // Add 5% padding
+    const maxValue = Math.max(...allValues) * 1.05 // Add 5% padding
+    
+    return [minValue, maxValue]
+  }
   
-  const minValue = Math.min(...allValues) * 0.95 // Add 5% padding
-  const maxValue = Math.max(...allValues) * 1.05 // Add 5% padding
+  const [minValue, maxValue] = getYAxisDomain()
 
   const renderLines = () => {
     switch (view) {
