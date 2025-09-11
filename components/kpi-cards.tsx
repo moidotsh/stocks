@@ -62,7 +62,12 @@ export function KpiCards({ data }: KpiCardsProps) {
       title: 'Best Performer',
       value: winner.name,
       icon: Trophy,
-      description: `Leading by ${formatCurrency(winner.value - Math.max(...performances.filter(p => p.name !== winner.name).map(p => p.value)))}`,
+      description: (() => {
+        const secondPlaceValue = Math.max(...performances.filter(p => p.name !== winner.name).map(p => p.value))
+        const leadingAmount = winner.value - secondPlaceValue
+        const leadingPercentage = ((leadingAmount / secondPlaceValue) * 100).toFixed(1)
+        return `Leading by ${formatCurrency(leadingAmount)} (${leadingPercentage}%)`
+      })(),
       trend: 'positive',
       badge: 'Winner'
     },
