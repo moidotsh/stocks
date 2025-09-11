@@ -137,7 +137,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       const typedSnapshots = snapshots as typeof filteredChartData
       if (typedSnapshots.length > 0) {
         // Sort by portfolio value, then by timestamp to break ties consistently
-        const sorted = typedSnapshots.sort((a: any, b: any) => {
+        const sorted = typedSnapshots.sort((a, b) => {
           const portfolioDiff = a.portfolio - b.portfolio
           if (portfolioDiff !== 0) return portfolioDiff
           // If portfolio values are the same, sort by timestamp to ensure consistent selection
@@ -522,7 +522,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               formatter={(value: number) => [formatCurrency(value), '']}
               labelFormatter={(label: string, payload: unknown) => {
                 if (payload && Array.isArray(payload) && payload.length > 0) {
-                  const dataPoint = (payload[0] as any).payload
+                  const dataPoint = (payload[0] as { payload: any }).payload
                   if (dataPoint?.isSnapshot) {
                     // For snapshots, show full date and time
                     const fullDate = dataPoint.date

@@ -91,6 +91,6 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
-  return POST() // Allow GET requests too for easier testing
+export async function GET(request: Request) {
+  return POST(request) // Allow GET requests too for easier testing
 }
