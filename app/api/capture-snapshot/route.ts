@@ -3,9 +3,18 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { DailySnapshotSchema, type DailySnapshot } from '@/lib/types'
 import { getHoldingsData, getMarketPricesData } from '@/lib/data'
+import { withFileMutex, writeJsonAtomic } from '@/lib/file-utils'
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    // Simple token auth
+    const token = process.env.ADMIN_TOKEN
+    if (token) {
+      const header = request.headers.get('x-admin-token')
+      if (header !== token) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+      }
+    }
     const now = new Date()
     const timestamp = now.toISOString()
     
@@ -63,8 +72,10 @@ export async function POST() {
     // Validate all snapshots
     const validatedSnapshots = snapshots.map(s => DailySnapshotSchema.parse(s))
     
-    // Write back to file
-    await fs.writeFile(snapshotsPath, JSON.stringify(validatedSnapshots, null, 2))
+    // Write back to file atomically with mutex
+    await withFileMutex(snapshotsPath, async () => {
+      await writeJsonAtomic(snapshotsPath, validatedSnapshots)
+    })
     
     return NextResponse.json({ 
       success: true, 

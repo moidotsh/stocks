@@ -86,8 +86,12 @@ async function updateMarketPricesIfNeeded() {
   try {
     // Only attempt to update in server-side environment
     if (typeof window === 'undefined') {
-      const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/update-prices`, {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL?.startsWith('http') ? process.env.VERCEL_URL : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+      const response = await fetch(`${baseUrl}/api/update-prices`, {
         method: 'POST',
+        headers: {
+          'x-admin-token': process.env.ADMIN_TOKEN || '',
+        },
       })
       
       if (!response.ok) {

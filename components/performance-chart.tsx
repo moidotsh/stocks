@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Button } from '@/components/ui/button'
 import { PortfolioData } from '@/lib/types'
@@ -25,7 +25,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
   
-  const chartData = data.chartData.map(point => {
+  const chartData = useMemo(() => data.chartData.map(point => {
     // Check if this is a snapshot point (has pipe separator or time format)
     const isSnapshot = point.date.includes('|') || (point.date.includes(' ') && point.date.includes(':'))
     
@@ -55,7 +55,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       sortKey,
       isSnapshot
     }
-  })
+  }), [data.chartData])
 
   // Sort chart data chronologically using sortKey
   chartData.sort((a, b) => a.sortKey - b.sortKey)
@@ -71,7 +71,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     return data.filter(point => point.sortKey >= cutoffTime)
   }
   
-  const filteredChartData = filterDataByRange(chartData, dateRange)
+  const filteredChartData = useMemo(() => filterDataByRange(chartData, dateRange), [chartData, dateRange])
   
   // Identify ticks that should show dates (start of new days)
   const dayStartTicks: { [key: string]: string } = {}
@@ -110,14 +110,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   )
 
   // Group snapshots by date and find median for each day
-  const snapshotsByDate = filteredChartData
+  const snapshotsByDate = useMemo(() => filteredChartData
     .filter(point => point.isSnapshot)
     .reduce((acc, point) => {
       const date = point.date.split(' ')[0] // Extract date part
       if (!acc[date]) acc[date] = []
       acc[date].push(point)
       return acc
-    }, {} as Record<string, typeof filteredChartData>)
+    }, {} as Record<string, typeof filteredChartData>), [filteredChartData])
 
   // Find median snapshot for each date - ensure only ONE per date
   const medianSnapshots = new Set<string>()
@@ -141,10 +141,10 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   })
 
   // Add isMedianSnapshot flag to chart data
-  const chartDataWithMedian = filteredChartData.map(point => ({
+  const chartDataWithMedian = useMemo(() => filteredChartData.map(point => ({
     ...point,
     isMedianSnapshot: point.isSnapshot && medianSnapshots.has(point.date)
-  }))
+  })), [filteredChartData, medianSnapshots])
 
   // Debug: Log how many median snapshots we have
   const medianCount = chartDataWithMedian.filter(point => point.isMedianSnapshot).length

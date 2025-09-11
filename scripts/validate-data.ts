@@ -3,7 +3,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { z } from 'zod'
-import { EntrySchema, MarketPricesSchema, BenchmarkSchema, Entry, MarketPrices } from '../lib/types'
+import { EntrySchema, MarketPricesSchema, BenchmarkSchema, DailySnapshotSchema, Entry, MarketPrices, DailySnapshot } from '../lib/types'
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 
@@ -96,6 +96,33 @@ async function validateDataIntegrity() {
     hasErrors = true
   } else {
     console.log('✅ benchmarks.json is valid')
+  }
+  
+  // Validate daily-snapshots.json (optional but recommended)
+  console.log('\n🗓️  Validating daily-snapshots.json...')
+  const snapshotsResult = await validateFile('daily-snapshots.json', DailySnapshotSchema, true)
+  if (!snapshotsResult.valid) {
+    console.error('❌ daily-snapshots.json validation failed:')
+    snapshotsResult.errors?.forEach(error => console.error(`   ${error}`))
+    hasErrors = true
+  } else {
+    console.log('✅ daily-snapshots.json is valid')
+    // Extra checks: timestamps ascending and non-negative values
+    const snaps = snapshotsResult.data as DailySnapshot[]
+    let ascending = true
+    for (let i = 1; i < snaps.length; i++) {
+      if (new Date(snaps[i].timestamp).getTime() < new Date(snaps[i-1].timestamp).getTime()) {
+        ascending = false
+        break
+      }
+    }
+    if (!ascending) {
+      console.warn('⚠️  Snapshots are not strictly ascending by timestamp')
+    }
+    const negatives = snaps.filter(s => s.portfolio_value < 0 || s.stock_value < 0 || s.crypto_value < 0 || s.cash_value < 0)
+    if (negatives.length > 0) {
+      console.warn(`⚠️  Found ${negatives.length} snapshots with negative values`)
+    }
   }
   
   // Cross-validation checks

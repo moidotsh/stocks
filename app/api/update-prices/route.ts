@@ -3,9 +3,18 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { updateMarketPrices } from '@/lib/price-api'
 import { getEntriesData, getCryptoEntriesData } from '@/lib/data'
+import { withFileMutex, writeJsonAtomic } from '@/lib/file-utils'
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    // Simple token auth
+    const token = process.env.ADMIN_TOKEN
+    if (token) {
+      const header = request.headers.get('x-admin-token')
+      if (header !== token) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+      }
+    }
     // Get all unique tickers and crypto symbols from entries
     const [entries, cryptoEntries] = await Promise.all([
       getEntriesData(),
@@ -35,10 +44,12 @@ export async function POST() {
       crypto
     }
     
-    // Write to file
+    // Write to file atomically, protected by mutex
     const dataDir = path.join(process.cwd(), 'data')
     const filePath = path.join(dataDir, 'market-prices.json')
-    await fs.writeFile(filePath, JSON.stringify(marketPrices, null, 2))
+    await withFileMutex(filePath, async () => {
+      await writeJsonAtomic(filePath, marketPrices)
+    })
     
     console.log('Updated market prices:', marketPrices)
     
