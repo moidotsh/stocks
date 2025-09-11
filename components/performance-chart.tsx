@@ -316,80 +316,99 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     }
   }
 
+  // Generate mobile legend items based on current view
+  const getMobileLegendItems = () => {
+    const items = []
+    
+    switch (view) {
+      case 'combined':
+        items.push(
+          { name: 'Portfolio', color: '#8884d8' },
+          { name: 'HISA (3%)', color: '#82ca9d' },
+          { name: 'S&P 500', color: '#ffc658' }
+        )
+        break
+      case 'stock':
+        items.push(
+          { name: 'Stock Portfolio', color: '#8884d8' },
+          { name: 'If HISA (3%)', color: '#82ca9d' },
+          { name: 'If S&P 500', color: '#ffc658' }
+        )
+        break
+      case 'crypto':
+        items.push(
+          { name: 'Crypto Portfolio', color: '#8884d8' },
+          { name: 'If HISA (3%)', color: '#82ca9d' },
+          { name: 'If S&P 500', color: '#ffc658' }
+        )
+        break
+      case 'stock-vs-crypto':
+        items.push(
+          { name: 'Stock Portfolio', color: '#8884d8' },
+          { name: 'Crypto Portfolio', color: '#ff7300' },
+          { name: 'If HISA (3%)', color: '#82ca9d' },
+          { name: 'If S&P 500', color: '#ffc658' }
+        )
+        break
+    }
+    
+    return items
+  }
+
   return (
     <div className="w-full space-y-4">
-      {/* Controls - Stack vertically on mobile */}
-      <div className="flex flex-col space-y-3 md:space-y-4">
-        {/* View Toggle Buttons */}
-        <div className={`flex gap-2 ${isMobile ? 'flex-col' : 'justify-center'}`}>
-          <Button
-            variant={view === 'combined' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('combined')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Combined
-          </Button>
-          <Button
-            variant={view === 'stock' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('stock')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Stock
-          </Button>
-          <Button
-            variant={view === 'crypto' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('crypto')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Crypto
-          </Button>
-          <Button
-            variant={view === 'stock-vs-crypto' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setView('stock-vs-crypto')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            Stock vs Crypto
-          </Button>
+      {/* Mobile-First Controls */}
+      <div className="space-y-4">
+        {/* View Selector - Segmented Control Style */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">Portfolio View</label>
+          <div className="flex flex-wrap gap-1 p-1 bg-muted rounded-lg">
+            {[
+              { key: 'combined', label: 'All', short: 'All' },
+              { key: 'stock', label: 'Stock', short: 'Stock' },
+              { key: 'crypto', label: 'Crypto', short: 'Crypto' },
+              { key: 'stock-vs-crypto', label: 'Stock vs Crypto', short: 'Compare' }
+            ].map((option) => (
+              <button
+                key={option.key}
+                onClick={() => setView(option.key as ChartView)}
+                className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                  view === option.key
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+                } ${isMobile ? 'min-w-0' : ''}`}
+              >
+                <span className={isMobile ? 'hidden sm:inline' : ''}>{option.label}</span>
+                <span className={isMobile ? 'sm:hidden' : 'hidden'}>{option.short}</span>
+              </button>
+            ))}
+          </div>
         </div>
         
-        {/* Date Range Selector */}
-        <div className={`flex gap-2 ${isMobile ? 'flex-col' : 'justify-center'}`}>
-          <Button
-            variant={dateRange === '1d' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('1d')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            1 Day
-          </Button>
-          <Button
-            variant={dateRange === '7d' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('7d')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            7 Days
-          </Button>
-          <Button
-            variant={dateRange === '30d' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('30d')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            30 Days
-          </Button>
-          <Button
-            variant={dateRange === 'all' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setDateRange('all')}
-            className={isMobile ? 'w-full' : ''}
-          >
-            All Time
-          </Button>
+        {/* Time Range Selector - Horizontal Scroll on Mobile */}
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">Time Range</label>
+          <div className="flex gap-1 overflow-x-auto pb-2 scrollbar-hide">
+            {[
+              { key: '1d', label: '1 Day', short: '1D' },
+              { key: '7d', label: '7 Days', short: '7D' },
+              { key: '30d', label: '30 Days', short: '30D' },
+              { key: 'all', label: 'All Time', short: 'All' }
+            ].map((option) => (
+              <button
+                key={option.key}
+                onClick={() => setDateRange(option.key as DateRange)}
+                className={`flex-shrink-0 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                  dateRange === option.key
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80'
+                }`}
+              >
+                <span className={isMobile ? 'hidden' : ''}>{option.label}</span>
+                <span className={isMobile ? '' : 'hidden'}>{option.short}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       
@@ -465,12 +484,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 borderRadius: '8px'
               }}
             />
-            <Legend 
-              wrapperStyle={{ fontSize: isMobile ? '12px' : '14px' }}
-              layout={isMobile ? 'vertical' : 'horizontal'}
-              align={isMobile ? 'right' : 'center'}
-              verticalAlign={isMobile ? 'middle' : 'bottom'}
-            />
+            {!isMobile && (
+              <Legend 
+                wrapperStyle={{ fontSize: '14px' }}
+                layout="horizontal"
+                align="center"
+                verticalAlign="bottom"
+              />
+            )}
             {renderLines()}
             {/* Show dots only for median snapshots per day */}
             {view === 'combined' && (
@@ -536,6 +557,25 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           </LineChart>
         </ResponsiveContainer>
       </div>
+      
+      {/* Mobile Legend */}
+      {isMobile && (
+        <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            {getMobileLegendItems().map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div 
+                  className="w-3 h-0.5 rounded-full" 
+                  style={{ backgroundColor: item.color }}
+                />
+                <span className="text-muted-foreground font-medium">
+                  {item.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
