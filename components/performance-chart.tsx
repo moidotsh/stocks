@@ -510,9 +510,9 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               className="text-sm"
               tick={{ fontSize: isMobile ? 10 : 12 }}
               tickFormatter={(value) => {
-                // On mobile, use shorter currency format
+                // On mobile, use shorter currency format with decimals for clarity
                 if (isMobile) {
-                  return value >= 1000 ? `$${(value/1000).toFixed(0)}k` : `$${value.toFixed(0)}`
+                  return value >= 1000 ? `$${(value/1000).toFixed(1)}k` : `$${value.toFixed(1)}`
                 }
                 return formatCurrency(value)
               }}
