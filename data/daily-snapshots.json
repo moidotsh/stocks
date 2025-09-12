@@ -508,5 +508,20 @@
       "ENA": 1.079,
       "WLD": 2.29
     }
+  },
+  {
+    "timestamp": "2025-09-12T01:12:54.786Z",
+    "portfolio_value": 21.93969704,
+    "stock_value": 10.33526,
+    "crypto_value": 11.59908704,
+    "cash_value": 0.005349999999999966,
+    "market_prices": {
+      "ABX": 40.69,
+      "DOGE": 0.363488,
+      "AVAX": 40.42,
+      "DOT": 5.91,
+      "ENA": 1.084,
+      "WLD": 2.26
+    }
   }
 ]
