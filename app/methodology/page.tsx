@@ -76,6 +76,8 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">holdings.csv</code> — stocks/ETFs (ticker, shares, avg_cost, currency)</li>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">crypto_holdings.csv</code> — crypto (symbol, amount, avg_cost_cad)</li>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">benchmarks.json</code> — S&P 500 closes & HISA rate for comparison</li>
+            <li><code className="bg-muted px-2 py-1 rounded text-sm">data/candidates/latest.json</code> — pointer to current week's fresh candidates</li>
+            <li><code className="bg-muted px-2 py-1 rounded text-sm">data/candidates/YYYY-MM-DD/</code> — dated folders with weekly screener output (stocks.json, crypto.json)</li>
           </ul>
         </section>
 
@@ -83,12 +85,14 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
           <h2 className="text-xl font-semibold">Weekly process (high level)</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-medium mb-2">1. Generate candidates</h3>
+              <h3 className="text-lg font-medium mb-2">1. Generate fresh candidates</h3>
               <ul className="space-y-2 text-sm">
+                <li><strong>Run weekly screeners:</strong> Fresh top-40 movers change every week. Using stale candidates defeats the whole point.</li>
                 <li><strong>Stocks:</strong> TSX-60 + S&P 500 universe → compute 1-week movers → take <strong>top 20 up + top 20 down</strong> (volume-screened).</li>
                 <li><strong>Crypto:</strong> CoinGecko markets (CAD), Wealthsimple-supported only → <strong>top 20 up + top 20 down</strong> (volume-screened).</li>
                 <li><strong>Holdings are always appended</strong> to the candidate list so the LLM can rebalance/trim even if something isn't a weekly mover.</li>
                 <li><strong>Crypto fee baked in:</strong> all buy/sell math uses <code>FEE_RATE = 2%</code> spread via effective prices.</li>
+                <li><strong>File structure:</strong> Candidates saved to <code>data/candidates/YYYY-MM-DD/</code> with <code>latest.json</code> pointer.</li>
               </ul>
             </div>
 
@@ -131,27 +135,51 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
                 <div className="space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium">Stocks</h4>
-                      <CopyButton text={stockScreenerCommand} />
+                      <h4 className="font-medium">1. Run Screeners (Sunday before Close Week)</h4>
                     </div>
-                    <pre className="bg-muted p-3 rounded text-sm overflow-x-auto">
-                      <code>{stockScreenerCommand}</code>
-                    </pre>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Stocks</span>
+                        <CopyButton text={stockScreenerCommand} />
+                      </div>
+                      <pre className="bg-muted p-3 rounded text-sm overflow-x-auto">
+                        <code>{stockScreenerCommand}</code>
+                      </pre>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Crypto (2% fee baked in)</span>
+                        <CopyButton text={cryptoScreenerCommand} />
+                      </div>
+                      <pre className="bg-muted p-3 rounded text-sm overflow-x-auto">
+                        <code>{cryptoScreenerCommand}</code>
+                      </pre>
+                    </div>
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium">Crypto (2% fee baked in)</h4>
-                      <CopyButton text={cryptoScreenerCommand} />
+                      <h4 className="font-medium">2. Organize Files for Close Week</h4>
+                      <CopyButton text={`DATE=$(date +%F)
+mkdir -p data/candidates/$DATE
+mv llm_candidates.json data/candidates/$DATE/stocks.json
+mv llm_candidates_crypto.json data/candidates/$DATE/crypto.json
+printf '{"latest":"%s"}\\n' "$DATE" > data/candidates/latest.json`} />
                     </div>
                     <pre className="bg-muted p-3 rounded text-sm overflow-x-auto">
-                      <code>{cryptoScreenerCommand}</code>
+                      <code>{`DATE=$(date +%F)
+mkdir -p data/candidates/$DATE
+mv llm_candidates.json data/candidates/$DATE/stocks.json
+mv llm_candidates_crypto.json data/candidates/$DATE/crypto.json
+printf '{"latest":"%s"}\\n' "$DATE" > data/candidates/latest.json`}</code>
                     </pre>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      This creates dated folders and updates the latest pointer for Close Week to read fresh candidates.
+                    </p>
                   </div>
 
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium">Log executed trades (updates holdings + entries)</h4>
+                      <h4 className="font-medium">3. Log executed trades (updates holdings + entries)</h4>
                       <CopyButton text={ledgerCommand} />
                     </div>
                     <pre className="bg-muted p-3 rounded text-sm overflow-x-auto">
@@ -261,6 +289,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             <li>CAD/USD mixing is simplified (CAD-listed preferred; crypto priced in CAD).</li>
             <li>Dividends/distributions are not modeled yet.</li>
             <li>No background automation; <strong>only filled orders</strong> are recorded.</li>
+            <li>Candidates must be refreshed weekly; Close Week warns if data is >36h old.</li>
           </ul>
         </section>
 

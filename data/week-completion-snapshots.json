@@ -1,0 +1,71 @@
+[
+  {
+    "week_number": 2,
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "completed_at": "2025-09-13T04:51:05.056Z",
+    "portfolio_state": {
+      "total_value": 22.25683084,
+      "stock_value": 10.21588,
+      "crypto_value": 12.03560084,
+      "cash_value": 0.005349999999999966,
+      "holdings": [
+        {
+          "ticker": "ABX",
+          "week_open_price": 39.37,
+          "week_close_price": 40.22,
+          "price_change_pct": 2.15900431800864,
+          "current_shares": 0.254,
+          "position_value": 10.21588
+        }
+      ],
+      "crypto_holdings": [
+        {
+          "symbol": "DOGE",
+          "week_open_price": 0.32,
+          "week_close_price": 0.391348,
+          "price_change_pct": 22.29624999999999,
+          "current_qty": 7.33,
+          "position_value": 2.86858084
+        },
+        {
+          "symbol": "AVAX",
+          "week_open_price": 34.35,
+          "week_close_price": 42.47,
+          "price_change_pct": 23.63901018922852,
+          "current_qty": 0.07,
+          "position_value": 2.9729
+        },
+        {
+          "symbol": "DOT",
+          "week_open_price": 5.59,
+          "week_close_price": 6.09,
+          "price_change_pct": 8.94454382826476,
+          "current_qty": 0.36,
+          "position_value": 2.1923999999999997
+        },
+        {
+          "symbol": "ENA",
+          "week_open_price": 1.03,
+          "week_close_price": 1.069,
+          "price_change_pct": 3.786407766990284,
+          "current_qty": 0.98,
+          "position_value": 1.04762
+        },
+        {
+          "symbol": "WLD",
+          "week_open_price": 1.57,
+          "week_close_price": 2.29,
+          "price_change_pct": 45.859872611464965,
+          "current_qty": 1.29,
+          "position_value": 2.9541
+        }
+      ],
+      "total_contributed": 10
+    },
+    "performance": {
+      "week_change_pct": 11.284154199999996,
+      "week_change_amount": 2.2568308399999992
+    }
+  }
+]

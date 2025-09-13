@@ -1,0 +1,3768 @@
+[
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "cash_available": {
+      "stock_cash": 0.002674999999999983,
+      "crypto_cash": 0.002674999999999983
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "prompt_ready": "## Weekly Portfolio Review\n\n**Portfolio Performance This Week:**\n- Total Value Change: 11.02%\n- Week Open: $20.00\n- Week Close: $22.20\n\n**Available Cash:**\n- Stock Portfolio: $0.00\n- Crypto Portfolio: $0.00\n\n**Stock Holdings (Week Open → Week Close):**\n- ABX: $39.37 → $40.22 (2.2%) | Shares: 0.254 | Value: $10.22\n\n**Crypto Holdings (Week Open → Week Close):**\n- DOGE: $0.32 → $0.39 (21.1%) | Qty: 7.33 | Value: $2.84\n- AVAX: $34.35 → $41.80 (21.7%) | Qty: 0.07 | Value: $2.93\n- DOT: $5.59 → $6.04 (8.1%) | Qty: 0.36 | Value: $2.17\n- ENA: $1.03 → $1.07 (3.9%) | Qty: 0.98 | Value: $1.05\n- WLD: $1.57 → $2.32 (47.8%) | Qty: 1.29 | Value: $2.99\n\n---\n\nBased on this weekly performance summary and current market conditions, what trades should I make this week for my TFSA? Please consider:\n1. Rebalancing opportunities based on price movements\n2. Taking profits from big winners\n3. Adding to positions that dropped significantly\n4. Overall portfolio allocation balance\n\nPlease provide specific trade recommendations in JSON format as per the usual prompt structure."
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "cash_available": {
+      "stock_cash": 0.002674999999999983,
+      "crypto_cash": 0.002674999999999983
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "prompt_ready": "## Weekly Portfolio Review\n\n**Portfolio Performance This Week:**\n- Total Value Change: 11.02%\n- Week Open: $20.00\n- Week Close: $22.20\n\n**Available Cash:**\n- Stock Portfolio: $0.00\n- Crypto Portfolio: $0.00\n\n**Stock Holdings (Week Open → Week Close):**\n- ABX: $39.37 → $40.22 (2.2%) | Shares: 0.254 | Value: $10.22\n\n**Crypto Holdings (Week Open → Week Close):**\n- DOGE: $0.32 → $0.39 (21.1%) | Qty: 7.33 | Value: $2.84\n- AVAX: $34.35 → $41.80 (21.7%) | Qty: 0.07 | Value: $2.93\n- DOT: $5.59 → $6.04 (8.1%) | Qty: 0.36 | Value: $2.17\n- ENA: $1.03 → $1.07 (3.9%) | Qty: 0.98 | Value: $1.05\n- WLD: $1.57 → $2.32 (47.8%) | Qty: 1.29 | Value: $2.99\n\n---\n\nBased on this weekly performance summary and current market conditions, what trades should I make this week for my TFSA? Please consider:\n1. Rebalancing opportunities based on price movements\n2. Taking profits from big winners\n3. Adding to positions that dropped significantly\n4. Overall portfolio allocation balance\n\nPlease provide specific trade recommendations in JSON format as per the usual prompt structure."
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "next_week_deposit": 99,
+    "current_week": 89,
+    "total_contributed_to_date": 4806,
+    "cash_available": {
+      "stock_cash": 49.502674999999996,
+      "crypto_cash": 49.502674999999996
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 49.502674999999996,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 49.502674999999996,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.387669,
+          "effective_buy_price_cad": 0.39542238,
+          "effective_sell_price_cad": 0.37991561999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 41.8,
+          "effective_buy_price_cad": 42.635999999999996,
+          "effective_sell_price_cad": 40.964,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.04,
+          "effective_buy_price_cad": 6.1608,
+          "effective_sell_price_cad": 5.9192,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.07,
+          "effective_buy_price_cad": 1.0914000000000001,
+          "effective_sell_price_cad": 1.0486,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.32,
+          "effective_buy_price_cad": 2.3664,
+          "effective_sell_price_cad": 2.2735999999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.387669,
+          "market_price": 0.387669,
+          "unrealized_pnl_cad": 0.49601376999999985
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 41.8,
+          "market_price": 41.8,
+          "unrealized_pnl_cad": 0.5214999999999997
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.04,
+          "market_price": 6.04,
+          "unrealized_pnl_cad": 0.16200000000000006
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.07,
+          "market_price": 1.07,
+          "unrealized_pnl_cad": 0.03920000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.32,
+          "market_price": 2.32,
+          "unrealized_pnl_cad": 0.9674999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "next_week_deposit": 99,
+    "current_week": 89,
+    "total_contributed_to_date": 4806,
+    "cash_available": {
+      "stock_cash": 49.502674999999996,
+      "crypto_cash": 49.502674999999996
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 49.502674999999996,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 49.502674999999996,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.387669,
+          "effective_buy_price_cad": 0.39542238,
+          "effective_sell_price_cad": 0.37991561999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 41.8,
+          "effective_buy_price_cad": 42.635999999999996,
+          "effective_sell_price_cad": 40.964,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.04,
+          "effective_buy_price_cad": 6.1608,
+          "effective_sell_price_cad": 5.9192,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.07,
+          "effective_buy_price_cad": 1.0914000000000001,
+          "effective_sell_price_cad": 1.0486,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.32,
+          "effective_buy_price_cad": 2.3664,
+          "effective_sell_price_cad": 2.2735999999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.387669,
+          "market_price": 0.387669,
+          "unrealized_pnl_cad": 0.49601376999999985
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 41.8,
+          "market_price": 41.8,
+          "unrealized_pnl_cad": 0.5214999999999997
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.04,
+          "market_price": 6.04,
+          "unrealized_pnl_cad": 0.16200000000000006
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.07,
+          "market_price": 1.07,
+          "unrealized_pnl_cad": 0.03920000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.32,
+          "market_price": 2.32,
+          "unrealized_pnl_cad": 0.9674999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 5.502675,
+      "crypto_cash": 5.502675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 5.502675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 5.502675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.387669,
+          "effective_buy_price_cad": 0.39542238,
+          "effective_sell_price_cad": 0.37991561999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 41.8,
+          "effective_buy_price_cad": 42.635999999999996,
+          "effective_sell_price_cad": 40.964,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.04,
+          "effective_buy_price_cad": 6.1608,
+          "effective_sell_price_cad": 5.9192,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.07,
+          "effective_buy_price_cad": 1.0914000000000001,
+          "effective_sell_price_cad": 1.0486,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.32,
+          "effective_buy_price_cad": 2.3664,
+          "effective_sell_price_cad": 2.2735999999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.387669,
+          "market_price": 0.387669,
+          "unrealized_pnl_cad": 0.49601376999999985
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 41.8,
+          "market_price": 41.8,
+          "unrealized_pnl_cad": 0.5214999999999997
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.04,
+          "market_price": 6.04,
+          "unrealized_pnl_cad": 0.16200000000000006
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.07,
+          "market_price": 1.07,
+          "unrealized_pnl_cad": 0.03920000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.32,
+          "market_price": 2.32,
+          "unrealized_pnl_cad": 0.9674999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.387669,
+          "effective_buy_price_cad": 0.39542238,
+          "effective_sell_price_cad": 0.37991561999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 41.8,
+          "effective_buy_price_cad": 42.635999999999996,
+          "effective_sell_price_cad": 40.964,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.04,
+          "effective_buy_price_cad": 6.1608,
+          "effective_sell_price_cad": 5.9192,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.07,
+          "effective_buy_price_cad": 1.0914000000000001,
+          "effective_sell_price_cad": 1.0486,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.32,
+          "effective_buy_price_cad": 2.3664,
+          "effective_sell_price_cad": 2.2735999999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.387669,
+          "market_price": 0.387669,
+          "unrealized_pnl_cad": 0.49601376999999985
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 41.8,
+          "market_price": 41.8,
+          "unrealized_pnl_cad": 0.5214999999999997
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.04,
+          "market_price": 6.04,
+          "unrealized_pnl_cad": 0.16200000000000006
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.07,
+          "market_price": 1.07,
+          "unrealized_pnl_cad": 0.03920000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.32,
+          "market_price": 2.32,
+          "unrealized_pnl_cad": 0.9674999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.387669,
+          "effective_buy_price_cad": 0.39542238,
+          "effective_sell_price_cad": 0.37991561999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 41.8,
+          "effective_buy_price_cad": 42.635999999999996,
+          "effective_sell_price_cad": 40.964,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.04,
+          "effective_buy_price_cad": 6.1608,
+          "effective_sell_price_cad": 5.9192,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.07,
+          "effective_buy_price_cad": 1.0914000000000001,
+          "effective_sell_price_cad": 1.0486,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.32,
+          "effective_buy_price_cad": 2.3664,
+          "effective_sell_price_cad": 2.2735999999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.387669,
+          "market_price": 0.387669,
+          "unrealized_pnl_cad": 0.49601376999999985
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 41.8,
+          "market_price": 41.8,
+          "unrealized_pnl_cad": 0.5214999999999997
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.04,
+          "market_price": 6.04,
+          "unrealized_pnl_cad": 0.16200000000000006
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.07,
+          "market_price": 1.07,
+          "unrealized_pnl_cad": 0.03920000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.32,
+          "market_price": 2.32,
+          "unrealized_pnl_cad": 0.9674999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.204643770000004,
+      "total_change_pct": 11.02321885000002
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.387669,
+        "price_change_pct": 21.146562499999995,
+        "current_qty": 7.33,
+        "position_value": 2.84161377
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 41.8,
+        "price_change_pct": 21.688500727802023,
+        "current_qty": 0.07,
+        "position_value": 2.926
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.04,
+        "price_change_pct": 8.050089445438285,
+        "current_qty": 0.36,
+        "position_value": 2.1744
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.07,
+        "price_change_pct": 3.883495145631071,
+        "current_qty": 0.98,
+        "position_value": 1.0486
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.32,
+        "price_change_pct": 47.77070063694266,
+        "current_qty": 1.29,
+        "position_value": 2.9928
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.387669,
+          "effective_buy_price_cad": 0.39542238,
+          "effective_sell_price_cad": 0.37991561999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 41.8,
+          "effective_buy_price_cad": 42.635999999999996,
+          "effective_sell_price_cad": 40.964,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.04,
+          "effective_buy_price_cad": 6.1608,
+          "effective_sell_price_cad": 5.9192,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.07,
+          "effective_buy_price_cad": 1.0914000000000001,
+          "effective_sell_price_cad": 1.0486,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.32,
+          "effective_buy_price_cad": 2.3664,
+          "effective_sell_price_cad": 2.2735999999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.387669,
+          "market_price": 0.387669,
+          "unrealized_pnl_cad": 0.49601376999999985
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 41.8,
+          "market_price": 41.8,
+          "unrealized_pnl_cad": 0.5214999999999997
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.04,
+          "market_price": 6.04,
+          "unrealized_pnl_cad": 0.16200000000000006
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.07,
+          "market_price": 1.07,
+          "unrealized_pnl_cad": 0.03920000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.32,
+          "market_price": 2.32,
+          "unrealized_pnl_cad": 0.9674999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.25683084,
+      "total_change_pct": 11.284154199999996
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.391348,
+        "price_change_pct": 22.29624999999999,
+        "current_qty": 7.33,
+        "position_value": 2.86858084
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.47,
+        "price_change_pct": 23.63901018922852,
+        "current_qty": 0.07,
+        "position_value": 2.9729
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.09,
+        "price_change_pct": 8.94454382826476,
+        "current_qty": 0.36,
+        "position_value": 2.1923999999999997
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.069,
+        "price_change_pct": 3.786407766990284,
+        "current_qty": 0.98,
+        "position_value": 1.04762
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.29,
+        "price_change_pct": 45.859872611464965,
+        "current_qty": 1.29,
+        "position_value": 2.9541
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        },
+        {
+          "ticker": "SHOP.TO",
+          "market_price": 85.5,
+          "is_holding": false
+        },
+        {
+          "ticker": "TDB902.TO",
+          "market_price": 54.25,
+          "is_holding": false
+        },
+        {
+          "ticker": "AAPL",
+          "market_price": 175.2,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.391348,
+          "effective_buy_price_cad": 0.39917495999999997,
+          "effective_sell_price_cad": 0.38352104,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.47,
+          "effective_buy_price_cad": 43.3194,
+          "effective_sell_price_cad": 41.620599999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.09,
+          "effective_buy_price_cad": 6.2118,
+          "effective_sell_price_cad": 5.9681999999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.069,
+          "effective_buy_price_cad": 1.09038,
+          "effective_sell_price_cad": 1.04762,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.29,
+          "effective_buy_price_cad": 2.3358,
+          "effective_sell_price_cad": 2.2442,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.391348,
+          "market_price": 0.391348,
+          "unrealized_pnl_cad": 0.5229808399999998
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.47,
+          "market_price": 42.47,
+          "unrealized_pnl_cad": 0.5683999999999999
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.09,
+          "market_price": 6.09,
+          "unrealized_pnl_cad": 0.18
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.069,
+          "market_price": 1.069,
+          "unrealized_pnl_cad": 0.03821999999999993
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.29,
+          "market_price": 2.29,
+          "unrealized_pnl_cad": 0.9288
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.25683084,
+      "total_change_pct": 11.284154199999996
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.391348,
+        "price_change_pct": 22.29624999999999,
+        "current_qty": 7.33,
+        "position_value": 2.86858084
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.47,
+        "price_change_pct": 23.63901018922852,
+        "current_qty": 0.07,
+        "position_value": 2.9729
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.09,
+        "price_change_pct": 8.94454382826476,
+        "current_qty": 0.36,
+        "position_value": 2.1923999999999997
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.069,
+        "price_change_pct": 3.786407766990284,
+        "current_qty": 0.98,
+        "position_value": 1.04762
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.29,
+        "price_change_pct": 45.859872611464965,
+        "current_qty": 1.29,
+        "position_value": 2.9541
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.391348,
+          "effective_buy_price_cad": 0.39917495999999997,
+          "effective_sell_price_cad": 0.38352104,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.47,
+          "effective_buy_price_cad": 43.3194,
+          "effective_sell_price_cad": 41.620599999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.09,
+          "effective_buy_price_cad": 6.2118,
+          "effective_sell_price_cad": 5.9681999999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.069,
+          "effective_buy_price_cad": 1.09038,
+          "effective_sell_price_cad": 1.04762,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.29,
+          "effective_buy_price_cad": 2.3358,
+          "effective_sell_price_cad": 2.2442,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.391348,
+          "market_price": 0.391348,
+          "unrealized_pnl_cad": 0.5229808399999998
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.47,
+          "market_price": 42.47,
+          "unrealized_pnl_cad": 0.5683999999999999
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.09,
+          "market_price": 6.09,
+          "unrealized_pnl_cad": 0.18
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.069,
+          "market_price": 1.069,
+          "unrealized_pnl_cad": 0.03821999999999993
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.29,
+          "market_price": 2.29,
+          "unrealized_pnl_cad": 0.9288
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.25683084,
+      "total_change_pct": 11.284154199999996
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.391348,
+        "price_change_pct": 22.29624999999999,
+        "current_qty": 7.33,
+        "position_value": 2.86858084
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.47,
+        "price_change_pct": 23.63901018922852,
+        "current_qty": 0.07,
+        "position_value": 2.9729
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.09,
+        "price_change_pct": 8.94454382826476,
+        "current_qty": 0.36,
+        "position_value": 2.1923999999999997
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.069,
+        "price_change_pct": 3.786407766990284,
+        "current_qty": 0.98,
+        "position_value": 1.04762
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.29,
+        "price_change_pct": 45.859872611464965,
+        "current_qty": 1.29,
+        "position_value": 2.9541
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.391348,
+          "effective_buy_price_cad": 0.39917495999999997,
+          "effective_sell_price_cad": 0.38352104,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.47,
+          "effective_buy_price_cad": 43.3194,
+          "effective_sell_price_cad": 41.620599999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.09,
+          "effective_buy_price_cad": 6.2118,
+          "effective_sell_price_cad": 5.9681999999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.069,
+          "effective_buy_price_cad": 1.09038,
+          "effective_sell_price_cad": 1.04762,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.29,
+          "effective_buy_price_cad": 2.3358,
+          "effective_sell_price_cad": 2.2442,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "BTC",
+          "market_price_cad": 65000,
+          "effective_buy_price_cad": 66300,
+          "effective_sell_price_cad": 63700,
+          "fractional_allowed": true,
+          "is_holding": false
+        },
+        {
+          "symbol": "ETH",
+          "market_price_cad": 3200,
+          "effective_buy_price_cad": 3264,
+          "effective_sell_price_cad": 3136,
+          "fractional_allowed": true,
+          "is_holding": false
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.391348,
+          "market_price": 0.391348,
+          "unrealized_pnl_cad": 0.5229808399999998
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.47,
+          "market_price": 42.47,
+          "unrealized_pnl_cad": 0.5683999999999999
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.09,
+          "market_price": 6.09,
+          "unrealized_pnl_cad": 0.18
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.069,
+          "market_price": 1.069,
+          "unrealized_pnl_cad": 0.03821999999999993
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.29,
+          "market_price": 2.29,
+          "unrealized_pnl_cad": 0.9288
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.25683084,
+      "total_change_pct": 11.284154199999996
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.391348,
+        "price_change_pct": 22.29624999999999,
+        "current_qty": 7.33,
+        "position_value": 2.86858084
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.47,
+        "price_change_pct": 23.63901018922852,
+        "current_qty": 0.07,
+        "position_value": 2.9729
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.09,
+        "price_change_pct": 8.94454382826476,
+        "current_qty": 0.36,
+        "position_value": 2.1923999999999997
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.069,
+        "price_change_pct": 3.786407766990284,
+        "current_qty": 0.98,
+        "position_value": 1.04762
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.29,
+        "price_change_pct": 45.859872611464965,
+        "current_qty": 1.29,
+        "position_value": 2.9541
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.391348,
+          "effective_buy_price_cad": 0.39917495999999997,
+          "effective_sell_price_cad": 0.38352104,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.47,
+          "effective_buy_price_cad": 43.3194,
+          "effective_sell_price_cad": 41.620599999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.09,
+          "effective_buy_price_cad": 6.2118,
+          "effective_sell_price_cad": 5.9681999999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.069,
+          "effective_buy_price_cad": 1.09038,
+          "effective_sell_price_cad": 1.04762,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.29,
+          "effective_buy_price_cad": 2.3358,
+          "effective_sell_price_cad": 2.2442,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.391348,
+          "market_price": 0.391348,
+          "unrealized_pnl_cad": 0.5229808399999998
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.47,
+          "market_price": 42.47,
+          "unrealized_pnl_cad": 0.5683999999999999
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.09,
+          "market_price": 6.09,
+          "unrealized_pnl_cad": 0.18
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.069,
+          "market_price": 1.069,
+          "unrealized_pnl_cad": 0.03821999999999993
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.29,
+          "market_price": 2.29,
+          "unrealized_pnl_cad": 0.9288
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.25683084,
+      "total_change_pct": 11.284154199999996
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.391348,
+        "price_change_pct": 22.29624999999999,
+        "current_qty": 7.33,
+        "position_value": 2.86858084
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.47,
+        "price_change_pct": 23.63901018922852,
+        "current_qty": 0.07,
+        "position_value": 2.9729
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.09,
+        "price_change_pct": 8.94454382826476,
+        "current_qty": 0.36,
+        "position_value": 2.1923999999999997
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.069,
+        "price_change_pct": 3.786407766990284,
+        "current_qty": 0.98,
+        "position_value": 1.04762
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.29,
+        "price_change_pct": 45.859872611464965,
+        "current_qty": 1.29,
+        "position_value": 2.9541
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.391348,
+          "effective_buy_price_cad": 0.39917495999999997,
+          "effective_sell_price_cad": 0.38352104,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.47,
+          "effective_buy_price_cad": 43.3194,
+          "effective_sell_price_cad": 41.620599999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.09,
+          "effective_buy_price_cad": 6.2118,
+          "effective_sell_price_cad": 5.9681999999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.069,
+          "effective_buy_price_cad": 1.09038,
+          "effective_sell_price_cad": 1.04762,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.29,
+          "effective_buy_price_cad": 2.3358,
+          "effective_sell_price_cad": 2.2442,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.391348,
+          "market_price": 0.391348,
+          "unrealized_pnl_cad": 0.5229808399999998
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.47,
+          "market_price": 42.47,
+          "unrealized_pnl_cad": 0.5683999999999999
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.09,
+          "market_price": 6.09,
+          "unrealized_pnl_cad": 0.18
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.069,
+          "market_price": 1.069,
+          "unrealized_pnl_cad": 0.03821999999999993
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.29,
+          "market_price": 2.29,
+          "unrealized_pnl_cad": 0.9288
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.25683084,
+      "total_change_pct": 11.284154199999996
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.391348,
+        "price_change_pct": 22.29624999999999,
+        "current_qty": 7.33,
+        "position_value": 2.86858084
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.47,
+        "price_change_pct": 23.63901018922852,
+        "current_qty": 0.07,
+        "position_value": 2.9729
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.09,
+        "price_change_pct": 8.94454382826476,
+        "current_qty": 0.36,
+        "position_value": 2.1923999999999997
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.069,
+        "price_change_pct": 3.786407766990284,
+        "current_qty": 0.98,
+        "position_value": 1.04762
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.29,
+        "price_change_pct": 45.859872611464965,
+        "current_qty": 1.29,
+        "position_value": 2.9541
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.391348,
+          "effective_buy_price_cad": 0.39917495999999997,
+          "effective_sell_price_cad": 0.38352104,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.47,
+          "effective_buy_price_cad": 43.3194,
+          "effective_sell_price_cad": 41.620599999999996,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.09,
+          "effective_buy_price_cad": 6.2118,
+          "effective_sell_price_cad": 5.9681999999999995,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.069,
+          "effective_buy_price_cad": 1.09038,
+          "effective_sell_price_cad": 1.04762,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.29,
+          "effective_buy_price_cad": 2.3358,
+          "effective_sell_price_cad": 2.2442,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.391348,
+          "market_price": 0.391348,
+          "unrealized_pnl_cad": 0.5229808399999998
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.47,
+          "market_price": 42.47,
+          "unrealized_pnl_cad": 0.5683999999999999
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.09,
+          "market_price": 6.09,
+          "unrealized_pnl_cad": 0.18
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.069,
+          "market_price": 1.069,
+          "unrealized_pnl_cad": 0.03821999999999993
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.29,
+          "market_price": 2.29,
+          "unrealized_pnl_cad": 0.9288
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.259013500000002,
+      "total_change_pct": 11.295067500000009
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.39295,
+        "price_change_pct": 22.796875000000007,
+        "current_qty": 7.33,
+        "position_value": 2.8803235000000003
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.77,
+        "price_change_pct": 24.51237263464338,
+        "current_qty": 0.07,
+        "position_value": 2.9939000000000004
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.06,
+        "price_change_pct": 8.407871198568868,
+        "current_qty": 0.36,
+        "position_value": 2.1816
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.062,
+        "price_change_pct": 3.106796116504857,
+        "current_qty": 0.98,
+        "position_value": 1.0407600000000001
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.28,
+        "price_change_pct": 45.22292993630572,
+        "current_qty": 1.29,
+        "position_value": 2.9412
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.39295,
+          "effective_buy_price_cad": 0.400809,
+          "effective_sell_price_cad": 0.385091,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.77,
+          "effective_buy_price_cad": 43.625400000000006,
+          "effective_sell_price_cad": 41.9146,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.06,
+          "effective_buy_price_cad": 6.1812,
+          "effective_sell_price_cad": 5.9388,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.062,
+          "effective_buy_price_cad": 1.08324,
+          "effective_sell_price_cad": 1.0407600000000001,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.28,
+          "effective_buy_price_cad": 2.3255999999999997,
+          "effective_sell_price_cad": 2.2344,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.39295,
+          "market_price": 0.39295,
+          "unrealized_pnl_cad": 0.5347235000000001
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.77,
+          "market_price": 42.77,
+          "unrealized_pnl_cad": 0.5894000000000001
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.06,
+          "market_price": 6.06,
+          "unrealized_pnl_cad": 0.1691999999999999
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.062,
+          "market_price": 1.062,
+          "unrealized_pnl_cad": 0.03136000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.28,
+          "market_price": 2.28,
+          "unrealized_pnl_cad": 0.9158999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.259013500000002,
+      "total_change_pct": 11.295067500000009
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.39295,
+        "price_change_pct": 22.796875000000007,
+        "current_qty": 7.33,
+        "position_value": 2.8803235000000003
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.77,
+        "price_change_pct": 24.51237263464338,
+        "current_qty": 0.07,
+        "position_value": 2.9939000000000004
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.06,
+        "price_change_pct": 8.407871198568868,
+        "current_qty": 0.36,
+        "position_value": 2.1816
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.062,
+        "price_change_pct": 3.106796116504857,
+        "current_qty": 0.98,
+        "position_value": 1.0407600000000001
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.28,
+        "price_change_pct": 45.22292993630572,
+        "current_qty": 1.29,
+        "position_value": 2.9412
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.39295,
+          "effective_buy_price_cad": 0.400809,
+          "effective_sell_price_cad": 0.385091,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.77,
+          "effective_buy_price_cad": 43.625400000000006,
+          "effective_sell_price_cad": 41.9146,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.06,
+          "effective_buy_price_cad": 6.1812,
+          "effective_sell_price_cad": 5.9388,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.062,
+          "effective_buy_price_cad": 1.08324,
+          "effective_sell_price_cad": 1.0407600000000001,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.28,
+          "effective_buy_price_cad": 2.3255999999999997,
+          "effective_sell_price_cad": 2.2344,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.39295,
+          "market_price": 0.39295,
+          "unrealized_pnl_cad": 0.5347235000000001
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.77,
+          "market_price": 42.77,
+          "unrealized_pnl_cad": 0.5894000000000001
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.06,
+          "market_price": 6.06,
+          "unrealized_pnl_cad": 0.1691999999999999
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.062,
+          "market_price": 1.062,
+          "unrealized_pnl_cad": 0.03136000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.28,
+          "market_price": 2.28,
+          "unrealized_pnl_cad": 0.9158999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.259013500000002,
+      "total_change_pct": 11.295067500000009
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.39295,
+        "price_change_pct": 22.796875000000007,
+        "current_qty": 7.33,
+        "position_value": 2.8803235000000003
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.77,
+        "price_change_pct": 24.51237263464338,
+        "current_qty": 0.07,
+        "position_value": 2.9939000000000004
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.06,
+        "price_change_pct": 8.407871198568868,
+        "current_qty": 0.36,
+        "position_value": 2.1816
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.062,
+        "price_change_pct": 3.106796116504857,
+        "current_qty": 0.98,
+        "position_value": 1.0407600000000001
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.28,
+        "price_change_pct": 45.22292993630572,
+        "current_qty": 1.29,
+        "position_value": 2.9412
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.39295,
+          "effective_buy_price_cad": 0.400809,
+          "effective_sell_price_cad": 0.385091,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.77,
+          "effective_buy_price_cad": 43.625400000000006,
+          "effective_sell_price_cad": 41.9146,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.06,
+          "effective_buy_price_cad": 6.1812,
+          "effective_sell_price_cad": 5.9388,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.062,
+          "effective_buy_price_cad": 1.08324,
+          "effective_sell_price_cad": 1.0407600000000001,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.28,
+          "effective_buy_price_cad": 2.3255999999999997,
+          "effective_sell_price_cad": 2.2344,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.39295,
+          "market_price": 0.39295,
+          "unrealized_pnl_cad": 0.5347235000000001
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.77,
+          "market_price": 42.77,
+          "unrealized_pnl_cad": 0.5894000000000001
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.06,
+          "market_price": 6.06,
+          "unrealized_pnl_cad": 0.1691999999999999
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.062,
+          "market_price": 1.062,
+          "unrealized_pnl_cad": 0.03136000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.28,
+          "market_price": 2.28,
+          "unrealized_pnl_cad": 0.9158999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.259013500000002,
+      "total_change_pct": 11.295067500000009
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.39295,
+        "price_change_pct": 22.796875000000007,
+        "current_qty": 7.33,
+        "position_value": 2.8803235000000003
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.77,
+        "price_change_pct": 24.51237263464338,
+        "current_qty": 0.07,
+        "position_value": 2.9939000000000004
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.06,
+        "price_change_pct": 8.407871198568868,
+        "current_qty": 0.36,
+        "position_value": 2.1816
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.062,
+        "price_change_pct": 3.106796116504857,
+        "current_qty": 0.98,
+        "position_value": 1.0407600000000001
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.28,
+        "price_change_pct": 45.22292993630572,
+        "current_qty": 1.29,
+        "position_value": 2.9412
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.39295,
+          "effective_buy_price_cad": 0.400809,
+          "effective_sell_price_cad": 0.385091,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.77,
+          "effective_buy_price_cad": 43.625400000000006,
+          "effective_sell_price_cad": 41.9146,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.06,
+          "effective_buy_price_cad": 6.1812,
+          "effective_sell_price_cad": 5.9388,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.062,
+          "effective_buy_price_cad": 1.08324,
+          "effective_sell_price_cad": 1.0407600000000001,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.28,
+          "effective_buy_price_cad": 2.3255999999999997,
+          "effective_sell_price_cad": 2.2344,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.39295,
+          "market_price": 0.39295,
+          "unrealized_pnl_cad": 0.5347235000000001
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.77,
+          "market_price": 42.77,
+          "unrealized_pnl_cad": 0.5894000000000001
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.06,
+          "market_price": 6.06,
+          "unrealized_pnl_cad": 0.1691999999999999
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.062,
+          "market_price": 1.062,
+          "unrealized_pnl_cad": 0.03136000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.28,
+          "market_price": 2.28,
+          "unrealized_pnl_cad": 0.9158999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.259013500000002,
+      "total_change_pct": 11.295067500000009
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.39295,
+        "price_change_pct": 22.796875000000007,
+        "current_qty": 7.33,
+        "position_value": 2.8803235000000003
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.77,
+        "price_change_pct": 24.51237263464338,
+        "current_qty": 0.07,
+        "position_value": 2.9939000000000004
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.06,
+        "price_change_pct": 8.407871198568868,
+        "current_qty": 0.36,
+        "position_value": 2.1816
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.062,
+        "price_change_pct": 3.106796116504857,
+        "current_qty": 0.98,
+        "position_value": 1.0407600000000001
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.28,
+        "price_change_pct": 45.22292993630572,
+        "current_qty": 1.29,
+        "position_value": 2.9412
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.39295,
+          "effective_buy_price_cad": 0.400809,
+          "effective_sell_price_cad": 0.385091,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.77,
+          "effective_buy_price_cad": 43.625400000000006,
+          "effective_sell_price_cad": 41.9146,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.06,
+          "effective_buy_price_cad": 6.1812,
+          "effective_sell_price_cad": 5.9388,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.062,
+          "effective_buy_price_cad": 1.08324,
+          "effective_sell_price_cad": 1.0407600000000001,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.28,
+          "effective_buy_price_cad": 2.3255999999999997,
+          "effective_sell_price_cad": 2.2344,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.39295,
+          "market_price": 0.39295,
+          "unrealized_pnl_cad": 0.5347235000000001
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.77,
+          "market_price": 42.77,
+          "unrealized_pnl_cad": 0.5894000000000001
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.06,
+          "market_price": 6.06,
+          "unrealized_pnl_cad": 0.1691999999999999
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.062,
+          "market_price": 1.062,
+          "unrealized_pnl_cad": 0.03136000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.28,
+          "market_price": 2.28,
+          "unrealized_pnl_cad": 0.9158999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  },
+  {
+    "week_start": "2025-09-07",
+    "week_end": "2025-09-13",
+    "portfolio_performance": {
+      "week_open_value": 20,
+      "week_close_value": 22.259013500000002,
+      "total_change_pct": 11.295067500000009
+    },
+    "next_week_deposit": 11,
+    "current_week": 2,
+    "total_contributed_to_date": 10,
+    "cash_available": {
+      "stock_cash": 11.002675,
+      "crypto_cash": 11.002675
+    },
+    "holdings": [
+      {
+        "ticker": "ABX",
+        "week_open_price": 39.37,
+        "week_close_price": 40.22,
+        "price_change_pct": 2.15900431800864,
+        "current_shares": 0.254,
+        "position_value": 10.21588
+      }
+    ],
+    "crypto_holdings": [
+      {
+        "symbol": "DOGE",
+        "week_open_price": 0.32,
+        "week_close_price": 0.39295,
+        "price_change_pct": 22.796875000000007,
+        "current_qty": 7.33,
+        "position_value": 2.8803235000000003
+      },
+      {
+        "symbol": "AVAX",
+        "week_open_price": 34.35,
+        "week_close_price": 42.77,
+        "price_change_pct": 24.51237263464338,
+        "current_qty": 0.07,
+        "position_value": 2.9939000000000004
+      },
+      {
+        "symbol": "DOT",
+        "week_open_price": 5.59,
+        "week_close_price": 6.06,
+        "price_change_pct": 8.407871198568868,
+        "current_qty": 0.36,
+        "position_value": 2.1816
+      },
+      {
+        "symbol": "ENA",
+        "week_open_price": 1.03,
+        "week_close_price": 1.062,
+        "price_change_pct": 3.106796116504857,
+        "current_qty": 0.98,
+        "position_value": 1.0407600000000001
+      },
+      {
+        "symbol": "WLD",
+        "week_open_price": 1.57,
+        "week_close_price": 2.28,
+        "price_change_pct": 45.22292993630572,
+        "current_qty": 1.29,
+        "position_value": 2.9412
+      }
+    ],
+    "stock_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "max_positions": 15,
+        "max_weight_per_position": 0.15,
+        "min_trade_size_cad": 1,
+        "max_trades": 3
+      },
+      "candidates": [
+        {
+          "ticker": "ABX",
+          "market_price": 40.22,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "ticker": "ABX",
+          "qty": 0.254,
+          "avg_cost": 40.22,
+          "market_price": 40.22,
+          "unrealized_pnl_cad": 0.21590000000000037
+        }
+      ]
+    },
+    "crypto_payload": {
+      "as_of": "2025-09-13",
+      "cash_available_cad": 11.002675,
+      "constraints": {
+        "min_trade_size_cad": 1,
+        "max_trades": 2
+      },
+      "candidates": [
+        {
+          "symbol": "DOGE",
+          "market_price_cad": 0.39295,
+          "effective_buy_price_cad": 0.400809,
+          "effective_sell_price_cad": 0.385091,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "AVAX",
+          "market_price_cad": 42.77,
+          "effective_buy_price_cad": 43.625400000000006,
+          "effective_sell_price_cad": 41.9146,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "DOT",
+          "market_price_cad": 6.06,
+          "effective_buy_price_cad": 6.1812,
+          "effective_sell_price_cad": 5.9388,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "ENA",
+          "market_price_cad": 1.062,
+          "effective_buy_price_cad": 1.08324,
+          "effective_sell_price_cad": 1.0407600000000001,
+          "fractional_allowed": true,
+          "is_holding": true
+        },
+        {
+          "symbol": "WLD",
+          "market_price_cad": 2.28,
+          "effective_buy_price_cad": 2.3255999999999997,
+          "effective_sell_price_cad": 2.2344,
+          "fractional_allowed": true,
+          "is_holding": true
+        }
+      ],
+      "current_holdings": [
+        {
+          "symbol": "DOGE",
+          "qty": 7.33,
+          "avg_cost": 0.39295,
+          "market_price": 0.39295,
+          "unrealized_pnl_cad": 0.5347235000000001
+        },
+        {
+          "symbol": "AVAX",
+          "qty": 0.07,
+          "avg_cost": 42.77,
+          "market_price": 42.77,
+          "unrealized_pnl_cad": 0.5894000000000001
+        },
+        {
+          "symbol": "DOT",
+          "qty": 0.36,
+          "avg_cost": 6.06,
+          "market_price": 6.06,
+          "unrealized_pnl_cad": 0.1691999999999999
+        },
+        {
+          "symbol": "ENA",
+          "qty": 0.98,
+          "avg_cost": 1.062,
+          "market_price": 1.062,
+          "unrealized_pnl_cad": 0.03136000000000003
+        },
+        {
+          "symbol": "WLD",
+          "qty": 1.29,
+          "avg_cost": 2.28,
+          "market_price": 2.28,
+          "unrealized_pnl_cad": 0.9158999999999997
+        }
+      ]
+    },
+    "prompts": {
+      "stock_prompt": "You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"ticker\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad, max_trades.\n- Prefer CAD listings when materially similar to USD.\n- Holding cash and sell-only weeks are allowed. Do not auto-redeploy sale proceeds.\n- Use limit_price only if you want a GTC limit; otherwise null (market). If it doesn't fill, nothing is recorded.\n- Only use tickers present in \"candidates\" (holdings already appended).\n- If no changes: {\"trades\":[],\"rationale\":\"No change\",\"risk_notes\":\"\"}. No text outside JSON.",
+      "crypto_prompt": "You are a crypto allocator. Return ONLY valid JSON:\n{\n  \"trades\": [{ \"action\":\"buy|sell\", \"symbol\":\"\", \"qty\":0, \"limit_price\": null }],\n  \"rationale\": \"\",\n  \"risk_notes\": \"\"\n}\nRules:\n- Long-only spot. Enforce fractional_allowed, min_trade_size_cad, max_trades.\n- Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.\n- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.\n- Holding cash and sell-only weeks are allowed. Market only (limit_price = null).\n- Use only symbols in \"candidates\" (holdings appended). If no changes: return empty trades. No text outside JSON."
+    },
+    "candidates_info": {
+      "generated_at": "unknown",
+      "is_stale": true,
+      "age_hours": 9999
+    }
+  }
+]

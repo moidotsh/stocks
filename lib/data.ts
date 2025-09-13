@@ -12,6 +12,31 @@ import {
 
 const DATA_DIR = path.join(process.cwd(), 'data')
 
+interface StockCandidate {
+  ticker: string
+  market_price: number
+  is_holding: boolean
+  // Add other fields from your screener output as needed
+}
+
+interface CryptoCandidate {
+  symbol: string
+  market_price_cad: number
+  effective_buy_price_cad: number
+  effective_sell_price_cad: number
+  fractional_allowed: boolean
+  is_holding: boolean
+  // Add other fields from your screener output as needed
+}
+
+interface CandidatesData {
+  stocks: StockCandidate[]
+  crypto: CryptoCandidate[]
+  generated_at: string
+  is_stale: boolean
+  age_hours: number
+}
+
 export async function getEntriesData(): Promise<Entry[]> {
   const filePath = path.join(DATA_DIR, 'entries.json')
   const fileContent = await fs.readFile(filePath, 'utf8')
@@ -156,7 +181,58 @@ export async function getDailySnapshotsData(): Promise<DailySnapshot[]> {
   }
 }
 
-export async function getPortfolioData(): Promise<PortfolioData> {
+export async function getFreshCandidates(): Promise<CandidatesData> {
+  try {
+    // Read latest.json to get the current date folder
+    const latestPath = path.join(DATA_DIR, 'candidates', 'latest.json')
+    const latestContent = await fs.readFile(latestPath, 'utf8')
+    const { latest } = JSON.parse(latestContent)
+    
+    if (!latest) {
+      throw new Error('No latest date found in candidates/latest.json')
+    }
+    
+    // Read the candidate files for that date
+    const candidatesDir = path.join(DATA_DIR, 'candidates', latest)
+    const stocksPath = path.join(candidatesDir, 'stocks.json')
+    const cryptoPath = path.join(candidatesDir, 'crypto.json')
+    
+    const [stocksContent, cryptoContent] = await Promise.all([
+      fs.readFile(stocksPath, 'utf8'),
+      fs.readFile(cryptoPath, 'utf8')
+    ])
+    
+    const stocks: StockCandidate[] = JSON.parse(stocksContent)
+    const crypto: CryptoCandidate[] = JSON.parse(cryptoContent)
+    
+    // Check staleness (36 hours = 129600000 ms)
+    const generatedAt = new Date(latest + 'T00:00:00Z') // Assume generated at start of day
+    const now = new Date()
+    const ageMs = now.getTime() - generatedAt.getTime()
+    const ageHours = ageMs / (1000 * 60 * 60)
+    const isStale = ageHours > 36
+    
+    return {
+      stocks,
+      crypto,
+      generated_at: latest,
+      is_stale: isStale,
+      age_hours: Math.round(ageHours * 10) / 10 // Round to 1 decimal
+    }
+  } catch (error) {
+    console.error('Error reading fresh candidates:', error)
+    // Return empty data with stale flag
+    return {
+      stocks: [],
+      crypto: [],
+      generated_at: 'unknown',
+      is_stale: true,
+      age_hours: 9999
+    }
+  }
+}
+
+export async function getPortfolioData(asOfWeek?: string): Promise<PortfolioData> {
   const [entries, cryptoEntries, holdings, benchmarks, dailySnapshots] = await Promise.all([
     getEntriesData(),
     getCryptoEntriesData(),
@@ -165,19 +241,54 @@ export async function getPortfolioData(): Promise<PortfolioData> {
     getDailySnapshotsData()
   ])
 
+  // Filter data based on selected week if specified
+  let filteredEntries = entries
+  let filteredCryptoEntries = cryptoEntries
+  let filteredSnapshots = dailySnapshots
+  let filteredHoldings = holdings
+  
+  if (asOfWeek && asOfWeek !== 'current' && asOfWeek !== 'ytd') {
+    const weekNumber = parseInt(asOfWeek.replace('week-', ''))
+    if (!isNaN(weekNumber)) {
+      // Filter entries up to the specified week (zero-indexed, so subtract 1)
+      filteredEntries = entries.slice(0, weekNumber)
+      filteredCryptoEntries = cryptoEntries.slice(0, weekNumber)
+      
+      // Filter snapshots up to the end of that week
+      if (filteredEntries.length > 0) {
+        const lastWeekStart = filteredEntries[filteredEntries.length - 1]?.week_start
+        if (lastWeekStart) {
+          const weekEndDate = new Date(lastWeekStart)
+          weekEndDate.setDate(weekEndDate.getDate() + 7) // End of that week
+          
+          filteredSnapshots = dailySnapshots.filter(snapshot => 
+            new Date(snapshot.timestamp) <= weekEndDate
+          )
+        }
+      } else {
+        // If no entries for this week, show empty state
+        filteredSnapshots = []
+      }
+      
+      // For historical weeks, holdings would need to be recalculated
+      // For now, we'll use current holdings but this could be enhanced
+      // to replay the trade history up to that week
+    }
+  }
+
   // Combine all entries for metrics and chart calculations
-  const allEntries = [...entries, ...cryptoEntries].sort((a, b) => 
+  const allEntries = [...filteredEntries, ...filteredCryptoEntries].sort((a, b) => 
     new Date(a.week_start).getTime() - new Date(b.week_start).getTime()
   )
 
-  const metrics = calculateMetrics(allEntries, holdings, benchmarks)
-  const chartData = generateChartData(allEntries, holdings, benchmarks, dailySnapshots)
+  const metrics = calculateMetrics(allEntries, filteredHoldings, benchmarks)
+  const chartData = generateChartData(allEntries, filteredHoldings, benchmarks, filteredSnapshots)
 
   return {
     metrics,
     chartData,
-    entries,
-    holdings,
+    entries: filteredEntries,
+    holdings: filteredHoldings,
     benchmarks
   }
 }
