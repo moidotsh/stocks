@@ -163,14 +163,14 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
 mkdir -p data/candidates/$DATE
 mv llm_candidates.json data/candidates/$DATE/stocks.json
 mv llm_candidates_crypto.json data/candidates/$DATE/crypto.json
-printf '{"latest":"%s"}\\n' "$DATE" > data/candidates/latest.json`} />
+printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.json`} />
                     </div>
                     <pre className="bg-muted p-3 rounded text-sm overflow-x-auto">
                       <code>{`DATE=$(date +%F)
 mkdir -p data/candidates/$DATE
 mv llm_candidates.json data/candidates/$DATE/stocks.json
 mv llm_candidates_crypto.json data/candidates/$DATE/crypto.json
-printf '{"latest":"%s"}\\n' "$DATE" > data/candidates/latest.json`}</code>
+printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.json`}</code>
                     </pre>
                     <p className="text-xs text-muted-foreground mt-2">
                       This creates dated folders and updates the latest pointer for Close Week to read fresh candidates.

@@ -163,7 +163,7 @@ export async function POST(request: Request) {
       
       // Calculate total contributed from actual entries
       totalContributed = entries.reduce((sum, entry) => sum + entry.deposit_cad, 0)
-    } catch (error) {
+    } catch {
       console.warn('Could not read entries.json, using fallback calculation')
       // Fallback to date-based calculation with reasonable start date
       const startDate = new Date('2024-09-01')

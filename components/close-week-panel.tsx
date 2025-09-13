@@ -217,7 +217,7 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
                   </div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground">This Week's Deposit</div>
+                  <div className="text-muted-foreground">This Week&apos;s Deposit</div>
                   <div className="font-mono text-lg">
                     ${portfolioSummary?.summary?.next_week_deposit || cryptoSummary?.summary?.next_week_deposit || '—'}
                   </div>
@@ -265,7 +265,7 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
               <AccordionContent>
                 <div className="space-y-4 text-sm">
                   <div>
-                    <h4 className="font-medium mb-2">1. Decide this week's cash split (stocks vs crypto)</h4>
+                    <h4 className="font-medium mb-2">1. Decide this week&apos;s cash split (stocks vs crypto)</h4>
                   </div>
                   
                   <div>
@@ -291,7 +291,7 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
                       <div>mkdir -p data/candidates/$DATE</div>
                       <div>mv llm_candidates.json data/candidates/$DATE/stocks.json</div>
                       <div>mv llm_candidates_crypto.json data/candidates/$DATE/crypto.json</div>
-                      <div>printf {`'{"{"}"latest":"%s"{"}"}{"\n"}'`} "$DATE" {">"}  data/candidates/latest.json</div>
+                      <div>printf {`'{"{"}"latest":"%s"{"}"}{"\n"}'`} &quot;$DATE&quot; {">"}  data/candidates/latest.json</div>
                     </div>
                   </div>
 

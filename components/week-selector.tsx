@@ -11,16 +11,6 @@ interface WeekSelectorProps {
 }
 
 export function WeekSelector({ selectedWeek, onWeekChange, totalWeeks = 10 }: WeekSelectorProps) {
-  const [isLocalhost, setIsLocalhost] = useState(false)
-
-  useEffect(() => {
-    setIsLocalhost(
-      typeof window !== 'undefined' && 
-      (window.location.hostname === 'localhost' || 
-       window.location.hostname === '127.0.0.1' ||
-       window.location.hostname === '0.0.0.0')
-    )
-  }, [])
 
   const weekOptions = [
     { value: 'current', label: 'Current', icon: TrendingUp },
