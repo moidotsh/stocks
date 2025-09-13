@@ -63,7 +63,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
         <section className="bg-card rounded-2xl p-6 shadow-sm space-y-4">
           <h2 className="text-xl font-semibold">What this site shows</h2>
           <p>
-            I'm contributing to a TFSA every week with a <strong>linear ramp</strong> (week 1 = $10, then +$1 per week). 
+            I&apos;m contributing to a TFSA every week with a <strong>linear ramp</strong> (week 1 = $10, then +$1 per week). 
             I run a simple weekly process to shortlist candidates, ask an LLM for a plan, place trades on Wealthsimple, 
             and record <strong>executed fills only</strong>. This page documents that process so anyone can reproduce it.
           </p>
@@ -76,7 +76,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">holdings.csv</code> — stocks/ETFs (ticker, shares, avg_cost, currency)</li>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">crypto_holdings.csv</code> — crypto (symbol, amount, avg_cost_cad)</li>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">benchmarks.json</code> — S&P 500 closes & HISA rate for comparison</li>
-            <li><code className="bg-muted px-2 py-1 rounded text-sm">data/candidates/latest.json</code> — pointer to current week's fresh candidates</li>
+            <li><code className="bg-muted px-2 py-1 rounded text-sm">data/candidates/latest.json</code> — pointer to current week&apos;s fresh candidates</li>
             <li><code className="bg-muted px-2 py-1 rounded text-sm">data/candidates/YYYY-MM-DD/</code> — dated folders with weekly screener output (stocks.json, crypto.json)</li>
           </ul>
         </section>
@@ -90,7 +90,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
                 <li><strong>Run weekly screeners:</strong> Fresh top-40 movers change every week. Using stale candidates defeats the whole point.</li>
                 <li><strong>Stocks:</strong> TSX-60 + S&P 500 universe → compute 1-week movers → take <strong>top 20 up + top 20 down</strong> (volume-screened).</li>
                 <li><strong>Crypto:</strong> CoinGecko markets (CAD), Wealthsimple-supported only → <strong>top 20 up + top 20 down</strong> (volume-screened).</li>
-                <li><strong>Holdings are always appended</strong> to the candidate list so the LLM can rebalance/trim even if something isn't a weekly mover.</li>
+                <li><strong>Holdings are always appended</strong> to the candidate list so the LLM can rebalance/trim even if something isn&apos;t a weekly mover.</li>
                 <li><strong>Crypto fee baked in:</strong> all buy/sell math uses <code>FEE_RATE = 2%</code> spread via effective prices.</li>
                 <li><strong>File structure:</strong> Candidates saved to <code>data/candidates/YYYY-MM-DD/</code> with <code>latest.json</code> pointer.</li>
               </ul>
@@ -100,7 +100,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
               <h3 className="text-lg font-medium mb-2">2. Ask the LLM for trades</h3>
               <ul className="space-y-2 text-sm">
                 <li>I paste the generated JSON.</li>
-                <li>The model must respect cash, max positions/weights, min trade size, and it's allowed to <strong>hold cash</strong> or have <strong>sell-only</strong> weeks.</li>
+                <li>The model must respect cash, max positions/weights, min trade size, and it&apos;s allowed to <strong>hold cash</strong> or have <strong>sell-only</strong> weeks.</li>
                 <li>For stocks it may propose <strong>limit</strong> orders; for crypto I use market only.</li>
               </ul>
             </div>
@@ -108,7 +108,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             <div>
               <h3 className="text-lg font-medium mb-2">3. Execute on Wealthsimple</h3>
               <p className="text-sm">
-                If a ticker/coin isn't available or fractional is blocked, I skip it (or choose the CAD equivalent) and re-ask.
+                If a ticker/coin isn&apos;t available or fractional is blocked, I skip it (or choose the CAD equivalent) and re-ask.
               </p>
             </div>
 
@@ -227,7 +227,7 @@ printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.jso
           
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h3 className="text-lg font-medium mb-2">This week's deposit</h3>
+              <h3 className="text-lg font-medium mb-2">This week&apos;s deposit</h3>
               <div className="bg-muted p-3 rounded">
                 <div className="font-mono text-sm">
                   c<sub>t</sub> = a + (t-1)d = 10 + (t-1)·1 = t+9
@@ -276,7 +276,7 @@ printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.jso
             <div>
               <h3 className="text-lg font-medium">S&P 500 DCA</h3>
               <p className="text-sm">
-                Each week's deposit buys index units at that week's close; units are valued at the latest close.
+                Each week&apos;s deposit buys index units at that week&apos;s close; units are valued at the latest close.
               </p>
             </div>
           </div>
@@ -289,7 +289,7 @@ printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.jso
             <li>CAD/USD mixing is simplified (CAD-listed preferred; crypto priced in CAD).</li>
             <li>Dividends/distributions are not modeled yet.</li>
             <li>No background automation; <strong>only filled orders</strong> are recorded.</li>
-            <li>Candidates must be refreshed weekly; Close Week warns if data is >36h old.</li>
+            <li>Candidates must be refreshed weekly; Close Week warns if data is {">"}36h old.</li>
           </ul>
         </section>
 
