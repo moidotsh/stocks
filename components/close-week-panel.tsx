@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { CalendarCheck, Copy, Check, AlertTriangle, CheckCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { validateLLMOutput } from '@/lib/llm-validator'
 
 interface CloseWeekPanelProps {
   isOpen: boolean
@@ -108,13 +109,56 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
 
   const validateOutput = (output: string, type: 'stocks' | 'crypto') => {
     try {
-      JSON.parse(output) // Just validate it's valid JSON
-      // For now, just do basic JSON validation since we don't have the context
-      // for full validation (cash available, prices, etc.)
-      const validation = {
-        isValid: true,
-        errors: []
+      const parsed = JSON.parse(output)
+      
+      // Extract validation context from the summaries
+      const summary = type === 'stocks' ? portfolioSummary?.summary : cryptoSummary?.summary
+      if (!summary) {
+        // If no summary loaded yet, just do basic JSON validation
+        const basicValidation = {
+          isValid: true,
+          errors: []
+        }
+        if (type === 'stocks') {
+          setStocksValidation(basicValidation)
+        } else {
+          setCryptoValidation(basicValidation)
+        }
+        return
       }
+
+      // Build price map and allowed set from candidates
+      const payload = type === 'stocks' ? summary.stock_payload : summary.crypto_payload
+      const candidates = payload?.candidates || []
+      
+      const priceBySymbol: Record<string, number> = {}
+      const allowedSet = new Set<string>()
+      
+      candidates.forEach((candidate: any) => {
+        if (type === 'stocks') {
+          const ticker = candidate.ticker
+          if (ticker) {
+            allowedSet.add(ticker)
+            priceBySymbol[ticker] = candidate.market_price || 0
+          }
+        } else {
+          const symbol = candidate.symbol
+          if (symbol) {
+            allowedSet.add(symbol)
+            priceBySymbol[symbol] = candidate.effective_buy_price_cad || candidate.market_price_cad || 0
+          }
+        }
+      })
+
+      // Call the proper validation
+      const validation = validateLLMOutput(parsed, {
+        isCrypto: type === 'crypto',
+        cashAvailable: payload?.cash_available_cad || 0,
+        minTrade: payload?.constraints?.min_trade_size_cad || 1,
+        maxTrades: payload?.constraints?.max_trades || (type === 'stocks' ? 3 : 2),
+        priceBySymbol,
+        allowedSet
+      })
       
       if (type === 'stocks') {
         setStocksValidation(validation)
