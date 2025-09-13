@@ -163,7 +163,7 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
       // Adapt the validation result to match our state interface
       const validation = {
         isValid: fullValidation.valid,
-        errors: fullValidation.valid ? [] : fullValidation.errors || ['Validation failed']
+        errors: fullValidation.valid ? [] : [fullValidation.error || 'Validation failed']
       }
       
       if (type === 'stocks') {
