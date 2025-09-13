@@ -151,7 +151,7 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
       })
 
       // Call the proper validation
-      const validation = validateLLMOutput(parsed, {
+      const fullValidation = validateLLMOutput(parsed, {
         isCrypto: type === 'crypto',
         cashAvailable: payload?.cash_available_cad || 0,
         minTrade: payload?.constraints?.min_trade_size_cad || 1,
@@ -159,6 +159,12 @@ export function CloseWeekPanel({ isOpen, onClose }: CloseWeekPanelProps) {
         priceBySymbol,
         allowedSet
       })
+      
+      // Adapt the validation result to match our state interface
+      const validation = {
+        isValid: fullValidation.valid,
+        errors: fullValidation.valid ? [] : fullValidation.errors || ['Validation failed']
+      }
       
       if (type === 'stocks') {
         setStocksValidation(validation)
