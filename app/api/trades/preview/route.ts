@@ -112,8 +112,7 @@ export async function POST(request: NextRequest) {
       currentEquityHoldings,
       currentCryptoHoldings,
       equityTrades,
-      cryptoTrades,
-      marketPrices
+      cryptoTrades
     )
 
     // Calculate current portfolio value for comparison

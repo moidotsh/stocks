@@ -73,7 +73,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
           <h2 className="text-xl font-semibold">Streamlined Web Interface</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <h3 className="text-lg font-medium text-blue-600">Phase 1: LLM Planning ("LLM Workflow")</h3>
+              <h3 className="text-lg font-medium text-blue-600">Phase 1: LLM Planning (&ldquo;LLM Workflow&rdquo;)</h3>
               <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
                 <p className="text-sm mb-3"><strong>When:</strong> Sunday evenings before market close</p>
                 <p className="text-sm mb-3"><strong>Purpose:</strong> Get AI-powered trading recommendations</p>
@@ -84,12 +84,12 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
                   <li>• Seamlessly transfers recommendations to trade recording</li>
                   <li>• Visual workflow with step-by-step guidance</li>
                 </ul>
-                <p className="text-xs text-blue-600 mt-3"><strong>Access:</strong> Main navigation → "LLM Workflow"</p>
+                <p className="text-xs text-blue-600 mt-3"><strong>Access:</strong> Main navigation → &ldquo;LLM Workflow&rdquo;</p>
               </div>
             </div>
             
             <div className="space-y-3">
-              <h3 className="text-lg font-medium text-green-600">Phase 2: Execution ("Record Trades")</h3>
+              <h3 className="text-lg font-medium text-green-600">Phase 2: Execution (&ldquo;Record Trades&rdquo;)</h3>
               <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
                 <p className="text-sm mb-3"><strong>When:</strong> After executing trades on Wealthsimple</p>
                 <p className="text-sm mb-3"><strong>Purpose:</strong> Record actual execution details</p>
@@ -100,7 +100,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
                   <li>• Preview portfolio impact before submitting</li>
                   <li>• Updates holdings and creates timeline entries</li>
                 </ul>
-                <p className="text-xs text-green-600 mt-3"><strong>Access:</strong> From LLM Workflow or Main navigation → "Record Trades"</p>
+                <p className="text-xs text-green-600 mt-3"><strong>Access:</strong> From LLM Workflow or Main navigation → &ldquo;Record Trades&rdquo;</p>
               </div>
             </div>
           </div>
@@ -138,14 +138,14 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-2">2. Planning Phase: Use "LLM Workflow" Page</h3>
+              <h3 className="text-lg font-medium mb-2">2. Planning Phase: Use &ldquo;LLM Workflow&rdquo; Page</h3>
               <ul className="space-y-2 text-sm">
-                <li><strong>Access:</strong> Go to "LLM Workflow" in the main navigation.</li>
+                <li><strong>Access:</strong> Go to &ldquo;LLM Workflow&rdquo; in the main navigation.</li>
                 <li><strong>View candidates:</strong> See latest screener results with candidate summaries.</li>
                 <li><strong>Copy prompts & payloads:</strong> Get structured JSON for stocks and/or crypto.</li>
                 <li><strong>Ask LLM:</strong> Paste JSON into your LLM and get trading recommendations.</li>
                 <li><strong>Validate:</strong> Paste LLM response back to verify it follows constraints.</li>
-                <li><strong>Auto-transfer:</strong> Click "Proceed to Trade Recording" to automatically load recommendations.</li>
+                <li><strong>Auto-transfer:</strong> Click &ldquo;Proceed to Trade Recording&rdquo; to automatically load recommendations.</li>
               </ul>
             </div>
 
@@ -159,7 +159,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-2">4. Recording Phase: Use "Record Trades" Page</h3>
+              <h3 className="text-lg font-medium mb-2">4. Recording Phase: Use &ldquo;Record Trades&rdquo; Page</h3>
               <ul className="space-y-2 text-sm">
                 <li><strong>Auto-populate:</strong> If coming from LLM Workflow, trades are pre-filled with recommended actions and quantities.</li>
                 <li><strong>Fill execution details:</strong> Enter actual fill prices and adjust quantities based on Wealthsimple results.</li>
@@ -172,8 +172,8 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             <div>
               <h3 className="text-lg font-medium mb-2">5. Complete the week</h3>
               <ul className="space-y-2 text-sm">
-                <li><strong>Check workflow status:</strong> Use "Complete Week" component (localhost only) to review weekly progress.</li>
-                <li><strong>Create snapshot:</strong> Click "Complete Week" button to capture portfolio state and create permanent record.</li>
+                <li><strong>Check workflow status:</strong> Use &ldquo;Complete Week&rdquo; component (localhost only) to review weekly progress.</li>
+                <li><strong>Create snapshot:</strong> Click &ldquo;Complete Week&rdquo; button to capture portfolio state and create permanent record.</li>
                 <li><strong>Automatic updates:</strong> Site renders portfolio value, contributions, and benchmarks from updated files.</li>
               </ul>
             </div>

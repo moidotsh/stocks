@@ -433,7 +433,7 @@ export default function TradeRecordPage() {
         <CardContent className="space-y-4">
           {equityTrades.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              No equity trades yet. Click "Add Trade" to start.
+              No equity trades yet. Click &ldquo;Add Trade&rdquo; to start.
             </div>
           ) : (
             equityTrades.map((trade, index) => (
@@ -535,7 +535,7 @@ export default function TradeRecordPage() {
         <CardContent className="space-y-4">
           {cryptoTrades.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              No crypto trades yet. Click "Add Trade" to start.
+              No crypto trades yet. Click &ldquo;Add Trade&rdquo; to start.
             </div>
           ) : (
             cryptoTrades.map((trade, index) => (

@@ -616,7 +616,7 @@ VALIDATION:
                   <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
                     <div className="text-xs font-medium text-blue-900 dark:text-blue-100 mb-1">📁 Next Step</div>
                     <div className="text-xs text-blue-800 dark:text-blue-200">
-                      After running the screeners, use the green <strong>"Import Candidates"</strong> button above to make them available in the web app.
+                      After running the screeners, use the green <strong>&ldquo;Import Candidates&rdquo;</strong> button above to make them available in the web app.
                     </div>
                   </div>
                 </div>
