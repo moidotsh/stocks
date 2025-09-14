@@ -128,6 +128,95 @@ async function updateMarketPricesIfNeeded() {
   }
 }
 
+/**
+ * Calculate time-weighted prices that show zero gain for same-day trades only
+ */
+function adjustForSameDayTrades(
+  entries: Entry[],
+  cryptoEntries: Entry[],
+  positions: any[],
+  crypto_positions: any[],
+  asOfDate: string
+): { adjustedPositions: any[], adjustedCryptoPositions: any[] } {
+  const today = asOfDate
+  
+  // Calculate weighted average prices for each position, respecting trade timing
+  const stockWeightedPrices = new Map<string, number>()
+  const cryptoWeightedPrices = new Map<string, number>()
+  
+  // For each position, calculate time-weighted current price
+  for (const pos of positions) {
+    let totalValue = 0
+    let totalQty = 0
+    
+    // Check all stock trades for this ticker
+    const allEntries = [...entries, ...cryptoEntries]
+    for (const entry of allEntries) {
+      for (const trade of entry.trades || []) {
+        if (trade.ticker === pos.ticker && trade.action === 'buy') {
+          const isCrypto = ['DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'MOODENG'].includes(trade.ticker)
+          if (!isCrypto) {
+            // Stock trade - use market price unless traded today
+            const priceToUse = entry.week_start === today ? trade.price : pos.market_price
+            totalValue += trade.qty * priceToUse
+            totalQty += trade.qty
+          }
+        }
+      }
+    }
+    
+    if (totalQty > 0) {
+      stockWeightedPrices.set(pos.ticker, totalValue / totalQty)
+    }
+  }
+  
+  // For crypto positions, calculate time-weighted current price
+  for (const pos of crypto_positions) {
+    let totalValue = 0
+    let totalQty = 0
+    
+    // Check all crypto trades for this symbol
+    const allEntries = [...entries, ...cryptoEntries]
+    for (const entry of allEntries) {
+      // Check trades in ticker field (from crypto_entries)
+      for (const trade of entry.trades || []) {
+        if (trade.ticker === pos.symbol && trade.action === 'buy') {
+          // Use purchase price for today's trades, market price for older trades
+          const priceToUse = entry.week_start === today ? trade.price : pos.current_price
+          totalValue += trade.qty * priceToUse
+          totalQty += trade.qty
+        }
+      }
+      
+      // Check crypto_trades field
+      for (const trade of entry.crypto_trades || []) {
+        if (trade.symbol === pos.symbol && trade.action === 'buy') {
+          const priceToUse = entry.week_start === today ? trade.price : pos.current_price
+          totalValue += trade.qty * priceToUse
+          totalQty += trade.qty
+        }
+      }
+    }
+    
+    if (totalQty > 0) {
+      cryptoWeightedPrices.set(pos.symbol, totalValue / totalQty)
+    }
+  }
+  
+  // Apply the weighted prices
+  const adjustedPositions = positions.map(pos => ({
+    ...pos,
+    market_price: stockWeightedPrices.get(pos.ticker) || pos.market_price
+  }))
+  
+  const adjustedCryptoPositions = crypto_positions.map(pos => ({
+    ...pos,
+    current_price: cryptoWeightedPrices.get(pos.symbol) || pos.current_price
+  }))
+  
+  return { adjustedPositions, adjustedCryptoPositions }
+}
+
 export async function getHoldingsData(): Promise<Holdings> {
   // Calculate holdings from transaction history
   const entries = await getEntriesData()
@@ -145,13 +234,22 @@ export async function getHoldingsData(): Promise<Holdings> {
     marketPrices
   )
   
+  // Adjust for same-day trades (zero gain until tomorrow)
+  const { adjustedPositions, adjustedCryptoPositions } = adjustForSameDayTrades(
+    entries,
+    cryptoEntries, 
+    positions,
+    crypto_positions,
+    marketPrices.as_of
+  )
+  
   // Calculate remaining cash
   const cash_cad = calculateCashRemaining(entries, cryptoEntries)
   
   const holdings: Holdings = {
     as_of: marketPrices.as_of,
-    positions,
-    crypto_positions: crypto_positions.length > 0 ? crypto_positions : undefined,
+    positions: adjustedPositions,
+    crypto_positions: adjustedCryptoPositions.length > 0 ? adjustedCryptoPositions : undefined,
     cash_cad
   }
   
@@ -232,7 +330,7 @@ export async function getFreshCandidates(): Promise<CandidatesData> {
   }
 }
 
-export async function getPortfolioData(asOfWeek?: string): Promise<PortfolioData> {
+export async function getPortfolioData(): Promise<PortfolioData> {
   const [entries, cryptoEntries, holdings, benchmarks, dailySnapshots] = await Promise.all([
     getEntriesData(),
     getCryptoEntriesData(),
@@ -241,54 +339,19 @@ export async function getPortfolioData(asOfWeek?: string): Promise<PortfolioData
     getDailySnapshotsData()
   ])
 
-  // Filter data based on selected week if specified
-  let filteredEntries = entries
-  let filteredCryptoEntries = cryptoEntries
-  let filteredSnapshots = dailySnapshots
-  let filteredHoldings = holdings
-  
-  if (asOfWeek && asOfWeek !== 'current' && asOfWeek !== 'ytd') {
-    const weekNumber = parseInt(asOfWeek.replace('week-', ''))
-    if (!isNaN(weekNumber)) {
-      // Filter entries up to the specified week (zero-indexed, so subtract 1)
-      filteredEntries = entries.slice(0, weekNumber)
-      filteredCryptoEntries = cryptoEntries.slice(0, weekNumber)
-      
-      // Filter snapshots up to the end of that week
-      if (filteredEntries.length > 0) {
-        const lastWeekStart = filteredEntries[filteredEntries.length - 1]?.week_start
-        if (lastWeekStart) {
-          const weekEndDate = new Date(lastWeekStart)
-          weekEndDate.setDate(weekEndDate.getDate() + 7) // End of that week
-          
-          filteredSnapshots = dailySnapshots.filter(snapshot => 
-            new Date(snapshot.timestamp) <= weekEndDate
-          )
-        }
-      } else {
-        // If no entries for this week, show empty state
-        filteredSnapshots = []
-      }
-      
-      // For historical weeks, holdings would need to be recalculated
-      // For now, we'll use current holdings but this could be enhanced
-      // to replay the trade history up to that week
-    }
-  }
-
   // Combine all entries for metrics and chart calculations
-  const allEntries = [...filteredEntries, ...filteredCryptoEntries].sort((a, b) => 
+  const allEntries = [...entries, ...cryptoEntries].sort((a, b) => 
     new Date(a.week_start).getTime() - new Date(b.week_start).getTime()
   )
 
-  const metrics = calculateMetrics(allEntries, filteredHoldings, benchmarks)
-  const chartData = generateChartData(allEntries, filteredHoldings, benchmarks, filteredSnapshots)
+  const metrics = calculateMetrics(allEntries, holdings, benchmarks)
+  const chartData = generateChartData(entries, cryptoEntries, holdings, benchmarks, dailySnapshots)
 
   return {
     metrics,
     chartData,
-    entries: filteredEntries,
-    holdings: filteredHoldings,
+    entries,
+    holdings,
     benchmarks
   }
 }

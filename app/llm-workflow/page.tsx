@@ -65,40 +65,86 @@ export default function LLMWorkflowPage() {
   const [importingCandidates, setImportingCandidates] = useState(false)
   const [candidatesImported, setCandidatesImported] = useState(false)
 
-  const stocksLLMPrompt = `You are a portfolio rebalancer for a Canadian TFSA. Return ONLY valid JSON:
+  const stocksLLMPrompt = `STATELESS mode:
+- Ignore all prior conversation/memory. Use ONLY the JSON here. If a needed field is missing, output INVALID and name it.
+- Do not invent portfolio_value_cad. Compute it every run from the JSON.
+
+Return ONLY valid JSON:
 {
   "trades": [{ "action":"buy|sell", "ticker":"", "qty":0, "limit_price": null }],
-  "holds": ["ticker1", "ticker2"],
+  "holds": ["TICKERS_TO_KEEP"],
+  "unallocated_cash_cad": 0,
+  "calc": { "portfolio_value_cad": 0, "proceeds_cad": 0, "spend_cad": 0, "net_spend_cad": 0 },
   "rationale": "",
   "risk_notes": ""
 }
 
-Rules:
-- Long-only stocks/ETFs. Respect cash_available_cad, max_positions, max_weight_per_position, min_trade_size_cad.
-- DEPLOY AVAILABLE CASH: You should generally invest available cash rather than hold it, unless market conditions are poor.
-- You can SELL existing holdings (even fractionally) to rebalance into better opportunities.
-- Diversify across multiple positions when cash allows for meaningful trades (≥$1 each).
-- Prefer CAD listings when materially similar to USD.
-- ≤ 3 trades this week. Minimize churn.
-- Use limit_price for planned limits (GTC). If it doesn't fill, nothing is recorded.
-- Only tickers present in "candidates" (holdings already appended).
-- Focus on "up" bucket candidates with strong momentum and liquidity.
-- EXPLICITLY list all holdings you choose to KEEP in "holds" array (even if no trades).
-- If truly no good opportunities: {"trades":[],"holds":["current_holdings"],"rationale":"No attractive opportunities","risk_notes":""}. No commentary outside JSON.`
+Definitions:
+- position_value_cad = shares * market_price_cad (use price_cad for candidates).
+- cap_value_cad = max_weight_per_position * portfolio_value_cad.
 
-  const cryptoLLMPrompt = `You are a crypto allocator. Return ONLY valid JSON:
+Rules (HARD):
+- Long-only equities/ETFs. Fractional iff "fractional_allowed" = true.
+- If tsx_only = true, ONLY trade tickers ending ".TO".
+- **Cap enforcement:** If any holding's position_value_cad > cap_value_cad, you MUST include a SELL to reduce it to ≤ cap_value_cad, unless the required trim < min_trade_size_cad. If skipping a required trim, include token "CAPPED_POSITION_TOO_SMALL_TO_TRIM" in rationale.
+- **Deploy cash:** You MUST deploy ≥ 95% of cash_available_cad (after proceeds). If you leave more, rationale MUST contain token "HOLD_CASH" with a concrete reason (caps/min size/liquidity).
+- Open new positions from "candidates" (respect tsx_only) to reach the 95% target. Prefer higher 1w momentum + higher volume.
+- No fixed trade count. Every trade ≥ min_trade_size_cad.
+- **Bootstrap:** If portfolio_value_cad < 100, ignore any "min % weight change" heuristics entirely.
+
+Format & safety:
+- Only tickers present in "candidates".
+- Market orders (limit_price = null) unless you set a GTC limit and justify it in rationale.
+- Set unallocated_cash_cad = round(cash_available_cad + proceeds_cad − spend_cad, 2). It MUST be ≥ 0 (no margin).
+- "holds" must be the exact set of tickers kept after trades.
+- "rationale" and "risk_notes" must be non-empty, meaningful.
+
+VALIDATION (answer is INVALID unless ALL pass):
+- portfolio_value_cad = cash_available_cad + Σ(holdings.shares * holdings.market_price_cad). No invented values.
+- unallocated_cash_cad = round(cash_available_cad + proceeds_cad − spend_cad, 2) and ≥ 0.
+- Post-trade every position_value_cad ≤ cap_value_cad, or you emitted "CAPPED_POSITION_TOO_SMALL_TO_TRIM".
+- If unallocated_cash_cad > 0.05 * cash_available_cad and rationale lacks "HOLD_CASH", recompute.
+- Do not trade any ticker not in "candidates".`
+
+  const cryptoLLMPrompt = `STATeless mode:
+- You MUST ignore any prior conversation or remembered context.
+- Use ONLY the JSON in this message. If you need a value that isn't in the JSON, set output to INVALID and explain which field is missing.
+- Do not invent portfolio_value_cad. Compute it from the JSON each run.
+
+Return ONLY valid JSON:
 {
   "trades": [{ "action":"buy|sell", "symbol":"", "qty":0, "limit_price": null }],
+  "holds": ["SYMBOLS_TO_KEEP"],
+  "unallocated_cash_cad": 0,
+  "calc": { "portfolio_value_cad": 0, "proceeds_cad": 0, "spend_cad": 0, "net_spend_cad": 0 },
   "rationale": "",
   "risk_notes": ""
 }
-Rules:
+
+Rules (hard):
 - Long-only spot. Use fractional_allowed and min_trade_size_cad.
 - Fees baked in: buys use effective_buy_price_cad; sells use effective_sell_price_cad.
-- Σ(buy_qty*effective_buy) − Σ(sell_qty*effective_sell) ≤ cash_available_cad.
-- It is acceptable to hold cash. Sell-only weeks allowed.
-- ≤ 2 coins this week to reduce 2% fee drag. Market only (limit_price = null).
-- Only symbols present in "candidates". If no changes: {"trades":[],"rationale":"No change","risk_notes":""}. No commentary outside JSON.`
+- position_value_cad = amount * market_price_cad.
+- cap_per_position_cad = max_weight_per_position * portfolio_value_cad - position_value_cad (floor at 0).
+- You MUST deploy ≥95% of cash_available_cad (after fees), unless you output a non-empty "rationale" that explicitly includes the token "HOLD_CASH" and why (caps/min size/liquidity).
+- No fixed trade count. Prefer fewer, larger trades but you MAY use as many trades as needed to hit the 95% target while respecting caps.
+- To reach 95%: first top up existing 'up' holdings to their caps; if cash remains, OPEN new 'up' positions (best combo of high volume + strong 1w momentum) until you hit caps/max_positions or the 95% target.
+- You MAY SELL 'down' or over-weight holdings to fund better 'up' opportunities; realized proceeds increase spendable cash. Avoid dust: each trade must be ≥ min_trade_size_cad AND must change that position's weight by ≥ 0.5 percentage points of portfolio value (skip this second rule if portfolio_value_cad < 50).
+
+Rules (format & safety):
+- Only symbols present in "candidates".
+- Market orders only (limit_price = null).
+- Respect max_positions and max_weight_per_position at all times.
+- Set "unallocated_cash_cad" = round(cash_available_cad + proceeds - spend, 2).
+- Set "calc" fields with your arithmetic (rounded to cents).
+- If you leave >5% unallocated, explain exactly why in "rationale" (e.g., caps/min size). 
+- Do not promise profits; state risks in "risk_notes".
+- "rationale" and "risk_notes" must be non-empty strings with meaningful content.
+
+VALIDATION:
+- Compute portfolio_value_cad = cash_available_cad + Σ(amount*market_price_cad). Do not invent values.
+- Set unallocated_cash_cad = round(cash_available_cad + proceeds_cad - spend_cad, 2). If this != your arithmetic, your answer is INVALID — recompute and re-output.
+- If unallocated_cash_cad > 0.05*cash_available_cad and rationale does not include the token "HOLD_CASH", your answer is INVALID — revise with additional trades (open new 'up' positions if caps block deployment).`
 
   const loadCandidates = useCallback(async () => {
     setIsLoading(true)
@@ -141,6 +187,95 @@ Rules:
     }
   }, [stocksLLMPrompt, cryptoLLMPrompt])
 
+  const validateCryptoPlan = (payload: any, plan: any) => {
+    const cash = parseFloat(payload.cash_available_cad)
+    const maxW = parseFloat(payload.constraints.max_weight_per_position)
+    const minTrade = parseFloat(payload.constraints.min_trade_size_cad)
+
+    // Build price maps
+    const effBuy: Record<string, number> = {}
+    const effSell: Record<string, number> = {}
+    const mkt: Record<string, number> = {}
+    
+    for (const c of payload.candidates) {
+      if (c.effective_buy_price_cad !== null && c.effective_buy_price_cad !== undefined) {
+        effBuy[c.symbol] = parseFloat(c.effective_buy_price_cad)
+      }
+      if (c.effective_sell_price_cad !== null && c.effective_sell_price_cad !== undefined) {
+        effSell[c.symbol] = parseFloat(c.effective_sell_price_cad)
+      }
+      if (c.market_price_cad !== null && c.market_price_cad !== undefined) {
+        mkt[c.symbol] = parseFloat(c.market_price_cad)
+      }
+    }
+
+    // Current holdings
+    const hAmt: Record<string, number> = {}
+    let hVal = 0
+    for (const h of payload.holdings) {
+      hAmt[h.symbol] = parseFloat(h.amount)
+      const marketPrice = parseFloat(h.market_price_cad || mkt[h.symbol] || 0)
+      hVal += parseFloat(h.amount) * marketPrice
+    }
+
+    // Spend/proceeds
+    let spend = 0
+    let proceeds = 0
+    const pos = { ...hAmt }
+
+    for (const t of plan.trades) {
+      const sym = t.symbol
+      const qty = parseFloat(t.qty)
+      
+      if (t.action === 'buy') {
+        const price = effBuy[sym]
+        if (price === undefined) return [false, `Missing effective_buy_price for ${sym}`]
+        const cost = qty * price
+        if (cost + 1e-9 < minTrade) return [false, `Trade < min size: ${sym} ${cost.toFixed(2)}`]
+        spend += cost
+        pos[sym] = (pos[sym] || 0) + qty
+      } else if (t.action === 'sell') {
+        const price = effSell[sym]
+        if (price === undefined) return [false, `Missing effective_sell_price for ${sym}`]
+        const rev = qty * price
+        if (rev + 1e-9 < minTrade) return [false, `Trade < min size: ${sym} ${rev.toFixed(2)}`]
+        proceeds += rev
+        if (qty - 1e-9 > (pos[sym] || 0)) return [false, `Oversell ${sym}`]
+        pos[sym] = (pos[sym] || 0) - qty
+      } else {
+        return [false, `Bad action ${t.action}`]
+      }
+    }
+
+    // Cash math
+    const unalloc = Math.round((cash + proceeds - spend) * 100) / 100
+    const planUnalloc = plan.unallocated_cash_cad !== undefined && plan.unallocated_cash_cad !== null 
+      ? parseFloat(plan.unallocated_cash_cad) 
+      : 999
+    if (Math.abs(unalloc - planUnalloc) > 0.01) {
+      return [false, `Unallocated mismatch. Expected ${unalloc.toFixed(2)}, got ${planUnalloc}`]
+    }
+
+    // Weight caps post-trade
+    const port1 = unalloc + Object.entries(pos).reduce((sum, [sym, amt]) => 
+      sum + (amt || 0) * (mkt[sym] || 0), 0)
+    
+    for (const [sym, amt] of Object.entries(pos)) {
+      const val = (amt || 0) * (mkt[sym] || 0)
+      if (port1 > 0 && val > maxW * port1 + 1e-6) {
+        return [false, `Cap breach ${sym}: ${val.toFixed(2)} > ${(maxW * port1).toFixed(2)}`]
+      }
+    }
+
+    // 95% deploy of cash unless HOLD_CASH
+    if (cash > 0 && unalloc > Math.round(0.05 * cash * 100) / 100 && 
+        !(plan.rationale || '').includes('HOLD_CASH')) {
+      return [false, `Left ${unalloc.toFixed(2)} unallocated without HOLD_CASH rationale`]
+    }
+
+    return [true, 'OK']
+  }
+
   const validateLLMResponse = (response: string, type: 'stocks' | 'crypto') => {
     try {
       const parsed = JSON.parse(response)
@@ -150,11 +285,13 @@ Rules:
         return { isValid: false, errors: ['Missing or invalid trades array'] }
       }
 
-      if (!parsed.rationale || !parsed.risk_notes) {
+      if (!parsed.rationale || !parsed.risk_notes || 
+          typeof parsed.rationale !== 'string' || typeof parsed.risk_notes !== 'string' ||
+          parsed.rationale.trim() === '' || parsed.risk_notes.trim() === '') {
         return { isValid: false, errors: ['Missing rationale or risk_notes'] }
       }
 
-      if (type === 'stocks' && (!parsed.holds || !Array.isArray(parsed.holds))) {
+      if (!parsed.holds || !Array.isArray(parsed.holds)) {
         return { isValid: false, errors: ['Missing or invalid holds array'] }
       }
 
@@ -170,8 +307,6 @@ Rules:
         data.candidates.map(c => type === 'stocks' ? c.ticker : c.symbol).filter(Boolean)
       )
 
-      let totalCost = 0
-
       for (const trade of parsed.trades) {
         if (!['buy', 'sell'].includes(trade.action)) {
           errors.push(`Invalid action: ${trade.action}`)
@@ -185,31 +320,14 @@ Rules:
         if (!trade.qty || trade.qty <= 0) {
           errors.push(`Invalid quantity for ${symbol}: ${trade.qty}`)
         }
+      }
 
-        // Calculate cost for validation
-        if (trade.action === 'buy') {
-          const candidate = data.candidates.find(c =>
-            type === 'stocks' ? c.ticker === symbol : c.symbol === symbol
-          )
-          if (candidate) {
-            const price = type === 'stocks'
-              ? candidate.price || candidate.market_price || 0
-              : candidate.effective_buy_price_cad || candidate.market_price_cad || 0
-            totalCost += trade.qty * price
-          }
+      // Use advanced crypto validation if available
+      if (type === 'crypto') {
+        const [isValid, message] = validateCryptoPlan(data, parsed)
+        if (!isValid) {
+          errors.push(message as string)
         }
-      }
-
-      // Check cash constraint (with small tolerance for floating point precision)
-      const tolerance = 0.01 // 1 cent tolerance
-      if (totalCost > data.cash_available_cad + tolerance) {
-        errors.push(`Total cost $${totalCost.toFixed(2)} exceeds available cash $${data.cash_available_cad.toFixed(2)}`)
-      }
-
-      // Check trade count
-      const maxTrades = type === 'stocks' ? 3 : 2
-      if (parsed.trades.length > maxTrades) {
-        errors.push(`Too many trades: ${parsed.trades.length} (max ${maxTrades})`)
       }
 
       return {
@@ -487,10 +605,10 @@ Rules:
                     <div className="text-xs font-medium text-muted-foreground mb-1">Crypto</div>
                     <div className="flex items-center gap-2">
                       <code className="text-xs bg-muted px-2 py-1 rounded flex-1 overflow-x-auto">
-                        cd python/scripts && python screener_crypto_top40_fractional.py --cash 11 --fractional --min-trade-size 1 --holdings ../outputs/crypto_holdings.csv --pages 3
+                        cd python/scripts && python screener_crypto_top40_fractional.py --cash 11 --fractional --min-trade-size 1 --holdings ../outputs/crypto_holdings.csv
                       </code>
                       <CopyButton
-                        text="cd python/scripts && python screener_crypto_top40_fractional.py --cash 11 --fractional --min-trade-size 1 --holdings ../outputs/crypto_holdings.csv --pages 3"
+                        text="cd python/scripts && python screener_crypto_top40_fractional.py --cash 11 --fractional --min-trade-size 1 --holdings ../outputs/crypto_holdings.csv"
                                               />
                     </div>
                   </div>

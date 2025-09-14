@@ -1,10 +1,10 @@
 {
   "as_of": "2025-09-14",
-  "cash_available_cad": 11.0,
+  "cash_available_cad": 11,
   "constraints": {
     "max_positions": 10,
     "max_weight_per_position": 0.2,
-    "min_trade_size_cad": 1.0
+    "min_trade_size_cad": 1
   },
   "fractional_allowed": true,
   "order_mode": "market_only_if_fractional",
@@ -430,8 +430,8 @@
     {
       "ticker": "SAP.TO",
       "currency": "CAD",
-      "price": 34.0,
-      "price_cad": 34.0,
+      "price": 34,
+      "price_cad": 34,
       "pct_change_1w": -1.93,
       "avg_volume_5d": 627580,
       "listing": "CAD",

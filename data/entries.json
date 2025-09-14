@@ -11,5 +11,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-09-14",
+    "deposit_cad": 11,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "FM.TO",
+        "qty": 0.4167,
+        "price": 26.32,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

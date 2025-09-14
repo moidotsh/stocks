@@ -1,50 +1,84 @@
 [
-    {
-      "week_start": "2025-09-07",
-      "deposit_cad": 10.0,
-      "trades": [
-        {
-          "action": "buy",
-          "ticker": "DOGE",
-          "qty": 3.17,
-          "price": 0.325,
-          "currency": "CAD"
-        },
-        {
-          "action": "buy",
-          "ticker": "DOGE",
-          "qty": 4.16,
-          "price": 0.322,
-          "currency": "CAD"
-        },
-        {
-          "action": "buy",
-          "ticker": "AVAX",
-          "qty": 0.07,
-          "price": 35.0,
-          "currency": "CAD"
-        },
-        {
-          "action": "buy",
-          "ticker": "DOT",
-          "qty": 0.36,
-          "price": 5.72,
-          "currency": "CAD"
-        },
-        {
-          "action": "buy",
-          "ticker": "ENA",
-          "qty": 0.98,
-          "price": 1.06,
-          "currency": "CAD"
-        },
-        {
-          "action": "buy",
-          "ticker": "WLD",
-          "qty": 1.29,
-          "price": 1.61,
-          "currency": "CAD"
-        }
-      ]
-    }
-  ]
+  {
+    "week_start": "2025-09-07",
+    "deposit_cad": 10,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "DOGE",
+        "qty": 3.17,
+        "price": 0.325,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "DOGE",
+        "qty": 4.16,
+        "price": 0.322,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "AVAX",
+        "qty": 0.07,
+        "price": 35,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "DOT",
+        "qty": 0.36,
+        "price": 5.72,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "ENA",
+        "qty": 0.98,
+        "price": 1.06,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "WLD",
+        "qty": 1.29,
+        "price": 1.61,
+        "currency": "CAD"
+      }
+    ]
+  },
+  {
+    "week_start": "2025-09-14",
+    "deposit_cad": 11,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "AVAX",
+        "qty": 0.0400132,
+        "price": 25.00,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "DOGE",
+        "qty": 4.3776475,
+        "price": 0.386,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "WLD",
+        "qty": 0.7366206,
+        "price": 2.22,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "MOODENG",
+        "qty": 19.2277647,
+        "price": 0.298,
+        "currency": "CAD"
+      }
+    ]
+  }
+]

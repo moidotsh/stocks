@@ -161,6 +161,7 @@ export function rebuildHoldings(entries: Entry[]): {
   return { positions, cash }
 }
 
+
 /**
  * Calculate all performance metrics
  */
@@ -184,6 +185,7 @@ export function calculateMetrics(
   // Current portfolio value (total of all components)
   const currentValue = stockValue + cryptoValue + cashValue
   
+  // Simple and accurate: Unrealized P/L = Current Value - Total Contributions
   const unrealizedPL = currentValue - totalContributed
   
   // Create cashflow series for IRR calculation
@@ -223,23 +225,16 @@ export function calculateMetrics(
  * Generate chart data for performance comparison
  */
 export function generateChartData(
-  entries: Entry[],
+  stockEntries: Entry[],
+  cryptoEntries: Entry[],
   holdings: Holdings,
   benchmarks: Benchmark,
   dailySnapshots?: Array<{ timestamp: string; portfolio_value: number; stock_value: number; crypto_value: number }>
 ): ChartDataPoint[] {
   const data: ChartDataPoint[] = []
   
-  // Separate stock and crypto entries
-  const stockEntries = entries.filter(e => 
-    e.trades.some(t => !['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD'].includes(t.ticker))
-  )
-  const cryptoEntries = entries.filter(e => 
-    e.trades.some(t => ['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD'].includes(t.ticker))
-  )
-  
   // Get all entries sorted by date
-  const allEntries = entries.sort((a, b) => new Date(a.week_start).getTime() - new Date(b.week_start).getTime())
+  const allEntries = [...stockEntries, ...cryptoEntries].sort((a, b) => new Date(a.week_start).getTime() - new Date(b.week_start).getTime())
   
   // Get unique dates to avoid duplicates when both stock and crypto entries have same date
   const uniqueDates = Array.from(new Set(allEntries.map(e => e.week_start))).sort()

@@ -265,8 +265,7 @@ export function calculateTradeImpact(
   currentEquityHoldings: EquityHolding[],
   currentCryptoHoldings: CryptoHolding[],
   equityTrades: EquityTrade[],
-  cryptoTrades: CryptoTrade[],
-  marketPrices: Record<string, number> = {}
+  cryptoTrades: CryptoTrade[]
 ): {
   newEquityHoldings: EquityHolding[]
   newCryptoHoldings: CryptoHolding[]

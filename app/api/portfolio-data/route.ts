@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getPortfolioData } from '@/lib/data'
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url)
-    const asOfWeek = searchParams.get('asOfWeek') || undefined
-    
-    const portfolioData = await getPortfolioData(asOfWeek)
+    const portfolioData = await getPortfolioData()
     
     return NextResponse.json(portfolioData)
   } catch (error) {
