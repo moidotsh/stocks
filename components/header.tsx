@@ -27,6 +27,12 @@ export function Header() {
               <Link href="/portfolio" className="text-sm font-medium hover:text-primary transition-colors">
                 Portfolio
               </Link>
+              <Link href="/llm-workflow" className="text-sm font-medium hover:text-primary transition-colors">
+                LLM Workflow
+              </Link>
+              <Link href="/trades/record" className="text-sm font-medium hover:text-primary transition-colors">
+                Record Trades
+              </Link>
               <Link href="/methodology" className="text-sm font-medium hover:text-primary transition-colors">
                 Methodology
               </Link>
@@ -98,6 +104,20 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Portfolio
+              </Link>
+              <Link 
+                href="/llm-workflow" 
+                className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                LLM Workflow
+              </Link>
+              <Link 
+                href="/trades/record" 
+                className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Record Trades
               </Link>
               <Link 
                 href="/methodology" 

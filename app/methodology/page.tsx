@@ -70,6 +70,47 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
         </section>
 
         <section className="bg-card rounded-2xl p-6 shadow-sm space-y-4">
+          <h2 className="text-xl font-semibold">Streamlined Web Interface</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-blue-600">Phase 1: LLM Planning ("LLM Workflow")</h3>
+              <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
+                <p className="text-sm mb-3"><strong>When:</strong> Sunday evenings before market close</p>
+                <p className="text-sm mb-3"><strong>Purpose:</strong> Get AI-powered trading recommendations</p>
+                <ul className="text-sm space-y-1">
+                  <li>• Shows candidate stocks/crypto from screener results</li>
+                  <li>• Provides structured LLM prompts and JSON payloads</li>
+                  <li>• Validates LLM responses for constraint compliance</li>
+                  <li>• Seamlessly transfers recommendations to trade recording</li>
+                  <li>• Visual workflow with step-by-step guidance</li>
+                </ul>
+                <p className="text-xs text-blue-600 mt-3"><strong>Access:</strong> Main navigation → "LLM Workflow"</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-green-600">Phase 2: Execution ("Record Trades")</h3>
+              <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
+                <p className="text-sm mb-3"><strong>When:</strong> After executing trades on Wealthsimple</p>
+                <p className="text-sm mb-3"><strong>Purpose:</strong> Record actual execution details</p>
+                <ul className="text-sm space-y-1">
+                  <li>• Auto-populates with LLM recommendations</li>
+                  <li>• Enter actual fill prices and adjust quantities</li>
+                  <li>• Record weekly deposit contributions</li>
+                  <li>• Preview portfolio impact before submitting</li>
+                  <li>• Updates holdings and creates timeline entries</li>
+                </ul>
+                <p className="text-xs text-green-600 mt-3"><strong>Access:</strong> From LLM Workflow or Main navigation → "Record Trades"</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950/20 dark:to-green-950/20 p-4 rounded-lg">
+            <p className="text-sm"><strong>Streamlined workflow:</strong> LLM Workflow gets AI recommendations → seamlessly transfers to Record Trades → 
+            fill in actual execution details → submit to update your portfolio. No more copy/paste between tools!</p>
+          </div>
+        </section>
+
+        <section className="bg-card rounded-2xl p-6 shadow-sm space-y-4">
           <h2 className="text-xl font-semibold">Data sources (local JSON/CSV)</h2>
           <ul className="space-y-2">
             <li><code className="bg-muted px-2 py-1 rounded text-sm">data/entries.json</code> — weekly deposits and executed trades (for the public timeline)</li>
@@ -85,7 +126,7 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
           <h2 className="text-xl font-semibold">Weekly process (high level)</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-medium mb-2">1. Generate fresh candidates</h3>
+              <h3 className="text-lg font-medium mb-2">1. Generate fresh candidates (Sunday)</h3>
               <ul className="space-y-2 text-sm">
                 <li><strong>Run weekly screeners:</strong> Fresh top-40 movers change every week. Using stale candidates defeats the whole point.</li>
                 <li><strong>Stocks:</strong> TSX-60 + S&P 500 universe → compute 1-week movers → take <strong>top 20 up + top 20 down</strong> (volume-screened).</li>
@@ -97,34 +138,44 @@ export const totalContributed = (N: number, a = 10, d = 1) =>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-2">2. Ask the LLM for trades</h3>
+              <h3 className="text-lg font-medium mb-2">2. Planning Phase: Use "LLM Workflow" Page</h3>
               <ul className="space-y-2 text-sm">
-                <li>I paste the generated JSON.</li>
-                <li>The model must respect cash, max positions/weights, min trade size, and it&apos;s allowed to <strong>hold cash</strong> or have <strong>sell-only</strong> weeks.</li>
-                <li>For stocks it may propose <strong>limit</strong> orders; for crypto I use market only.</li>
+                <li><strong>Access:</strong> Go to "LLM Workflow" in the main navigation.</li>
+                <li><strong>View candidates:</strong> See latest screener results with candidate summaries.</li>
+                <li><strong>Copy prompts & payloads:</strong> Get structured JSON for stocks and/or crypto.</li>
+                <li><strong>Ask LLM:</strong> Paste JSON into your LLM and get trading recommendations.</li>
+                <li><strong>Validate:</strong> Paste LLM response back to verify it follows constraints.</li>
+                <li><strong>Auto-transfer:</strong> Click "Proceed to Trade Recording" to automatically load recommendations.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-2">3. Execute on Wealthsimple</h3>
-              <p className="text-sm">
-                If a ticker/coin isn&apos;t available or fractional is blocked, I skip it (or choose the CAD equivalent) and re-ask.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium mb-2">4. Record fills (source of truth)</h3>
+              <h3 className="text-lg font-medium mb-2">3. Execute trades on Wealthsimple</h3>
               <ul className="space-y-2 text-sm">
-                <li>I use a small TUI to enter <strong>executed</strong> trades (either per-unit price or <strong>TOTAL CAD incl. fees</strong>).</li>
-                <li>It updates <code>holdings*.csv</code> (weighted average cost) and appends a weekly row to <code>data/*entries.json</code>.</li>
+                <li>Place orders based on LLM recommendations.</li>
+                <li>If a ticker/coin isn&apos;t available or fractional is blocked, skip it (or choose CAD equivalent) and re-ask LLM.</li>
+                <li><strong>Wait for fills:</strong> Only record what actually executes.</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-medium mb-2">5. Publish</h3>
-              <p className="text-sm">
-                The site renders portfolio value, contributions, and benchmarks from these files.
-              </p>
+              <h3 className="text-lg font-medium mb-2">4. Recording Phase: Use "Record Trades" Page</h3>
+              <ul className="space-y-2 text-sm">
+                <li><strong>Auto-populate:</strong> If coming from LLM Workflow, trades are pre-filled with recommended actions and quantities.</li>
+                <li><strong>Fill execution details:</strong> Enter actual fill prices and adjust quantities based on Wealthsimple results.</li>
+                <li><strong>Add deposit:</strong> Record weekly contribution amount.</li>
+                <li><strong>Preview impact:</strong> See how trades affect your portfolio before submitting.</li>
+                <li><strong>Submit:</strong> Updates <code>holdings*.csv</code> (weighted average cost) and appends entry to <code>data/entries.json</code>.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-medium mb-2">5. Complete the week</h3>
+              <ul className="space-y-2 text-sm">
+                <li><strong>Check workflow status:</strong> Use "Complete Week" component (localhost only) to review weekly progress.</li>
+                <li><strong>Create snapshot:</strong> Click "Complete Week" button to capture portfolio state and create permanent record.</li>
+                <li><strong>Automatic updates:</strong> Site renders portfolio value, contributions, and benchmarks from updated files.</li>
+              </ul>
             </div>
           </div>
 
@@ -173,7 +224,7 @@ mv llm_candidates_crypto.json data/candidates/$DATE/crypto.json
 printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.json`}</code>
                     </pre>
                     <p className="text-xs text-muted-foreground mt-2">
-                      This creates dated folders and updates the latest pointer for Close Week to read fresh candidates.
+                      This creates dated folders and updates the latest pointer for LLM Workflow to read fresh candidates.
                     </p>
                   </div>
 
@@ -289,7 +340,7 @@ printf '{"{"}"latest":"%s"{"}"}{"\n"}' "$DATE" {">"}  data/candidates/latest.jso
             <li>CAD/USD mixing is simplified (CAD-listed preferred; crypto priced in CAD).</li>
             <li>Dividends/distributions are not modeled yet.</li>
             <li>No background automation; <strong>only filled orders</strong> are recorded.</li>
-            <li>Candidates must be refreshed weekly; Close Week warns if data is {">"}36h old.</li>
+            <li>Candidates must be refreshed weekly; LLM Workflow warns if data is {">"}36h old.</li>
           </ul>
         </section>
 
