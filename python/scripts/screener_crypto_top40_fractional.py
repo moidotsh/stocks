@@ -113,6 +113,71 @@ def fetch_markets_cad(per_page: int = 250, pages: int = 1) -> pd.DataFrame:
     df = df.sort_values("market_cap", ascending=False).drop_duplicates(subset=["symbol"], keep="first")
     return df
 
+def fetch_supported_coins_only(supported_symbols: set[str]) -> pd.DataFrame:
+    """
+    Optimized fetch that only gets data for Wealthsimple-supported symbols.
+    Uses /coins/markets with a smaller page size and filters early to minimize API calls.
+    """
+    print(f"Fetching data for {len(supported_symbols)} Wealthsimple-supported symbols...")
+    
+    # Start with smaller pages and stop early once we have most supported coins
+    found_symbols = set()
+    rows = []
+    max_pages = 10  # Limit search to top ~2500 coins by market cap
+    
+    for p in range(1, max_pages + 1):
+        print(f"Fetching page {p} (found {len(found_symbols)}/{len(supported_symbols)} supported coins)...")
+        
+        payload = cg_get("coins/markets", {
+            "vs_currency":"cad",
+            "order":"market_cap_desc",
+            "per_page": 250,
+            "page": p,
+            "price_change_percentage": "7d"
+        })
+        
+        if not payload:
+            break
+            
+        page_rows = []
+        for coin in payload:
+            symbol = coin.get("symbol", "").upper()
+            if symbol in supported_symbols:
+                page_rows.append(coin)
+                found_symbols.add(symbol)
+        
+        rows.extend(page_rows)
+        print(f"  Found {len(page_rows)} supported coins on page {p}")
+        
+        # Early termination if we found most supported coins
+        if len(found_symbols) >= len(supported_symbols) * 0.8:  # 80% threshold
+            print(f"Found {len(found_symbols)} of {len(supported_symbols)} supported coins, stopping early")
+            break
+            
+        time.sleep(0.6)  # be nice to API
+    
+    if not rows:
+        print("WARNING: No supported coins found in market data")
+        return pd.DataFrame()
+        
+    df = pd.DataFrame(rows)
+    keep = ["id","symbol","name","current_price","market_cap","total_volume","price_change_percentage_7d_in_currency"]
+    df = df[keep].rename(columns={
+        "current_price":"price_cad",
+        "total_volume":"vol_24h",
+        "price_change_percentage_7d_in_currency":"pct_change_1w"
+    })
+    df["symbol"] = df["symbol"].str.upper()
+    
+    missing_symbols = supported_symbols - set(df["symbol"])
+    if missing_symbols:
+        print(f"WARNING: Could not find market data for {len(missing_symbols)} symbols: {sorted(missing_symbols)}")
+    
+    # de-dup by symbol preferring highest market cap
+    df = df.sort_values("market_cap", ascending=False).drop_duplicates(subset=["symbol"], keep="first")
+    print(f"Successfully fetched data for {len(df)} supported coins")
+    return df
+
 def read_holdings_csv(path: str) -> list[dict]:
     out = []
     h = pd.read_csv(path)
@@ -192,19 +257,29 @@ def main():
     ap.add_argument("--max-weight", type=float, default=0.20)
     ap.add_argument("--min-trade-size", type=float, default=1.0, help="Min CAD per trade")
     ap.add_argument("--fractional", action="store_true", help="Allow fractional quantities")
-    ap.add_argument("--pages", type=int, default=1, help="How many pages of top market cap coins to pull (250 per page)")
+    ap.add_argument("--pages", type=int, default=1, help="How many pages of top market cap coins to pull (250 per page) - ignored when using --optimized")
+    ap.add_argument("--optimized", action="store_true", default=True, help="Use optimized API calls for supported symbols only (default: True)")
+    ap.add_argument("--legacy", action="store_true", help="Use legacy method (fetch all coins then filter) - may hit rate limits")
     args = ap.parse_args()
 
     supported = load_supported_symbols(args.supported_file)
     sym_map = load_symbol_map(args.symbol_map)
 
     # 1) Markets snapshot
-    df = fetch_markets_cad(per_page=250, pages=args.pages)
+    use_optimized = args.optimized and not args.legacy
+    if use_optimized:
+        print("Using OPTIMIZED fetching for Wealthsimple-supported coins only...")
+        df = fetch_supported_coins_only(supported)
+    else:
+        print(f"Using LEGACY method - fetching {args.pages} pages of all coins then filtering...")
+        df = fetch_markets_cad(per_page=250, pages=args.pages)
+        if not df.empty:
+            df = df[df["symbol"].isin(supported)].copy()
+    
     if df.empty:
         raise SystemExit("No market data from CoinGecko; aborting.")
 
-    # subset to Wealthsimple-supported, basic hygiene
-    df = df[df["symbol"].isin(supported)].copy()
+    # Basic hygiene filtering
     df = df[(df["price_cad"] >= args.min_price) & (df["vol_24h"] >= args.min_volume)].copy()
 
     # Save raw candidates for transparency
@@ -232,12 +307,18 @@ def main():
             print("WARNING: failed to read holdings CSV:", e)
             holdings_list = []
 
-    # map symbols to CG ids (first via markets, then map, then /coins/list)
-    sym2id_market = build_symbol_to_id(df)  # from filtered df only
-    # Expand mapping using the full markets universe (not only filtered) for better coverage:
-    df_full = fetch_markets_cad(per_page=250, pages=max(1, args.pages))
-    sym2id_full = build_symbol_to_id(df_full)
-    sym2id = {**sym2id_full, **sym2id_market}  # prefer full first, then filtered (either is fine)
+    # map symbols to CG ids
+    if use_optimized:
+        # Use only our optimized data set (no additional API calls needed!)
+        sym2id = build_symbol_to_id(df)
+        print(f"Built symbol-to-ID mapping for {len(sym2id)} coins (optimized mode)")
+    else:
+        # Legacy mode: expand mapping using full markets universe for better coverage
+        sym2id_market = build_symbol_to_id(df)
+        df_full = fetch_markets_cad(per_page=250, pages=max(1, args.pages))
+        sym2id_full = build_symbol_to_id(df_full)
+        sym2id = {**sym2id_full, **sym2id_market}
+        print(f"Built symbol-to-ID mapping for {len(sym2id)} coins (legacy mode)")
 
     holding_symbols = [h["symbol"] for h in holdings_list]
     symbol_to_id = lookup_ids_for_symbols(holding_symbols, sym2id, sym_map)
