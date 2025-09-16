@@ -116,7 +116,8 @@ const CRYPTO_ID_MAPPING: Record<string, string> = {
   'AVAX': 'avalanche-2',
   'DOT': 'polkadot',
   'ENA': 'ethena',
-  'WLD': 'worldcoin-wld'
+  'WLD': 'worldcoin-wld',
+  'MOODENG': 'moo-deng'
 }
 
 export async function fetchCryptoPrice(symbol: string): Promise<CryptoPrice | null> {
