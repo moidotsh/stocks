@@ -8,6 +8,7 @@ interface CurrencyContextType {
   exchangeRate: number | null
   isLoading: boolean
   formatCurrency: (amount: number) => string
+  formatPercentage: (value: number) => string
   convertAmount: (usdAmount: number) => Promise<number>
   isSwedishMode: boolean
   toggleSwedishMode: () => void
@@ -101,6 +102,10 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     return cadAmount
   }
 
+  const formatPercentage = (value: number): string => {
+    return `${(value * 100).toFixed(2)}%`
+  }
+
   const toggleSwedishMode = () => {
     setIsSwedishMode(prev => !prev)
   }
@@ -111,6 +116,7 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
       exchangeRate,
       isLoading,
       formatCurrency,
+      formatPercentage,
       convertAmount,
       isSwedishMode,
       toggleSwedishMode
