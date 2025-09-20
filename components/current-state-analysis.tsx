@@ -7,6 +7,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { PortfolioData } from '@/lib/types'
 import { useCurrency } from '@/lib/currency-context'
 import { CONTRIBUTION_FORMULA } from '@/lib/contribution-utils'
+import { calculateWeeklyPerformance } from '@/lib/weekly-performance'
 import { TrendingUp, TrendingDown, Target, DollarSign, Activity, Brain, Zap, Clock, Calendar } from 'lucide-react'
 
 interface CurrentStateAnalysisProps {
@@ -16,13 +17,18 @@ interface CurrentStateAnalysisProps {
 interface WeeklySummary {
   week: number
   date: string
-  deposit: number
-  stockValue: number
-  cryptoValue: number
-  totalValue: number
-  weekChange: number
-  stockTrades: number
-  cryptoTrades: number
+  weeklyContribution: number
+  weeklyPortfolioValue: number
+  weeklyProfit: number
+  weeklyReturn: number
+  totalPurchaseValue: number
+  trades: Array<{
+    symbol: string
+    qty: number
+    purchasePrice: number
+    currentPrice: number
+    profit: number
+  }>
 }
 
 export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps) {
@@ -32,41 +38,27 @@ export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps)
   const currentWeek = CONTRIBUTION_FORMULA.getWeekNumber()
   const currentContribution = CONTRIBUTION_FORMULA.getContributionPerPortfolio(currentWeek)
 
-  // Calculate weekly summaries from actual data
+  // Calculate weekly performance from actual trades
   const weeklySummaries = useMemo(() => {
-    const summaries: WeeklySummary[] = []
+    const performanceData = calculateWeeklyPerformance(initialData)
 
-    // Week 1: Sep 7-13
-    const week1Data = initialData.chartData.find(d => d.date === '2025-09-07')
-    summaries.push({
-      week: 1,
-      date: CONTRIBUTION_FORMULA.getWeekDateRange(1),
-      deposit: CONTRIBUTION_FORMULA.getTotalContribution(1),
-      stockValue: week1Data?.stockPortfolio || 0,
-      cryptoValue: week1Data?.cryptoPortfolio || 0,
-      totalValue: week1Data?.portfolio || 0,
-      weekChange: 0, // First week
-      stockTrades: 1, // ABX.TO
-      cryptoTrades: 6 // DOGE x2, AVAX, DOT, ENA, WLD
-    })
-
-    // Week 2: Sep 14-20
-    const week2Data = initialData.chartData.find(d => d.date.includes('2025-09-14') || d.date.includes('2025-09-20'))
-    const latestData = initialData.chartData[initialData.chartData.length - 1]
-    summaries.push({
-      week: 2,
-      date: CONTRIBUTION_FORMULA.getWeekDateRange(2),
-      deposit: CONTRIBUTION_FORMULA.getTotalContribution(2),
-      stockValue: latestData?.stockPortfolio || 0,
-      cryptoValue: latestData?.cryptoPortfolio || 0,
-      totalValue: latestData?.portfolio || 0,
-      weekChange: week1Data ? ((latestData?.portfolio || 0) - week1Data.portfolio) / week1Data.portfolio * 100 : 0,
-      stockTrades: 1, // FM.TO
-      cryptoTrades: 0 // None recorded yet
-    })
-
-    return summaries
-  }, [initialData.chartData])
+    return performanceData.map(week => ({
+      week: week.week,
+      date: week.date,
+      weeklyContribution: week.weeklyContribution,
+      weeklyPortfolioValue: week.totalCurrentValue,
+      weeklyProfit: week.totalProfit,
+      weeklyReturn: week.totalReturn,
+      totalPurchaseValue: week.totalPurchaseValue,
+      trades: week.trades.map(trade => ({
+        symbol: trade.symbol,
+        qty: trade.qty,
+        purchasePrice: trade.purchasePrice,
+        currentPrice: trade.currentPrice,
+        profit: trade.profit
+      }))
+    }))
+  }, [initialData])
 
   // Current holdings analysis
   const currentHoldings = useMemo(() => {
@@ -238,6 +230,37 @@ export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps)
           <CardTitle>Weekly Progress Summary</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {weeklySummaries.map((week) => (
+              <div key={week.week} className="p-4 bg-muted/50 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold">Week {week.week}</h4>
+                  <span className="text-sm text-muted-foreground">{week.date}</span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Invested:</span>
+                    <span className="font-medium">{formatCurrency(week.totalPurchaseValue)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Current Value:</span>
+                    <span className={`font-medium ${week.weeklyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {formatCurrency(week.weeklyPortfolioValue)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Profit/Loss:</span>
+                    <span className={`font-medium ${week.weeklyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {formatCurrency(week.weeklyProfit)} ({week.weeklyReturn.toFixed(1)}%)
+                    </span>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {week.trades.length} trades this week
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={weeklySummaries}>
@@ -246,14 +269,14 @@ export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps)
                 <YAxis tickFormatter={(value) => formatCurrency(value)} />
                 <Tooltip
                   formatter={(value: number, name: string) => {
-                    if (name === 'totalValue') return [formatCurrency(value), 'Total Value']
-                    if (name === 'deposit') return [formatCurrency(value), 'Weekly Deposit']
+                    if (name === 'Current Value') return [formatCurrency(value), 'Current value of trades made this week']
+                    if (name === 'Amount Invested') return [formatCurrency(value), 'Total amount invested in trades this week']
                     return [value, name]
                   }}
                 />
                 <Legend />
-                <Bar dataKey="deposit" fill="#6b7280" name="Deposit" />
-                <Bar dataKey="totalValue" fill="#10b981" name="Portfolio Value" />
+                <Bar dataKey="totalPurchaseValue" fill="#6b7280" name="Amount Invested" />
+                <Bar dataKey="weeklyPortfolioValue" fill="#10b981" name="Current Value" />
               </BarChart>
             </ResponsiveContainer>
           </div>
