@@ -82,15 +82,16 @@ export function calculateWeeklyPerformance(data: PortfolioData, cryptoEntries: a
 
     // Process crypto trades for this week
     if (cryptoEntry?.trades) {
-      cryptoEntry.trades.forEach(trade => {
+      cryptoEntry.trades.forEach((trade: any) => {
         if (trade.action === 'buy') {
-          const currentPrice = priceMap.get(trade.ticker) || trade.price
+          const symbol = trade.symbol || trade.ticker // Handle both formats
+          const currentPrice = priceMap.get(symbol) || trade.price
           const purchaseValue = trade.qty * trade.price
           const currentValue = trade.qty * currentPrice
           const profit = currentValue - purchaseValue
 
           weeklyTrades.push({
-            symbol: trade.ticker,
+            symbol,
             qty: trade.qty,
             purchasePrice: trade.price,
             currentPrice,
