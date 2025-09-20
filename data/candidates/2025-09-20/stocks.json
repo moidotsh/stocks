@@ -1,10 +1,10 @@
 {
   "as_of": "2025-09-19",
-  "cash_available_cad": 12.0,
+  "cash_available_cad": 12,
   "constraints": {
     "max_positions": 10,
     "max_weight_per_position": 0.2,
-    "min_trade_size_cad": 1.0
+    "min_trade_size_cad": 1
   },
   "fractional_allowed": true,
   "order_mode": "market_only_if_fractional",
@@ -15,16 +15,16 @@
       "shares": 0.254,
       "avg_cost": 39.37,
       "currency": "CAD",
-      "market_price": 41.52,
-      "market_price_cad": 41.52
+      "market_price": 45.55,
+      "market_price_cad": 45.55
     },
     {
       "ticker": "FM.TO",
       "shares": 0.4167,
       "avg_cost": 26.32,
       "currency": "CAD",
-      "market_price": 26.29,
-      "market_price_cad": 26.29
+      "market_price": 27,
+      "market_price_cad": 27
     }
   ],
   "candidates": [
@@ -361,8 +361,8 @@
     {
       "ticker": "CNR.TO",
       "currency": "CAD",
-      "price": 129.0,
-      "price_cad": 129.0,
+      "price": 129,
+      "price_cad": 129,
       "pct_change_1w": -0.7,
       "avg_volume_5d": 1641420,
       "listing": "CAD",
