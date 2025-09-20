@@ -27,15 +27,18 @@ export function calculateWeeklyPerformance(data: PortfolioData): WeeklyPerforman
 
   // Get current holdings data
   const { holdings } = data
-  const allHoldings = [
-    ...holdings.positions.map(p => ({ symbol: p.ticker, ...p })),
-    ...(holdings.crypto_positions || []).map(p => ({ symbol: p.symbol, ...p }))
-  ]
 
-  // Create a price lookup map
+  // Create a price lookup map for both stocks and crypto
   const priceMap = new Map()
-  allHoldings.forEach(holding => {
-    priceMap.set(holding.symbol, holding.market_price || holding.current_price)
+
+  // Add stock prices
+  holdings.positions.forEach(p => {
+    priceMap.set(p.ticker, p.market_price)
+  })
+
+  // Add crypto prices
+  holdings.crypto_positions?.forEach(p => {
+    priceMap.set(p.symbol, p.current_price)
   })
 
   // Process stock entries
