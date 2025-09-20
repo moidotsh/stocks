@@ -12,6 +12,7 @@ import { TrendingUp, TrendingDown, Target, DollarSign, Activity, Brain, Zap, Clo
 
 interface CurrentStateAnalysisProps {
   initialData: PortfolioData
+  cryptoEntries?: any[]
 }
 
 interface WeeklySummary {
@@ -31,7 +32,7 @@ interface WeeklySummary {
   }>
 }
 
-export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps) {
+export function CurrentStateAnalysis({ initialData, cryptoEntries = [] }: CurrentStateAnalysisProps) {
   const { formatCurrency, formatPercentage } = useCurrency()
 
   // Current week calculation using formula
@@ -40,7 +41,7 @@ export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps)
 
   // Calculate weekly performance from actual trades
   const weeklySummaries = useMemo(() => {
-    const performanceData = calculateWeeklyPerformance(initialData)
+    const performanceData = calculateWeeklyPerformance(initialData, cryptoEntries)
 
     return performanceData.map(week => ({
       week: week.week,
@@ -58,7 +59,7 @@ export function CurrentStateAnalysis({ initialData }: CurrentStateAnalysisProps)
         profit: trade.profit
       }))
     }))
-  }, [initialData])
+  }, [initialData, cryptoEntries])
 
   // Current holdings analysis
   const currentHoldings = useMemo(() => {

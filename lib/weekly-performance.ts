@@ -22,7 +22,7 @@ interface WeeklyPerformance {
   totalReturn: number
 }
 
-export function calculateWeeklyPerformance(data: PortfolioData): WeeklyPerformance[] {
+export function calculateWeeklyPerformance(data: PortfolioData, cryptoEntries: any[] = []): WeeklyPerformance[] {
   const performances: WeeklyPerformance[] = []
 
   // Get current holdings data
@@ -41,9 +41,8 @@ export function calculateWeeklyPerformance(data: PortfolioData): WeeklyPerforman
     priceMap.set(p.symbol, p.current_price)
   })
 
-  // Process stock entries
+  // Process stock and crypto entries
   const stockEntries = data.entries || []
-  const cryptoEntries = data.cryptoEntries || []
 
   for (let weekIndex = 0; weekIndex < Math.max(stockEntries.length, cryptoEntries.length); weekIndex++) {
     const stockEntry = stockEntries[weekIndex]

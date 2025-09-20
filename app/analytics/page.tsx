@@ -1,9 +1,12 @@
 import { CurrentStateAnalysis } from '@/components/current-state-analysis'
-import { getPortfolioData } from '@/lib/data'
+import { getPortfolioData, getCryptoEntriesData } from '@/lib/data'
 import { getLastDataUpdate, formatDataAge } from '@/lib/data-utils'
 
 export default async function AnalyticsPage() {
-  const data = await getPortfolioData()
+  const [data, cryptoEntries] = await Promise.all([
+    getPortfolioData(),
+    getCryptoEntriesData()
+  ])
   const lastUpdate = await getLastDataUpdate()
 
   return (
@@ -22,7 +25,7 @@ export default async function AnalyticsPage() {
           </div>
         </div>
       </div>
-      <CurrentStateAnalysis initialData={data} />
+      <CurrentStateAnalysis initialData={data} cryptoEntries={cryptoEntries} />
     </div>
   )
 }
