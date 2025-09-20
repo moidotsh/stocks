@@ -21,6 +21,9 @@ export function Header() {
               <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">
                 Overview
               </Link>
+              <Link href="/analytics" className="text-sm font-medium hover:text-primary transition-colors">
+                Analytics
+              </Link>
               <Link href="/timeline" className="text-sm font-medium hover:text-primary transition-colors">
                 Timeline
               </Link>
@@ -84,50 +87,57 @@ export function Header() {
               </div>
             )}
             <nav className="flex flex-col space-y-1 pt-4">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Overview
               </Link>
-              <Link 
-                href="/timeline" 
+              <Link
+                href="/analytics"
+                className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Analytics
+              </Link>
+              <Link
+                href="/timeline"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Timeline
               </Link>
-              <Link 
-                href="/portfolio" 
+              <Link
+                href="/portfolio"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Portfolio
               </Link>
-              <Link 
-                href="/llm-workflow" 
+              <Link
+                href="/llm-workflow"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >
                 LLM Workflow
               </Link>
-              <Link 
-                href="/trades/record" 
+              <Link
+                href="/trades/record"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Record Trades
               </Link>
-              <Link 
-                href="/methodology" 
+              <Link
+                href="/methodology"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Methodology
               </Link>
-              <Link 
-                href="/admin" 
+              <Link
+                href="/admin"
                 className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-lg hover:bg-accent touch-manipulation"
                 onClick={() => setIsMenuOpen(false)}
               >

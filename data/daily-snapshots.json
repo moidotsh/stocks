@@ -1225,5 +1225,22 @@
       "WLD": 2.1,
       "MOODENG": 0.241507
     }
+  },
+  {
+    "timestamp": "2025-09-20T22:50:48.317Z",
+    "portfolio_value": 45.0937852150975,
+    "stock_value": 22.8206,
+    "crypto_value": 21.290652762697498,
+    "cash_value": 0.982532452400001,
+    "market_prices": {
+      "ABX.TO": 45.55,
+      "FM.TO": 27,
+      "DOGE": 0.369832,
+      "AVAX": 45.89,
+      "DOT": 6.01,
+      "ENA": 0.919092,
+      "WLD": 2.1,
+      "MOODENG": 0.238825
+    }
   }
 ]
