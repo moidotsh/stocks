@@ -80,5 +80,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-09-21",
+    "deposit_cad": 12,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "BNB",
+        "qty": 0.00825,
+        "price": 1421.52,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

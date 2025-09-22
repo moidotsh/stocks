@@ -1,10 +1,10 @@
 {
   "as_of": "2025-09-21",
-  "cash_available_cad": 11.0,
+  "cash_available_cad": 11,
   "constraints": {
     "max_positions": 10,
     "max_weight_per_position": 0.2,
-    "min_trade_size_cad": 1.0
+    "min_trade_size_cad": 1
   },
   "fractional_allowed": true,
   "order_mode": "market_only_if_fractional",
@@ -23,8 +23,8 @@
       "shares": 0.4167,
       "avg_cost": 26.32,
       "currency": "CAD",
-      "market_price": 27.0,
-      "market_price_cad": 27.0
+      "market_price": 27,
+      "market_price_cad": 27
     }
   ],
   "candidates": [
@@ -97,8 +97,8 @@
     {
       "ticker": "FM.TO",
       "currency": "CAD",
-      "price": 27.0,
-      "price_cad": 27.0,
+      "price": 27,
+      "price_cad": 27,
       "pct_change_1w": 2.58,
       "avg_volume_5d": 3987100,
       "listing": "CAD",
@@ -306,8 +306,8 @@
     {
       "ticker": "BCE.TO",
       "currency": "CAD",
-      "price": 32.0,
-      "price_cad": 32.0,
+      "price": 32,
+      "price_cad": 32,
       "pct_change_1w": -3.09,
       "avg_volume_5d": 5050560,
       "listing": "CAD",

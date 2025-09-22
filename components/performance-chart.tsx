@@ -112,16 +112,6 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     }
   })
   
-  // Debug: Log the first few sorted data points to see ordering
-  console.log('First 5 filtered chart data points:', 
-    filteredChartData.slice(0, 5).map(p => ({ 
-      date: p.date, 
-      dateFormatted: p.dateFormatted, 
-      portfolio: p.portfolio, 
-      isSnapshot: p.isSnapshot 
-    }))
-  )
-
   // Group snapshots by date and find median for each day
   const snapshotsByDate = useMemo(() => filteredChartData
     .filter(point => point.isSnapshot)
@@ -145,29 +135,85 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           // If portfolio values are the same, sort by timestamp to ensure consistent selection
           return a.date.localeCompare(b.date)
         })
-        
+
         const medianIndex = Math.floor(sorted.length / 2)
         const medianSnapshot = sorted[medianIndex]
-        
+
         // Only add the ONE median snapshot for this date
         result.add(medianSnapshot.date)
-        console.log(`Median for ${date}: ${medianSnapshot.date} (${typedSnapshots.length} snapshots, portfolio: ${medianSnapshot.portfolio})`)
       }
     })
     return result
   }, [snapshotsByDate])
 
+  // Create proportional x-axis data based on actual days from start, with smoothing
+  const proportionalChartData = useMemo(() => {
+    const result: typeof filteredChartData = []
+    const startDate = new Date('2025-09-07') // Experiment start date
+
+    // First, collect all points we want to include
+    const allPoints: typeof filteredChartData = []
+
+    filteredChartData.forEach(point => {
+      // Only include regular entries OR median snapshots for cleaner visualization
+      if (!point.isSnapshot || medianSnapshots.has(point.date)) {
+        let dateKey = ''
+
+        if (point.isSnapshot) {
+          // Extract date from timestamp
+          if (point.date.includes('|')) {
+            dateKey = point.date.split('T')[0] // "2025-09-09T11:45:35.209Z|07:45" -> "2025-09-09"
+          } else {
+            dateKey = point.date.split(' ')[0] // "2025-09-09 07:45" -> "2025-09-09"
+          }
+        } else {
+          dateKey = point.date // "2025-09-07"
+        }
+
+        const pointDate = new Date(dateKey)
+        const daysFromStart = (pointDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)
+
+        allPoints.push({
+          ...point,
+          xPosition: daysFromStart, // Use days from start for x-axis
+          weekLabel: dateKey // Use date as label
+        })
+      }
+    })
+
+    // Apply smoothing: show every 3rd day + regular entries, but ensure we keep important points
+    const smoothedPoints = []
+    let lastXPosition = -1
+
+    for (let i = 0; i < allPoints.length; i++) {
+      const point = allPoints[i]
+
+      // Always include regular entries (weekly contributions)
+      if (!point.isSnapshot) {
+        smoothedPoints.push(point)
+        lastXPosition = point.xPosition
+        continue
+      }
+
+      // For snapshots, include every 3rd day or if it's been more than 2 days since last point
+      if (point.xPosition - lastXPosition >= 2 || i === allPoints.length - 1) {
+        smoothedPoints.push(point)
+        lastXPosition = point.xPosition
+      }
+    }
+
+    return smoothedPoints
+  }, [filteredChartData, medianSnapshots])
+
+  
+  
   // Add isMedianSnapshot flag to chart data
-  const chartDataWithMedian = useMemo(() => filteredChartData.map(point => ({
+  const chartDataWithMedian = useMemo(() => proportionalChartData.map(point => ({
     ...point,
     isMedianSnapshot: point.isSnapshot && medianSnapshots.has(point.date)
-  })), [filteredChartData, medianSnapshots])
+  })), [proportionalChartData, medianSnapshots])
 
-  // Debug: Log how many median snapshots we have
-  const medianCount = chartDataWithMedian.filter(point => point.isMedianSnapshot).length
-  console.log(`Total median snapshots marked: ${medianCount}`)
-  console.log('Median snapshots:', Array.from(medianSnapshots))
-
+  
   // Calculate Y-axis domain based on current view
   const getYAxisDomain = () => {
     const allValues = chartDataWithMedian.flatMap(point => {
@@ -487,23 +533,29 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-            <XAxis 
-              dataKey="dateFormatted" 
+            <XAxis
+              dataKey="xPosition"
               className="text-sm"
               tick={{ fontSize: isMobile ? 10 : 12 }}
-              type="category"
-              interval={isMobile ? 'preserveStartEnd' : 0}
-              angle={isMobile ? -45 : 0}
-              textAnchor={isMobile ? 'end' : 'middle'}
-              height={isMobile ? 60 : 30}
+              type="number"
+              domain={[0, 'dataMax']}
+              interval={0}
+              tickCount={5}
               tickFormatter={(value) => {
-                // Only show tick labels for day starts, using formatted date
-                const label = dayStartTicks[value] || ''
-                // On mobile, truncate longer labels
-                if (isMobile && label.length > 8) {
-                  return label.split(' ')[0] // Just show the date part
+                // Show date labels for specific day positions
+                const daysFromStart = Math.round(value)
+                const startDate = new Date('2025-09-07')
+                const tickDate = new Date(startDate.getTime() + daysFromStart * 24 * 60 * 60 * 1000)
+
+                // Show labels for start of each week
+                if (daysFromStart === 0 || daysFromStart === 7 || daysFromStart === 14) {
+                  // Week start dates
+                  return `Week ${Math.floor(daysFromStart / 7) + 1}`
+                } else if (daysFromStart === 3 || daysFromStart === 10) {
+                  // Mid-week labels
+                  return tickDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                 }
-                return label
+                return ''
               }}
             />
             <YAxis 
@@ -520,9 +572,9 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               tickCount={6}
               width={isMobile ? 50 : 60}
             />
-            <Tooltip 
+            <Tooltip
               formatter={(value: number) => [formatCurrency(value), '']}
-              labelFormatter={(label: string, payload: unknown) => {
+              labelFormatter={(label: number, payload: unknown) => {
                 if (payload && Array.isArray(payload) && payload.length > 0) {
                   const dataPoint = (payload[0] as { payload: any }).payload
                   if (dataPoint?.isSnapshot) {
@@ -538,9 +590,12 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                       const [datePart, timePart] = fullDate.split(' ')
                       return `${formatDate(datePart)} at ${timePart}`
                     }
+                  } else {
+                    // For regular entries, use formatted date
+                    return formatDate(dataPoint.date)
                   }
                 }
-                return label
+                return ''
               }}
               labelStyle={{ color: 'hsl(var(--foreground))' }}
               contentStyle={{
