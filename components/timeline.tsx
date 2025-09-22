@@ -26,11 +26,17 @@ export function Timeline({ entries }: TimelineProps) {
     setExpandedWeeks(newExpanded)
   }
 
-  // Detect entry type based on ticker symbols
+  // Detect entry type based on ticker symbols and trade types
   const getEntryType = (entry: Entry): 'stocks' | 'crypto' => {
-    const cryptoTickers = ['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD']
-    const hasCrypto = entry.trades.some(trade => cryptoTickers.includes(trade.ticker))
-    return hasCrypto ? 'crypto' : 'stocks'
+    const cryptoTickers = ['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'BNB', 'MOODENG']
+
+    // Check regular trades for crypto
+    const hasCryptoInTrades = entry.trades.some(trade => cryptoTickers.includes(trade.ticker))
+
+    // Check crypto_trades array
+    const hasCryptoTrades = entry.crypto_trades && entry.crypto_trades.length > 0
+
+    return hasCryptoInTrades || hasCryptoTrades ? 'crypto' : 'stocks'
   }
 
   const copyToClipboard = (entries: Entry[]) => {
@@ -169,13 +175,13 @@ export function Timeline({ entries }: TimelineProps) {
                     <h4 className="font-semibold flex items-center gap-2 mb-3">
                       <span>₿</span> Crypto Trades
                     </h4>
-                    {cryptoEntry.trades.length > 0 ? (
+                    {(cryptoEntry.trades.length > 0 || (cryptoEntry.crypto_trades && cryptoEntry.crypto_trades.length > 0)) ? (
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="border-b">
                               <th className="text-left p-2">Action</th>
-                              <th className="text-left p-2">Ticker</th>
+                              <th className="text-left p-2">Symbol</th>
                               <th className="text-right p-2">Quantity</th>
                               <th className="text-right p-2">Price</th>
                               <th className="text-right p-2">Value</th>
@@ -183,11 +189,12 @@ export function Timeline({ entries }: TimelineProps) {
                             </tr>
                           </thead>
                           <tbody>
+                            {/* Render regular trades (if any) */}
                             {cryptoEntry.trades.map((trade, index) => (
-                              <tr key={index} className="border-b">
+                              <tr key={`trade-${index}`} className="border-b">
                                 <td className="p-2">
                                   <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                    trade.action === 'buy' 
+                                    trade.action === 'buy'
                                       ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
                                       : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
                                   }`}>
@@ -199,6 +206,25 @@ export function Timeline({ entries }: TimelineProps) {
                                 <td className="text-right p-2">{formatCurrency(trade.price)}</td>
                                 <td className="text-right p-2">{formatCurrency(trade.qty * trade.price)}</td>
                                 <td className="p-2">{trade.currency}</td>
+                              </tr>
+                            ))}
+                            {/* Render crypto trades */}
+                            {cryptoEntry.crypto_trades && cryptoEntry.crypto_trades.map((trade, index) => (
+                              <tr key={`crypto-${index}`} className="border-b">
+                                <td className="p-2">
+                                  <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                    trade.action === 'buy'
+                                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
+                                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                                  }`}>
+                                    {trade.action.toUpperCase()}
+                                  </span>
+                                </td>
+                                <td className="p-2 font-mono">{trade.symbol}</td>
+                                <td className="text-right p-2">{trade.qty}</td>
+                                <td className="text-right p-2">{formatCurrency(trade.price)}</td>
+                                <td className="text-right p-2">{formatCurrency(trade.qty * trade.price)}</td>
+                                <td className="p-2">CAD</td>
                               </tr>
                             ))}
                           </tbody>
