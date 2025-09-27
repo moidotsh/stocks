@@ -82,3 +82,4 @@ export async function convertCADtoSEK(cadAmount: number): Promise<number> {
 
 
 
+
