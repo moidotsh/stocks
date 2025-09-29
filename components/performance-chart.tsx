@@ -301,7 +301,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   // Calculate Y-axis domain based on current view and display mode
   const getYAxisDomain = () => {
-    const usePercentageData = valueDisplay === 'percentage'
+    const usePercentageData = false
 
     const allValues = chartDataWithMedian.flatMap(point => {
       if (usePercentageData) {
@@ -363,7 +363,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   const [minValue, maxValue] = getYAxisDomain()
 
   const renderLines = () => {
-    const usePercentageData = valueDisplay === 'percentage'
+    const usePercentageData = false
 
     switch (view) {
       case 'combined':
@@ -624,8 +624,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             ))}
           </div>
         </div>
-
-        </div>
+      </div>
       
       <div className={`w-full ${isMobile ? 'h-80' : 'h-96'} relative`}>
         <ResponsiveContainer
@@ -634,7 +633,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           className="transition-all duration-300"
         >
           <LineChart
-            data={valueDisplay === 'percentage' ? getPercentageData : chartDataWithMedian}
+            data={chartDataWithMedian}
             margin={isMobile ?
               { top: 5, right: 10, left: 10, bottom: 5 } :
               { top: 5, right: 30, left: 20, bottom: 5 }
@@ -672,9 +671,6 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               className="text-sm"
               tick={{ fontSize: isMobile ? 10 : 12 }}
               tickFormatter={(value) => {
-                if (valueDisplay === 'percentage') {
-                  return `${value.toFixed(1)}%`
-                }
                 // On mobile, use shorter currency format with decimals for clarity
                 if (isMobile) {
                   return value >= 1000 ? `$${(value/1000).toFixed(1)}k` : `$${value.toFixed(1)}`
@@ -687,9 +683,6 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
             <Tooltip
               formatter={(value: number, name: string) => {
-                if (valueDisplay === 'percentage') {
-                  return [`${value.toFixed(2)}%`, name]
-                }
                 return [formatCurrency(value), name]
               }}
               labelFormatter={(_label: number, payload: unknown) => {

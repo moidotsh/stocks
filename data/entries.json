@@ -37,5 +37,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-09-28",
+    "deposit_cad": 13,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "TECK.B.TO",
+        "qty": 0.2249,
+        "price": 57.75,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

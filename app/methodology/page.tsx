@@ -9,9 +9,9 @@ import {
 import { CopyButton } from "@/components/ui/copy-button"
 
 export default function MethodologyPage() {
-  const stockScreenerCommand = `python3 screener_top40_fractional.py --cash <stocks_cash> --fractional --min-trade-size 1 --holdings holdings.csv`
+  const stockScreenerCommand = `python3 screener_top40_fractional.py --cash <stocks_cash> --fractional --min-trade-size 1 --holdings python/outputs/holdings.csv`
   
-  const cryptoScreenerCommand = `python3 screener_crypto_top40_fractional.py --cash <crypto_cash> --fractional --min-trade-size 1 --holdings crypto_holdings.csv --pages 3`
+  const cryptoScreenerCommand = `python3 screener_crypto_top40_fractional.py --cash <crypto_cash> --fractional --min-trade-size 1 --holdings python/outputs/crypto_holdings.csv --pages 3`
   
   const ledgerCommand = `python3 ledger_tui.py`
 
