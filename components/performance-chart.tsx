@@ -12,6 +12,7 @@ interface PerformanceChartProps {
 
 type ChartView = 'combined' | 'stock' | 'crypto' | 'stock-vs-crypto'
 type DateRange = 'all' | '30d' | '7d' | '1d'
+type ValueDisplay = 'dollars'
 
 // Filter data based on date range - moved outside component to avoid dependency issues
 const filterDataByRange = (data: any[], range: DateRange) => {
@@ -27,7 +28,8 @@ const filterDataByRange = (data: any[], range: DateRange) => {
 export function PerformanceChart({ data }: PerformanceChartProps) {
   const [view, setView] = useState<ChartView>('combined')
   const [dateRange, setDateRange] = useState<DateRange>('all')
-  const { formatCurrency } = useCurrency()
+  const valueDisplay: ValueDisplay = 'dollars'
+  const { formatCurrency, formatPercentage } = useCurrency()
   const [isMobile, setIsMobile] = useState(false)
   
   useEffect(() => {
@@ -214,66 +216,173 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   })), [proportionalChartData, medianSnapshots])
 
   
-  // Calculate Y-axis domain based on current view
+  // Calculate percentage data - smoothed returns to eliminate contribution spikes
+  const getPercentageData = useMemo(() => {
+    // First calculate raw percentages for all points
+    const rawPercentages = chartDataWithMedian.map((point) => {
+      const daysFromStart = point.xPosition
+
+      // Calculate total contributions up to this point using proper week boundaries
+      const getTotalContributions = (days: number) => {
+        // Use ceiling to include contributions that have been made
+        const weeks = Math.ceil(days / 7)
+        let totalContributions = 0
+
+        // Add contributions for all weeks up to and including current week
+        for (let week = 1; week <= weeks && week <= 4; week++) {
+          const weekContribution = 10 + (week - 1) * 1 // $10 for week 1, $11 for week 2, etc.
+          totalContributions += weekContribution * 2 // Stock + crypto
+        }
+
+        return totalContributions
+      }
+
+      const totalContributions = getTotalContributions(daysFromStart)
+
+      // Simple profit/loss percentage
+      const getProfitPercentage = (currentValue: number) => {
+        const profit = currentValue - totalContributions
+        if (totalContributions <= 0) return 0
+        return (profit / totalContributions) * 100
+      }
+
+      return {
+        ...point,
+        portfolioPercent: getProfitPercentage(point.portfolio),
+        hisaPercent: getProfitPercentage(point.hisa),
+        sp500Percent: getProfitPercentage(point.sp500),
+        stockPortfolioPercent: getProfitPercentage(point.stockPortfolio),
+        cryptoPortfolioPercent: getProfitPercentage(point.cryptoPortfolio),
+        stockHisaPercent: getProfitPercentage(point.stockHisa),
+        stockSP500Percent: getProfitPercentage(point.stockSP500),
+        cryptoHisaPercent: getProfitPercentage(point.cryptoHisa),
+        cryptoSP500Percent: getProfitPercentage(point.cryptoSP500)
+      }
+    })
+
+    // Apply smoothing to eliminate contribution day spikes
+    return rawPercentages.map((point, index) => {
+      // Skip smoothing for first and last few points
+      if (index === 0 || index >= rawPercentages.length - 2) return point
+
+      const prevPoint = rawPercentages[index - 1]
+      const nextPoint = rawPercentages[index + 1]
+
+      // Check if this is a contribution spike (large jump from previous)
+      const isSpike = Math.abs(point.portfolioPercent - prevPoint.portfolioPercent) > 50
+
+      if (isSpike) {
+        // Apply 3-point moving average to smooth the spike
+        const smoothValue = (key: keyof typeof point) => {
+          const pointValue = point[key] as number
+          const prevValue = prevPoint[key] as number
+          const nextValue = nextPoint[key] as number
+
+          return (prevValue + pointValue + nextValue) / 3
+        }
+
+        return {
+          ...point,
+          portfolioPercent: smoothValue('portfolioPercent'),
+          hisaPercent: smoothValue('hisaPercent'),
+          sp500Percent: smoothValue('sp500Percent'),
+          stockPortfolioPercent: smoothValue('stockPortfolioPercent'),
+          cryptoPortfolioPercent: smoothValue('cryptoPortfolioPercent'),
+          stockHisaPercent: smoothValue('stockHisaPercent'),
+          stockSP500Percent: smoothValue('stockSP500Percent'),
+          cryptoHisaPercent: smoothValue('cryptoHisaPercent'),
+          cryptoSP500Percent: smoothValue('cryptoSP500Percent')
+        }
+      }
+
+      return point
+    })
+  }, [chartDataWithMedian])
+
+  // Calculate Y-axis domain based on current view and display mode
   const getYAxisDomain = () => {
+    const usePercentageData = valueDisplay === 'percentage'
+
     const allValues = chartDataWithMedian.flatMap(point => {
-      switch (view) {
-        case 'combined':
-          return [point.portfolio, point.hisa, point.sp500]
-        case 'stock':
-          return [point.stockPortfolio, point.stockHisa, point.stockSP500]
-        case 'crypto':
-          return [point.cryptoPortfolio, point.cryptoHisa, point.cryptoSP500]
-        case 'stock-vs-crypto':
-          return [point.stockPortfolio, point.cryptoPortfolio, point.stockHisa, point.stockSP500]
-        default:
-          return [point.portfolio, point.hisa, point.sp500]
+      if (usePercentageData) {
+        // For percentage view, use percentage data
+        const percentagePoint = getPercentageData.find(p => p.date === point.date)
+        if (!percentagePoint) return []
+
+        switch (view) {
+          case 'combined':
+            return [percentagePoint.portfolioPercent, percentagePoint.hisaPercent, percentagePoint.sp500Percent]
+          case 'stock':
+            return [percentagePoint.stockPortfolioPercent, percentagePoint.stockHisaPercent, percentagePoint.stockSP500Percent]
+          case 'crypto':
+            return [percentagePoint.cryptoPortfolioPercent, percentagePoint.cryptoHisaPercent, percentagePoint.cryptoSP500Percent]
+          case 'stock-vs-crypto':
+            return [percentagePoint.stockPortfolioPercent, percentagePoint.cryptoPortfolioPercent, percentagePoint.stockHisaPercent, percentagePoint.stockSP500Percent]
+          default:
+            return [percentagePoint.portfolioPercent, percentagePoint.hisaPercent, percentagePoint.sp500Percent]
+        }
+      } else {
+        // Original logic for dollar view
+        switch (view) {
+          case 'combined':
+            return [point.portfolio, point.hisa, point.sp500]
+          case 'stock':
+            return [point.stockPortfolio, point.stockHisa, point.stockSP500]
+          case 'crypto':
+            return [point.cryptoPortfolio, point.cryptoHisa, point.cryptoSP500]
+          case 'stock-vs-crypto':
+            return [point.stockPortfolio, point.cryptoPortfolio, point.stockHisa, point.stockSP500]
+          default:
+            return [point.portfolio, point.hisa, point.sp500]
+        }
       }
     }).filter(value => value !== null && value !== undefined && !isNaN(value))
-    
-    if (allValues.length === 0) return [0, 100]
-    
+
+    if (allValues.length === 0) return usePercentageData ? [-20, 50] : [0, 100]
+
     const minValue = Math.min(...allValues)
     const maxValue = Math.max(...allValues)
     const range = maxValue - minValue
-    
+
     // If range is very small, set a minimum range
-    const minRange = Math.max(range, (maxValue * 0.1) || 1)
-    
+    const minRange = Math.max(range, usePercentageData ? 5 : (maxValue * 0.1) || 1)
+
     // Add padding that ensures nice round numbers
     const padding = minRange * 0.15 // 15% padding
     const paddedMin = minValue - padding
     const paddedMax = maxValue + padding
-    
+
     // Round to nice numbers for better Y-axis labels
     const step = Math.pow(10, Math.floor(Math.log10(minRange)))
     const niceMin = Math.floor(paddedMin / step) * step
     const niceMax = Math.ceil(paddedMax / step) * step
-    
+
     return [niceMin, niceMax]
   }
   
   const [minValue, maxValue] = getYAxisDomain()
 
   const renderLines = () => {
+    const usePercentageData = valueDisplay === 'percentage'
+
     switch (view) {
       case 'combined':
         return (
           <>
-            <Line 
-              type="monotone" 
-              dataKey="portfolio" 
-              stroke="hsl(var(--primary))" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "portfolioPercent" : "portfolio"}
+              stroke="hsl(var(--primary))"
               strokeWidth={3}
               name="My Portfolio"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="hisa" 
-              stroke="#10b981" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "hisaPercent" : "hisa"}
+              stroke="#10b981"
               strokeWidth={2}
               name="If HISA (3%)"
               dot={false}
@@ -281,10 +390,10 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               animationBegin={200}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="sp500" 
-              stroke="#f59e0b" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "sp500Percent" : "sp500"}
+              stroke="#f59e0b"
               strokeWidth={2}
               name="If S&P 500"
               dot={false}
@@ -294,24 +403,24 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
           </>
         )
-      
+
       case 'stock':
         return (
           <>
-            <Line 
-              type="monotone" 
-              dataKey="stockPortfolio" 
-              stroke="#3b82f6" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "stockPortfolioPercent" : "stockPortfolio"}
+              stroke="#3b82f6"
               strokeWidth={3}
               name="Stock Portfolio"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="stockHisa" 
-              stroke="#10b981" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "stockHisaPercent" : "stockHisa"}
+              stroke="#10b981"
               strokeWidth={2}
               name="If Stock → HISA (3%)"
               dot={false}
@@ -319,10 +428,10 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               animationBegin={200}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="stockSP500" 
-              stroke="#f59e0b" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "stockSP500Percent" : "stockSP500"}
+              stroke="#f59e0b"
               strokeWidth={2}
               name="If Stock → S&P 500"
               dot={false}
@@ -332,24 +441,24 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
           </>
         )
-      
+
       case 'crypto':
         return (
           <>
-            <Line 
-              type="monotone" 
-              dataKey="cryptoPortfolio" 
-              stroke="#8b5cf6" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "cryptoPortfolioPercent" : "cryptoPortfolio"}
+              stroke="#8b5cf6"
               strokeWidth={3}
               name="Crypto Portfolio"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="cryptoHisa" 
-              stroke="#10b981" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "cryptoHisaPercent" : "cryptoHisa"}
+              stroke="#10b981"
               strokeWidth={2}
               name="If Crypto → HISA (3%)"
               dot={false}
@@ -357,10 +466,10 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               animationBegin={200}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="cryptoSP500" 
-              stroke="#f59e0b" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "cryptoSP500Percent" : "cryptoSP500"}
+              stroke="#f59e0b"
               strokeWidth={2}
               name="If Crypto → S&P 500"
               dot={false}
@@ -370,34 +479,34 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
           </>
         )
-      
+
       case 'stock-vs-crypto':
         return (
           <>
-            <Line 
-              type="monotone" 
-              dataKey="stockPortfolio" 
-              stroke="#3b82f6" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "stockPortfolioPercent" : "stockPortfolio"}
+              stroke="#3b82f6"
               strokeWidth={3}
               name="Stock Portfolio"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="cryptoPortfolio" 
-              stroke="#8b5cf6" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "cryptoPortfolioPercent" : "cryptoPortfolio"}
+              stroke="#8b5cf6"
               strokeWidth={3}
               name="Crypto Portfolio"
               dot={false}
               animationBegin={200}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="stockHisa" 
-              stroke="#10b981" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "stockHisaPercent" : "stockHisa"}
+              stroke="#10b981"
               strokeWidth={2}
               name="If HISA (3%)"
               dot={false}
@@ -405,10 +514,10 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               animationBegin={400}
               animationDuration={800}
             />
-            <Line 
-              type="monotone" 
-              dataKey="stockSP500" 
-              stroke="#f59e0b" 
+            <Line
+              type="monotone"
+              dataKey={usePercentageData ? "stockSP500Percent" : "stockSP500"}
+              stroke="#f59e0b"
               strokeWidth={2}
               name="If S&P 500"
               dot={false}
@@ -515,21 +624,22 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             ))}
           </div>
         </div>
-      </div>
+
+        </div>
       
       <div className={`w-full ${isMobile ? 'h-80' : 'h-96'} relative`}>
-        <ResponsiveContainer 
-          width="100%" 
+        <ResponsiveContainer
+          width="100%"
           height="100%"
           className="transition-all duration-300"
         >
-          <LineChart 
-            data={chartDataWithMedian} 
-            margin={isMobile ? 
-              { top: 5, right: 10, left: 10, bottom: 5 } : 
+          <LineChart
+            data={valueDisplay === 'percentage' ? getPercentageData : chartDataWithMedian}
+            margin={isMobile ?
+              { top: 5, right: 10, left: 10, bottom: 5 } :
               { top: 5, right: 30, left: 20, bottom: 5 }
             }
-            key={`${view}-${dateRange}`} // Force re-render for smooth transitions
+            key={`${view}-${dateRange}-${valueDisplay}`} // Force re-render for smooth transitions
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -558,10 +668,13 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                 return ''
               }}
             />
-            <YAxis 
+            <YAxis
               className="text-sm"
               tick={{ fontSize: isMobile ? 10 : 12 }}
               tickFormatter={(value) => {
+                if (valueDisplay === 'percentage') {
+                  return `${value.toFixed(1)}%`
+                }
                 // On mobile, use shorter currency format with decimals for clarity
                 if (isMobile) {
                   return value >= 1000 ? `$${(value/1000).toFixed(1)}k` : `$${value.toFixed(1)}`
@@ -573,8 +686,13 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               width={isMobile ? 50 : 60}
             />
             <Tooltip
-              formatter={(value: number) => [formatCurrency(value), '']}
-              labelFormatter={(label: number, payload: unknown) => {
+              formatter={(value: number, name: string) => {
+                if (valueDisplay === 'percentage') {
+                  return [`${value.toFixed(2)}%`, name]
+                }
+                return [formatCurrency(value), name]
+              }}
+              labelFormatter={(_label: number, payload: unknown) => {
                 if (payload && Array.isArray(payload) && payload.length > 0) {
                   const dataPoint = (payload[0] as { payload: any }).payload
                   if (dataPoint?.isSnapshot) {
