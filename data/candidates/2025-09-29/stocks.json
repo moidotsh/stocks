@@ -1,0 +1,480 @@
+{
+  "as_of": "2025-09-28",
+  "cash_available_cad": 13,
+  "constraints": {
+    "max_positions": 10,
+    "max_weight_per_position": 0.2,
+    "min_trade_size_cad": 1
+  },
+  "fractional_allowed": true,
+  "order_mode": "market_only_if_fractional",
+  "tsx_only": true,
+  "holdings": [
+    {
+      "ticker": "ABX.TO",
+      "shares": 0.254,
+      "avg_cost": 39.37,
+      "currency": "CAD",
+      "market_price": 48.06,
+      "market_price_cad": 48.06
+    },
+    {
+      "ticker": "CNQ.TO",
+      "shares": 0.2893,
+      "avg_cost": 43.58,
+      "currency": "CAD",
+      "market_price": 45.57,
+      "market_price_cad": 45.57
+    },
+    {
+      "ticker": "FM.TO",
+      "shares": 0.4167,
+      "avg_cost": 26.32,
+      "currency": "CAD",
+      "market_price": 29.12,
+      "market_price_cad": 29.12
+    }
+  ],
+  "candidates": [
+    {
+      "ticker": "CNQ.TO",
+      "currency": "CAD",
+      "price": 45.57,
+      "price_cad": 45.57,
+      "pct_change_1w": 4.57,
+      "avg_volume_5d": 30478320,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "CVE.TO",
+      "currency": "CAD",
+      "price": 24.75,
+      "price_cad": 24.75,
+      "pct_change_1w": 5.72,
+      "avg_volume_5d": 17111780,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "TRP.TO",
+      "currency": "CAD",
+      "price": 74.43,
+      "price_cad": 74.43,
+      "pct_change_1w": 2.72,
+      "avg_volume_5d": 10366880,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "ABX.TO",
+      "currency": "CAD",
+      "price": 48.06,
+      "price_cad": 48.06,
+      "pct_change_1w": 5.51,
+      "avg_volume_5d": 7984060,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "SU.TO",
+      "currency": "CAD",
+      "price": 59.39,
+      "price_cad": 59.39,
+      "pct_change_1w": 3.68,
+      "avg_volume_5d": 5230260,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "K.TO",
+      "currency": "CAD",
+      "price": 33.58,
+      "price_cad": 33.58,
+      "pct_change_1w": 4.03,
+      "avg_volume_5d": 4865160,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "TD.TO",
+      "currency": "CAD",
+      "price": 110.35,
+      "price_cad": 110.35,
+      "pct_change_1w": 1.81,
+      "avg_volume_5d": 4024160,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "NTR.TO",
+      "currency": "CAD",
+      "price": 81.97,
+      "price_cad": 81.97,
+      "pct_change_1w": 4.9,
+      "avg_volume_5d": 2581060,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "FM.TO",
+      "currency": "CAD",
+      "price": 29.12,
+      "price_cad": 29.12,
+      "pct_change_1w": 7.85,
+      "avg_volume_5d": 2565900,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "QSR.TO",
+      "currency": "CAD",
+      "price": 90.44,
+      "price_cad": 90.44,
+      "pct_change_1w": 3.9,
+      "avg_volume_5d": 2230860,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "TECK.B.TO",
+      "currency": "CAD",
+      "price": 57.75,
+      "price_cad": 57.75,
+      "pct_change_1w": 6.85,
+      "avg_volume_5d": 1787219,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "RCI.B.TO",
+      "currency": "CAD",
+      "price": 49.7,
+      "price_cad": 49.7,
+      "pct_change_1w": 1.8,
+      "avg_volume_5d": 1787060,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "TOU.TO",
+      "currency": "CAD",
+      "price": 62.95,
+      "price_cad": 62.95,
+      "pct_change_1w": 3.55,
+      "avg_volume_5d": 1711480,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "OTEX.TO",
+      "currency": "CAD",
+      "price": 52.19,
+      "price_cad": 52.19,
+      "pct_change_1w": 2.51,
+      "avg_volume_5d": 1107080,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "AEM.TO",
+      "currency": "CAD",
+      "price": 227.85,
+      "price_cad": 227.85,
+      "pct_change_1w": 2.58,
+      "avg_volume_5d": 1084040,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "FTS.TO",
+      "currency": "CAD",
+      "price": 69.19,
+      "price_cad": 69.19,
+      "pct_change_1w": 1.84,
+      "avg_volume_5d": 945800,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "WPM.TO",
+      "currency": "CAD",
+      "price": 152.01,
+      "price_cad": 152.01,
+      "pct_change_1w": 2.34,
+      "avg_volume_5d": 909080,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "CAE.TO",
+      "currency": "CAD",
+      "price": 39.7,
+      "price_cad": 39.7,
+      "pct_change_1w": 2.9,
+      "avg_volume_5d": 801800,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "IMO.TO",
+      "currency": "CAD",
+      "price": 129.97,
+      "price_cad": 129.97,
+      "pct_change_1w": 2.65,
+      "avg_volume_5d": 761600,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "GIL.TO",
+      "currency": "CAD",
+      "price": 80.33,
+      "price_cad": 80.33,
+      "pct_change_1w": 3.65,
+      "avg_volume_5d": 636200,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "up"
+    },
+    {
+      "ticker": "MFC.TO",
+      "currency": "CAD",
+      "price": 42.89,
+      "price_cad": 42.89,
+      "pct_change_1w": -1.56,
+      "avg_volume_5d": 5634520,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "BNS.TO",
+      "currency": "CAD",
+      "price": 89.75,
+      "price_cad": 89.75,
+      "pct_change_1w": 0.17,
+      "avg_volume_5d": 5483060,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "POW.TO",
+      "currency": "CAD",
+      "price": 58.49,
+      "price_cad": 58.49,
+      "pct_change_1w": -0.43,
+      "avg_volume_5d": 4249340,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "CM.TO",
+      "currency": "CAD",
+      "price": 112.44,
+      "price_cad": 112.44,
+      "pct_change_1w": -0.08,
+      "avg_volume_5d": 4212340,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "T.TO",
+      "currency": "CAD",
+      "price": 21.83,
+      "price_cad": 21.83,
+      "pct_change_1w": -0.46,
+      "avg_volume_5d": 3109400,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "AQN.TO",
+      "currency": "CAD",
+      "price": 7.5,
+      "price_cad": 7.5,
+      "pct_change_1w": -0.4,
+      "avg_volume_5d": 2899920,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "RY.TO",
+      "currency": "CAD",
+      "price": 203.63,
+      "price_cad": 203.63,
+      "pct_change_1w": 0.24,
+      "avg_volume_5d": 2499200,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "CNR.TO",
+      "currency": "CAD",
+      "price": 129.38,
+      "price_cad": 129.38,
+      "pct_change_1w": 0.56,
+      "avg_volume_5d": 2304860,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "BN.TO",
+      "currency": "CAD",
+      "price": 95.34,
+      "price_cad": 95.34,
+      "pct_change_1w": -3.72,
+      "avg_volume_5d": 1999480,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "CP.TO",
+      "currency": "CAD",
+      "price": 102.47,
+      "price_cad": 102.47,
+      "pct_change_1w": -1.65,
+      "avg_volume_5d": 1616720,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "SHOP.TO",
+      "currency": "CAD",
+      "price": 195.4,
+      "price_cad": 195.4,
+      "pct_change_1w": -7.66,
+      "avg_volume_5d": 1554380,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "SLF.TO",
+      "currency": "CAD",
+      "price": 82.1,
+      "price_cad": 82.1,
+      "pct_change_1w": -1.1,
+      "avg_volume_5d": 1514320,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "CCO.TO",
+      "currency": "CAD",
+      "price": 119.22,
+      "price_cad": 119.22,
+      "pct_change_1w": -0.11,
+      "avg_volume_5d": 1511700,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "ATD.TO",
+      "currency": "CAD",
+      "price": 72.64,
+      "price_cad": 72.64,
+      "pct_change_1w": -1.33,
+      "avg_volume_5d": 1445580,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "L.TO",
+      "currency": "CAD",
+      "price": 53.46,
+      "price_cad": 53.46,
+      "pct_change_1w": -3.62,
+      "avg_volume_5d": 1360760,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "BAM.TO",
+      "currency": "CAD",
+      "price": 80.94,
+      "price_cad": 80.94,
+      "pct_change_1w": -2.09,
+      "avg_volume_5d": 1223680,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "MG.TO",
+      "currency": "CAD",
+      "price": 64.96,
+      "price_cad": 64.96,
+      "pct_change_1w": 0.23,
+      "avg_volume_5d": 808740,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "H.TO",
+      "currency": "CAD",
+      "price": 49.03,
+      "price_cad": 49.03,
+      "pct_change_1w": 0.31,
+      "avg_volume_5d": 693740,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "SAP.TO",
+      "currency": "CAD",
+      "price": 33.35,
+      "price_cad": 33.35,
+      "pct_change_1w": -0.45,
+      "avg_volume_5d": 660240,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    },
+    {
+      "ticker": "DOL.TO",
+      "currency": "CAD",
+      "price": 184.6,
+      "price_cad": 184.6,
+      "pct_change_1w": -2.67,
+      "avg_volume_5d": 599640,
+      "listing": "CAD",
+      "fractional_supported": true,
+      "bucket": "down"
+    }
+  ]
+}

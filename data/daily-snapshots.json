@@ -1907,5 +1907,81 @@
       "MOODENG": 0.21236,
       "BNB": 1409.03
     }
+  },
+  {
+    "timestamp": "2025-09-29T15:28:19.639Z",
+    "portfolio_value": 98.25863804862371,
+    "stock_value": 51.359631,
+    "crypto_value": 46.8990070486237,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 48.11,
+      "FM.TO": 31.42,
+      "CNQ.TO": 45.14,
+      "DOGE": 0.326331,
+      "AVAX": 42.14,
+      "DOT": 5.52,
+      "ENA": 0.798689,
+      "WLD": 1.81,
+      "MOODENG": 0.208796,
+      "BNB": 1408.72
+    }
+  },
+  {
+    "timestamp": "2025-09-30T00:44:45.178Z",
+    "portfolio_value": 97.8731447360624,
+    "stock_value": 50.880686000000004,
+    "crypto_value": 46.992458736062396,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 46.12,
+      "FM.TO": 31.56,
+      "CNQ.TO": 45.03,
+      "DOGE": 0.326063,
+      "AVAX": 42.55,
+      "DOT": 5.53,
+      "ENA": 0.785516,
+      "WLD": 1.77,
+      "MOODENG": 0.204117,
+      "BNB": 1436.82
+    }
+  },
+  {
+    "timestamp": "2025-09-30T17:40:31.077Z",
+    "portfolio_value": 97.5903477068639,
+    "stock_value": 50.880686000000004,
+    "crypto_value": 46.7096617068639,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 46.12,
+      "FM.TO": 31.56,
+      "CNQ.TO": 45.03,
+      "DOGE": 0.324137,
+      "AVAX": 41.6,
+      "DOT": 5.46,
+      "ENA": 0.77278,
+      "WLD": 1.76,
+      "MOODENG": 0.203412,
+      "BNB": 1426.61
+    }
+  },
+  {
+    "timestamp": "2025-09-30T20:39:02.554Z",
+    "portfolio_value": 97.0511775104941,
+    "stock_value": 50.589881,
+    "crypto_value": 46.4612965104941,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 45.71,
+      "FM.TO": 31.48,
+      "CNQ.TO": 44.5,
+      "DOGE": 0.323846,
+      "AVAX": 41.72,
+      "DOT": 5.44,
+      "ENA": 0.778622,
+      "WLD": 1.73,
+      "MOODENG": 0.204453,
+      "BNB": 1400.44
+    }
   }
 ]
