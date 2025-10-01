@@ -28,7 +28,7 @@ export function Timeline({ entries }: TimelineProps) {
 
   // Detect entry type based on ticker symbols and trade types
   const getEntryType = (entry: Entry): 'stocks' | 'crypto' => {
-    const cryptoTickers = ['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'BNB', 'MOODENG']
+    const cryptoTickers = ['BTC', 'ETH', 'DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'BNB', 'MOODENG', 'SNX']
 
     // Check regular trades for crypto
     const hasCryptoInTrades = entry.trades.some(trade => cryptoTickers.includes(trade.ticker))

@@ -154,7 +154,7 @@ function adjustForSameDayTrades(
     for (const entry of allEntries) {
       for (const trade of entry.trades || []) {
         if (trade.ticker === pos.ticker && trade.action === 'buy') {
-          const isCrypto = ['DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'MOODENG'].includes(trade.ticker)
+          const isCrypto = ['DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'MOODENG', 'SNX'].includes(trade.ticker)
           if (!isCrypto) {
             // Stock trade - use market price unless traded today
             const priceToUse = entry.week_start === today ? trade.price : pos.market_price
