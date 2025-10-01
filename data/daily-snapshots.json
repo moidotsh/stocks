@@ -1983,5 +1983,24 @@
       "MOODENG": 0.204453,
       "BNB": 1400.44
     }
+  },
+  {
+    "timestamp": "2025-10-01T14:42:01.871Z",
+    "portfolio_value": 98.2116598563088,
+    "stock_value": 50.658128,
+    "crypto_value": 47.5535318563088,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 47.43,
+      "FM.TO": 30.88,
+      "CNQ.TO": 44.09,
+      "DOGE": 0.342222,
+      "AVAX": 42.85,
+      "DOT": 5.69,
+      "ENA": 0.814307,
+      "WLD": 1.82,
+      "MOODENG": 0.214154,
+      "BNB": 1431.82
+    }
   }
 ]
