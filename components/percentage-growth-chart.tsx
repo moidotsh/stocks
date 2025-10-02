@@ -6,32 +6,30 @@ import { PortfolioData } from '@/lib/types'
 import { useCurrency } from '@/lib/currency-context'
 import { formatDate } from '@/lib/utils'
 
-interface PerformanceChartProps {
+interface PercentageGrowthChartProps {
   data: PortfolioData
 }
 
 type ChartView = 'combined' | 'stock' | 'crypto' | 'stock-vs-crypto'
 type DateRange = 'all' | '30d' | '7d' | '1d'
-type ValueDisplay = 'dollars'
 
 // Filter data based on date range - moved outside component to avoid dependency issues
 const filterDataByRange = (data: any[], range: DateRange) => {
   if (range === 'all') return data
-  
+
   const now = new Date()
   const cutoffDays = range === '30d' ? 30 : range === '7d' ? 7 : 1
   const cutoffTime = now.getTime() - (cutoffDays * 24 * 60 * 60 * 1000)
-  
+
   return data.filter(point => point.sortKey >= cutoffTime)
 }
 
-export function PerformanceChart({ data }: PerformanceChartProps) {
+export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
   const [view, setView] = useState<ChartView>('combined')
   const [dateRange, setDateRange] = useState<DateRange>('all')
-  const valueDisplay: ValueDisplay = 'dollars'
-  const { formatCurrency, formatPercentage } = useCurrency()
+  const { formatPercentage } = useCurrency()
   const [isMobile, setIsMobile] = useState(false)
-  
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
@@ -50,14 +48,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     if (newRange === dateRange) return
     setDateRange(newRange)
   }
-  
+
   const chartData = useMemo(() => data.chartData.map(point => {
     // Check if this is a snapshot point (has pipe separator or time format)
     const isSnapshot = point.date.includes('|') || (point.date.includes(' ') && point.date.includes(':'))
-    
+
     let dateFormatted
     let sortKey
-    
+
     if (isSnapshot) {
       if (point.date.includes('|')) {
         // New format with full timestamp: "2025-09-09T11:45:35.209Z|07:45"
@@ -74,7 +72,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       sortKey = new Date(point.date).getTime()
       dateFormatted = formatDate(point.date)
     }
-    
+
     return {
       ...point,
       dateFormatted,
@@ -85,16 +83,16 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   // Sort chart data chronologically using sortKey
   chartData.sort((a, b) => a.sortKey - b.sortKey)
-  
+
   const filteredChartData = useMemo(() => filterDataByRange(chartData, dateRange), [chartData, dateRange])
-  
+
   // Identify ticks that should show dates (start of new days)
   const dayStartTicks: { [key: string]: string } = {}
   let lastDate = ''
-  
+
   filteredChartData.forEach((point) => {
     let currentDate = ''
-    
+
     if (point.isSnapshot && point.date.includes('|')) {
       // New format: "2025-09-09T11:45:35.209Z|07:45"
       currentDate = point.date.split('T')[0]
@@ -105,7 +103,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       // Regular date format: "2025-09-07"
       currentDate = point.date
     }
-    
+
     if (currentDate !== lastDate) {
       // For day starts, use formatted date instead of time
       const dayLabel = formatDate(currentDate)
@@ -113,7 +111,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
       lastDate = currentDate
     }
   })
-  
+
   // Group snapshots by date and find median for each day
   const snapshotsByDate = useMemo(() => filteredChartData
     .filter(point => point.isSnapshot)
@@ -216,17 +214,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
     return smoothedPoints
   }, [filteredChartData, medianSnapshots])
 
-  
-  
   // Add isMedianSnapshot flag to chart data
   const chartDataWithMedian = useMemo(() => proportionalChartData.map(point => ({
     ...point,
     isMedianSnapshot: point.isSnapshot && medianSnapshots.has(point.date)
   })), [proportionalChartData, medianSnapshots])
 
-  
   // Calculate percentage data - smoothed returns to eliminate contribution spikes
-  const getPercentageData = useMemo(() => {
+  const percentageData = useMemo(() => {
     // First calculate raw percentages for all points
     const rawPercentages = chartDataWithMedian.map((point) => {
       const daysFromStart = point.xPosition
@@ -248,44 +243,135 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
       const totalContributions = getTotalContributions(daysFromStart)
 
-      // Simple profit/loss percentage
-      const getProfitPercentage = (currentValue: number) => {
+      // Calculate absolute percentages first
+      const getAbsolutePercentage = (currentValue: number) => {
         const profit = currentValue - totalContributions
         if (totalContributions <= 0) return 0
         return (profit / totalContributions) * 100
       }
 
+      // Calculate percentages relative to HISA benchmark
+      const getRelativePercentage = (currentValue: number, hisaValue: number) => {
+        const currentPercent = getAbsolutePercentage(currentValue)
+        const hisaPercent = getAbsolutePercentage(hisaValue)
+        return currentPercent - hisaPercent // Show outperformance/underperformance vs HISA
+      }
+
+      const portfolioAbsolute = getAbsolutePercentage(point.portfolio)
+      const hisaAbsolute = getAbsolutePercentage(point.hisa)
+      const sp500Absolute = getAbsolutePercentage(point.sp500)
+      const stockPortfolioAbsolute = getAbsolutePercentage(point.stockPortfolio)
+      const cryptoPortfolioAbsolute = getAbsolutePercentage(point.cryptoPortfolio)
+      const stockHisaAbsolute = getAbsolutePercentage(point.stockHisa)
+      const stockSP500Absolute = getAbsolutePercentage(point.stockSP500)
+      const cryptoHisaAbsolute = getAbsolutePercentage(point.cryptoHisa)
+      const cryptoSP500Absolute = getAbsolutePercentage(point.cryptoSP500Percent)
+
       return {
         ...point,
-        portfolioPercent: getProfitPercentage(point.portfolio),
-        hisaPercent: getProfitPercentage(point.hisa),
-        sp500Percent: getProfitPercentage(point.sp500),
-        stockPortfolioPercent: getProfitPercentage(point.stockPortfolio),
-        cryptoPortfolioPercent: getProfitPercentage(point.cryptoPortfolio),
-        stockHisaPercent: getProfitPercentage(point.stockHisa),
-        stockSP500Percent: getProfitPercentage(point.stockSP500),
-        cryptoHisaPercent: getProfitPercentage(point.cryptoHisa),
-        cryptoSP500Percent: getProfitPercentage(point.cryptoSP500)
+        // Absolute percentages (for reference, not displayed)
+        portfolioAbsolute,
+        hisaAbsolute,
+        sp500Absolute,
+        stockPortfolioAbsolute,
+        cryptoPortfolioAbsolute,
+        stockHisaAbsolute,
+        stockSP500Absolute,
+        cryptoHisaAbsolute,
+        cryptoSP500Absolute,
+
+        // Relative percentages (what we'll display)
+        portfolioPercent: getRelativePercentage(point.portfolio, point.hisa), // Portfolio vs HISA
+        hisaPercent: 0, // HISA is the baseline, so it's always 0
+        sp500Percent: getRelativePercentage(point.sp500, point.hisa), // S&P vs HISA
+        stockPortfolioPercent: getRelativePercentage(point.stockPortfolio, point.stockHisa), // Stock Portfolio vs Stock HISA
+        cryptoPortfolioPercent: getRelativePercentage(point.cryptoPortfolio, point.cryptoHisa), // Crypto Portfolio vs Crypto HISA
+        stockHisaPercent: 0, // Stock HISA is baseline for stock comparison
+        stockSP500Percent: getRelativePercentage(point.stockSP500, point.stockHisa), // Stock S&P vs Stock HISA
+        cryptoHisaPercent: 0, // Crypto HISA is baseline for crypto comparison
+        cryptoSP500Percent: getRelativePercentage(point.cryptoSP500Percent, point.cryptoHisa) // Crypto S&P vs Crypto HISA
       }
     })
 
-    // Apply smoothing to eliminate contribution day spikes
-    return rawPercentages.map((point, index) => {
+    // Apply smoothing to the relative performance data (much simpler now since HISA is always 0)
+    let smoothedData = [...rawPercentages]
+
+    // First pass: Smooth contribution days and large spikes
+    smoothedData = smoothedData.map((point, index) => {
       // Skip smoothing for first and last few points
-      if (index === 0 || index >= rawPercentages.length - 2) return point
+      if (index === 0 || index >= smoothedData.length - 2) return point
 
-      const prevPoint = rawPercentages[index - 1]
-      const nextPoint = rawPercentages[index + 1]
+      const prevPoint = smoothedData[index - 1]
+      const nextPoint = smoothedData[index + 1]
 
-      // Check if this is a contribution spike (large jump from previous)
-      const isSpike = Math.abs(point.portfolioPercent - prevPoint.portfolioPercent) > 50
+      // Check for any significant change in portfolio relative performance
+      const portfolioChange = Math.abs(point.portfolioPercent - prevPoint.portfolioPercent)
+      const isSpike = portfolioChange > 5 // Lower threshold for relative performance
 
-      if (isSpike) {
-        // Apply 3-point moving average to smooth the spike
+      // Also smooth regular entries (contribution days)
+      const isContributionDay = !point.isSnapshot
+
+      if (isSpike || isContributionDay) {
+        // Apply weighted moving average
         const smoothValue = (key: keyof typeof point) => {
           const pointValue = point[key] as number
           const prevValue = prevPoint[key] as number
           const nextValue = nextPoint[key] as number
+
+          // For HISA baseline, keep it at 0
+          if (typeof key === 'string' && key.includes('hisaPercent') && key !== 'stockHisaPercent' && key !== 'cryptoHisaPercent') {
+            return 0
+          }
+
+          // Weighted average: 40% prev, 20% current, 40% next
+          return (prevValue * 0.4 + pointValue * 0.2 + nextValue * 0.4)
+        }
+
+        return {
+          ...point,
+          portfolioPercent: smoothValue('portfolioPercent'),
+          hisaPercent: 0, // Keep HISA at 0
+          sp500Percent: smoothValue('sp500Percent'),
+          stockPortfolioPercent: smoothValue('stockPortfolioPercent'),
+          cryptoPortfolioPercent: smoothValue('cryptoPortfolioPercent'),
+          stockHisaPercent: 0, // Keep stock HISA at 0
+          stockSP500Percent: smoothValue('stockSP500Percent'),
+          cryptoHisaPercent: 0, // Keep crypto HISA at 0
+          cryptoSP500Percent: smoothValue('cryptoSP500Percent')
+        }
+      }
+
+      return point
+    })
+
+    // Second pass: Clean up any remaining irregularities
+    smoothedData = smoothedData.map((point, index) => {
+      // Skip smoothing for first and last points
+      if (index === 0 || index >= smoothedData.length - 1) return point
+
+      const prevPoint = smoothedData[index - 1]
+      const nextPoint = smoothedData[index + 1]
+
+      // Check for remaining small spikes in relative performance
+      const portfolioChange = Math.abs(point.portfolioPercent - prevPoint.portfolioPercent)
+      const nextChange = Math.abs(nextPoint.portfolioPercent - point.portfolioPercent)
+
+      // If this point creates a "V" shape or inverted "V" shape, smooth it
+      const isIrregular = (portfolioChange > 2 && nextChange > 2) &&
+        ((point.portfolioPercent > prevPoint.portfolioPercent && point.portfolioPercent > nextPoint.portfolioPercent) ||
+         (point.portfolioPercent < prevPoint.portfolioPercent && point.portfolioPercent < nextPoint.portfolioPercent))
+
+      if (isIrregular) {
+        // Simple 3-point average for final smoothing
+        const smoothValue = (key: keyof typeof point) => {
+          const pointValue = point[key] as number
+          const prevValue = prevPoint[key] as number
+          const nextValue = nextPoint[key] as number
+
+          // Keep HISA baselines at 0
+          if (typeof key === 'string' && key.includes('hisaPercent') && key !== 'stockHisaPercent' && key !== 'cryptoHisaPercent') {
+            return 0
+          }
 
           return (prevValue + pointValue + nextValue) / 3
         }
@@ -293,68 +379,48 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         return {
           ...point,
           portfolioPercent: smoothValue('portfolioPercent'),
-          hisaPercent: smoothValue('hisaPercent'),
+          hisaPercent: 0, // Keep HISA at 0
           sp500Percent: smoothValue('sp500Percent'),
           stockPortfolioPercent: smoothValue('stockPortfolioPercent'),
           cryptoPortfolioPercent: smoothValue('cryptoPortfolioPercent'),
-          stockHisaPercent: smoothValue('stockHisaPercent'),
+          stockHisaPercent: 0, // Keep stock HISA at 0
           stockSP500Percent: smoothValue('stockSP500Percent'),
-          cryptoHisaPercent: smoothValue('cryptoHisaPercent'),
+          cryptoHisaPercent: 0, // Keep crypto HISA at 0
           cryptoSP500Percent: smoothValue('cryptoSP500Percent')
         }
       }
 
       return point
     })
+
+    return smoothedData
   }, [chartDataWithMedian])
 
-  // Calculate Y-axis domain based on current view and display mode
+  // Calculate Y-axis domain for percentage data
   const getYAxisDomain = () => {
-    const usePercentageData = false
-
-    const allValues = chartDataWithMedian.flatMap(point => {
-      if (usePercentageData) {
-        // For percentage view, use percentage data
-        const percentagePoint = getPercentageData.find(p => p.date === point.date)
-        if (!percentagePoint) return []
-
-        switch (view) {
-          case 'combined':
-            return [percentagePoint.portfolioPercent, percentagePoint.hisaPercent, percentagePoint.sp500Percent]
-          case 'stock':
-            return [percentagePoint.stockPortfolioPercent, percentagePoint.stockHisaPercent, percentagePoint.stockSP500Percent]
-          case 'crypto':
-            return [percentagePoint.cryptoPortfolioPercent, percentagePoint.cryptoHisaPercent, percentagePoint.cryptoSP500Percent]
-          case 'stock-vs-crypto':
-            return [percentagePoint.stockPortfolioPercent, percentagePoint.cryptoPortfolioPercent, percentagePoint.stockHisaPercent, percentagePoint.stockSP500Percent]
-          default:
-            return [percentagePoint.portfolioPercent, percentagePoint.hisaPercent, percentagePoint.sp500Percent]
-        }
-      } else {
-        // Original logic for dollar view
-        switch (view) {
-          case 'combined':
-            return [point.portfolio, point.hisa, point.sp500]
-          case 'stock':
-            return [point.stockPortfolio, point.stockHisa, point.stockSP500]
-          case 'crypto':
-            return [point.cryptoPortfolio, point.cryptoHisa, point.cryptoSP500]
-          case 'stock-vs-crypto':
-            return [point.stockPortfolio, point.cryptoPortfolio, point.stockHisa, point.stockSP500]
-          default:
-            return [point.portfolio, point.hisa, point.sp500]
-        }
+    const allValues = percentageData.flatMap(point => {
+      switch (view) {
+        case 'combined':
+          return [point.portfolioPercent, point.hisaPercent, point.sp500Percent]
+        case 'stock':
+          return [point.stockPortfolioPercent, point.stockHisaPercent, point.stockSP500Percent]
+        case 'crypto':
+          return [point.cryptoPortfolioPercent, point.cryptoHisaPercent, point.cryptoSP500Percent]
+        case 'stock-vs-crypto':
+          return [point.stockPortfolioPercent, point.cryptoPortfolioPercent, point.stockHisaPercent, point.stockSP500Percent]
+        default:
+          return [point.portfolioPercent, point.hisaPercent, point.sp500Percent]
       }
     }).filter(value => value !== null && value !== undefined && !isNaN(value))
 
-    if (allValues.length === 0) return usePercentageData ? [-20, 50] : [0, 100]
+    if (allValues.length === 0) return [-20, 50]
 
     const minValue = Math.min(...allValues)
     const maxValue = Math.max(...allValues)
     const range = maxValue - minValue
 
     // If range is very small, set a minimum range
-    const minRange = Math.max(range, usePercentageData ? 5 : (maxValue * 0.1) || 1)
+    const minRange = Math.max(range, 5)
 
     // Add padding that ensures nice round numbers
     const padding = minRange * 0.15 // 15% padding
@@ -368,43 +434,40 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
     return [niceMin, niceMax]
   }
-  
+
   const [minValue, maxValue] = getYAxisDomain()
 
   const renderLines = () => {
-    const usePercentageData = false
-
     switch (view) {
       case 'combined':
         return (
           <>
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "portfolioPercent" : "portfolio"}
+              dataKey="portfolioPercent"
               stroke="hsl(var(--primary))"
               strokeWidth={3}
-              name="My Portfolio"
+              name="Portfolio vs HISA"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "hisaPercent" : "hisa"}
+              dataKey="hisaPercent"
               stroke="#10b981"
               strokeWidth={2}
-              name="If HISA (3%)"
+              name="HISA (Baseline)"
               dot={false}
-              strokeDasharray="5 5"
               animationBegin={200}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "sp500Percent" : "sp500"}
+              dataKey="sp500Percent"
               stroke="#f59e0b"
               strokeWidth={2}
-              name="If S&P 500"
+              name="S&P 500 vs HISA"
               dot={false}
               strokeDasharray="5 5"
               animationBegin={400}
@@ -418,31 +481,30 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           <>
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "stockPortfolioPercent" : "stockPortfolio"}
+              dataKey="stockPortfolioPercent"
               stroke="#3b82f6"
               strokeWidth={3}
-              name="Stock Portfolio"
+              name="Stock vs HISA"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "stockHisaPercent" : "stockHisa"}
+              dataKey="stockHisaPercent"
               stroke="#10b981"
               strokeWidth={2}
-              name="If Stock → HISA (3%)"
+              name="HISA (Baseline)"
               dot={false}
-              strokeDasharray="5 5"
               animationBegin={200}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "stockSP500Percent" : "stockSP500"}
+              dataKey="stockSP500Percent"
               stroke="#f59e0b"
               strokeWidth={2}
-              name="If Stock → S&P 500"
+              name="S&P 500 vs HISA"
               dot={false}
               strokeDasharray="5 5"
               animationBegin={400}
@@ -456,31 +518,30 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           <>
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "cryptoPortfolioPercent" : "cryptoPortfolio"}
+              dataKey="cryptoPortfolioPercent"
               stroke="#8b5cf6"
               strokeWidth={3}
-              name="Crypto Portfolio"
+              name="Crypto vs HISA"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "cryptoHisaPercent" : "cryptoHisa"}
+              dataKey="cryptoHisaPercent"
               stroke="#10b981"
               strokeWidth={2}
-              name="If Crypto → HISA (3%)"
+              name="HISA (Baseline)"
               dot={false}
-              strokeDasharray="5 5"
               animationBegin={200}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "cryptoSP500Percent" : "cryptoSP500"}
+              dataKey="cryptoSP500Percent"
               stroke="#f59e0b"
               strokeWidth={2}
-              name="If Crypto → S&P 500"
+              name="S&P 500 vs HISA"
               dot={false}
               strokeDasharray="5 5"
               animationBegin={400}
@@ -494,41 +555,40 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           <>
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "stockPortfolioPercent" : "stockPortfolio"}
+              dataKey="stockPortfolioPercent"
               stroke="#3b82f6"
               strokeWidth={3}
-              name="Stock Portfolio"
+              name="Stock vs HISA"
               dot={false}
               animationBegin={0}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "cryptoPortfolioPercent" : "cryptoPortfolio"}
+              dataKey="cryptoPortfolioPercent"
               stroke="#8b5cf6"
               strokeWidth={3}
-              name="Crypto Portfolio"
+              name="Crypto vs HISA"
               dot={false}
               animationBegin={200}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "stockHisaPercent" : "stockHisa"}
+              dataKey="stockHisaPercent"
               stroke="#10b981"
               strokeWidth={2}
-              name="If HISA (3%)"
+              name="HISA (Baseline)"
               dot={false}
-              strokeDasharray="5 5"
               animationBegin={400}
               animationDuration={800}
             />
             <Line
               type="monotone"
-              dataKey={usePercentageData ? "stockSP500Percent" : "stockSP500"}
+              dataKey="stockSP500Percent"
               stroke="#f59e0b"
               strokeWidth={2}
-              name="If S&P 500"
+              name="S&P 500 vs HISA"
               dot={false}
               strokeDasharray="5 5"
               animationBegin={600}
@@ -542,39 +602,39 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
   // Generate mobile legend items based on current view
   const getMobileLegendItems = () => {
     const items = []
-    
+
     switch (view) {
       case 'combined':
         items.push(
-          { name: 'Portfolio', color: '#8884d8' },
-          { name: 'HISA (3%)', color: '#82ca9d' },
-          { name: 'S&P 500', color: '#ffc658' }
+          { name: 'Portfolio vs HISA', color: '#8884d8' },
+          { name: 'HISA (Baseline)', color: '#82ca9d' },
+          { name: 'S&P 500 vs HISA', color: '#ffc658' }
         )
         break
       case 'stock':
         items.push(
-          { name: 'Stock Portfolio', color: '#8884d8' },
-          { name: 'If HISA (3%)', color: '#82ca9d' },
-          { name: 'If S&P 500', color: '#ffc658' }
+          { name: 'Stock vs HISA', color: '#8884d8' },
+          { name: 'HISA (Baseline)', color: '#82ca9d' },
+          { name: 'S&P 500 vs HISA', color: '#ffc658' }
         )
         break
       case 'crypto':
         items.push(
-          { name: 'Crypto Portfolio', color: '#8884d8' },
-          { name: 'If HISA (3%)', color: '#82ca9d' },
-          { name: 'If S&P 500', color: '#ffc658' }
+          { name: 'Crypto vs HISA', color: '#8884d8' },
+          { name: 'HISA (Baseline)', color: '#82ca9d' },
+          { name: 'S&P 500 vs HISA', color: '#ffc658' }
         )
         break
       case 'stock-vs-crypto':
         items.push(
-          { name: 'Stock Portfolio', color: '#8884d8' },
-          { name: 'Crypto Portfolio', color: '#ff7300' },
-          { name: 'If HISA (3%)', color: '#82ca9d' },
-          { name: 'If S&P 500', color: '#ffc658' }
+          { name: 'Stock vs HISA', color: '#8884d8' },
+          { name: 'Crypto vs HISA', color: '#ff7300' },
+          { name: 'HISA (Baseline)', color: '#82ca9d' },
+          { name: 'S&P 500 vs HISA', color: '#ffc658' }
         )
         break
     }
-    
+
     return items
   }
 
@@ -607,7 +667,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             ))}
           </div>
         </div>
-        
+
         {/* Time Range Selector - Horizontal Scroll on Mobile */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Time Range</label>
@@ -634,7 +694,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           </div>
         </div>
       </div>
-      
+
       <div className={`w-full ${isMobile ? 'h-80' : 'h-96'} relative`}>
         <ResponsiveContainer
           width="100%"
@@ -642,12 +702,12 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
           className="transition-all duration-300"
         >
           <LineChart
-            data={chartDataWithMedian}
+            data={percentageData}
             margin={isMobile ?
               { top: 5, right: 10, left: 10, bottom: 5 } :
               { top: 5, right: 30, left: 20, bottom: 5 }
             }
-            key={`${view}-${dateRange}-${valueDisplay}`} // Force re-render for smooth transitions
+            key={`${view}-${dateRange}`} // Force re-render for smooth transitions
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -683,11 +743,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               className="text-sm"
               tick={{ fontSize: isMobile ? 10 : 12 }}
               tickFormatter={(value) => {
-                // On mobile, use shorter currency format with decimals for clarity
-                if (isMobile) {
-                  return value >= 1000 ? `$${(value/1000).toFixed(1)}k` : `$${value.toFixed(1)}`
-                }
-                return formatCurrency(value)
+                return `${value.toFixed(1)}%`
               }}
               domain={[minValue, maxValue]}
               tickCount={6}
@@ -695,7 +751,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             />
             <Tooltip
               formatter={(value: number, name: string) => {
-                return [formatCurrency(value), name]
+                return [`${value.toFixed(1)}%`, name]
               }}
               labelFormatter={(_label: number, payload: unknown) => {
                 if (payload && Array.isArray(payload) && payload.length > 0) {
@@ -728,7 +784,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               }}
             />
             {!isMobile && (
-              <Legend 
+              <Legend
                 wrapperStyle={{ fontSize: '14px' }}
                 layout="horizontal"
                 align="center"
@@ -736,83 +792,22 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               />
             )}
             {renderLines()}
-            {/* Show dots only for median snapshots per day */}
-            {view === 'combined' && (
-              <Line 
-                type="monotone" 
-                dataKey="portfolio" 
-                stroke="transparent"
-                strokeWidth={0}
-                dot={false}
-                activeDot={{ r: 5 }}
-                name=""
-                connectNulls={false}
-              />
-            )}
-            {view === 'stock' && (
-              <Line 
-                type="monotone" 
-                dataKey="stockPortfolio" 
-                stroke="transparent"
-                strokeWidth={0}
-                dot={false}
-                activeDot={{ r: 5 }}
-                name=""
-                connectNulls={false}
-              />
-            )}
-            {view === 'crypto' && (
-              <Line 
-                type="monotone" 
-                dataKey="cryptoPortfolio" 
-                stroke="transparent"
-                strokeWidth={0}
-                dot={false}
-                activeDot={{ r: 5 }}
-                name=""
-                connectNulls={false}
-              />
-            )}
-            {view === 'stock-vs-crypto' && (
-              <>
-                <Line 
-                  type="monotone" 
-                  dataKey="stockPortfolio" 
-                  stroke="transparent"
-                  strokeWidth={0}
-                  dot={false}
-                  activeDot={{ r: 5 }}
-                  name=""
-                  connectNulls={false}
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="cryptoPortfolio" 
-                  stroke="transparent"
-                  strokeWidth={0}
-                  dot={false}
-                  activeDot={{ r: 5 }}
-                  name=""
-                  connectNulls={false}
-                />
-              </>
-            )}
           </LineChart>
         </ResponsiveContainer>
       </div>
-      
+
       {/* Mobile Legend */}
       {isMobile && (
         <div className="mt-4 p-3 bg-muted/50 rounded-lg transition-all duration-300">
           <div className="grid grid-cols-2 gap-2 text-xs">
             {getMobileLegendItems().map((item, index) => (
-              <div 
-                key={`${view}-${index}`} 
+              <div
+                key={`${view}-${index}`}
                 className="flex items-center gap-2 animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div 
-                  className="w-3 h-0.5 rounded-full transition-all duration-300" 
+                <div
+                  className="w-3 h-0.5 rounded-full transition-all duration-300"
                   style={{ backgroundColor: item.color }}
                 />
                 <span className="text-muted-foreground font-medium">

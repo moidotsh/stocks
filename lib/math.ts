@@ -341,7 +341,7 @@ export function generateChartData(
     // Check if we have snapshots for today - if so, don't add the separate "current value" point
     const todaySnapshots = dailySnapshots.filter(s => s.timestamp.startsWith(todayDate))
     const hasSnapshotsForToday = todaySnapshots.length > 0
-    
+
     // If we added a current value point for today but we have snapshots, remove it
     if (hasSnapshotsForToday && data.length > 0 && data[data.length - 1].date === todayDate) {
       data.pop() // Remove the duplicate current value point
@@ -351,13 +351,14 @@ export function generateChartData(
     for (const snapshot of dailySnapshots) {
       const snapshotDateTime = new Date(snapshot.timestamp)
       const snapshotDateStr = snapshot.timestamp.split('T')[0]
-      const timeStr = snapshotDateTime.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit', 
-        hour12: false 
+      const timeStr = snapshotDateTime.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'UTC' // Force UTC to avoid timezone conversion issues
       })
-      
-      // Use full timestamp for accurate sorting, but create display date  
+
+      // Use full timestamp for accurate sorting, but create display date
       const displayDate = `${snapshot.timestamp}|${timeStr}` // Store both for sorting
       
       // Calculate benchmark values for this date
@@ -397,8 +398,15 @@ export function generateChartData(
       })
     }
     
-    // Sort all data by date
-    data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    // Sort all data by date (handle both ISO timestamps and regular dates)
+    data.sort((a, b) => {
+      // Extract the timestamp part for snapshots (handles format like "2025-10-02T00:11:49.290Z|00:11")
+      const aTimestamp = a.date.includes('|') ? a.date.split('|')[0] : a.date
+      const bTimestamp = b.date.includes('|') ? b.date.split('|')[0] : b.date
+
+      // Compare timestamps directly (ISO format sorts correctly lexicographically)
+      return aTimestamp.localeCompare(bTimestamp)
+    })
   }
   
   return data

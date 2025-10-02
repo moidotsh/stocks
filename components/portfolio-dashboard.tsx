@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react'
 import { KpiCards } from '@/components/kpi-cards'
 import { PerformanceChart } from '@/components/performance-chart'
+import { PercentageGrowthChart } from '@/components/percentage-growth-chart'
 import { PriceRefreshButton } from '@/components/price-refresh-button'
 import { SnapshotButton } from '@/components/snapshot-button'
 import { PortfolioData } from '@/lib/types'
-import { Settings } from 'lucide-react'
+import { Settings, TrendingUp, DollarSign } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface PortfolioDashboardProps {
   initialData: PortfolioData
@@ -68,9 +70,28 @@ export function PortfolioDashboard({ initialData }: PortfolioDashboardProps) {
       
       <div className="bg-card rounded-2xl p-4 md:p-6 shadow-sm hover-lift animate-scale-in">
         <h2 className="text-lg md:text-xl font-semibold mb-4">
-          Performance Comparison
+          Performance Analysis
         </h2>
-        <PerformanceChart data={initialData} />
+        <Tabs defaultValue="value" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="value" className="flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              Dollar Value
+            </TabsTrigger>
+            <TabsTrigger value="percentage" className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              % Growth
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="value" className="space-y-4">
+            <PerformanceChart data={initialData} />
+          </TabsContent>
+
+          <TabsContent value="percentage" className="space-y-4">
+            <PercentageGrowthChart data={initialData} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
