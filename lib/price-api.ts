@@ -19,8 +19,9 @@ interface CryptoPrice {
 // Ticker symbol mapping for Canadian stocks
 const TICKER_MAPPING: Record<string, string> = {
   'ABX': 'ABX.TO',
-  'XIU': 'XIU.TO', 
+  'XIU': 'XIU.TO',
   'TDB902': 'TDB902.TO',
+  'TECK.B.TO': 'TECK-B.TO',
   // Add more mappings as needed
 }
 
