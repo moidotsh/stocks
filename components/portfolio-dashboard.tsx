@@ -72,7 +72,7 @@ export function PortfolioDashboard({ initialData }: PortfolioDashboardProps) {
         <h2 className="text-lg md:text-xl font-semibold mb-4">
           Performance Analysis
         </h2>
-        <Tabs defaultValue="value" className="space-y-4">
+        <Tabs defaultValue="percentage" className="space-y-4">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="value" className="flex items-center gap-2">
               <DollarSign className="h-4 w-4" />

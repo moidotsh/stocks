@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, Bar, BarChart, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { PortfolioData } from '@/lib/types'
 import { useCurrency } from '@/lib/currency-context'
 import { formatDate } from '@/lib/utils'
@@ -116,7 +116,14 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
   const snapshotsByDate = useMemo(() => filteredChartData
     .filter(point => point.isSnapshot)
     .reduce((acc, point) => {
-      const date = point.date.split(' ')[0] // Extract date part
+      let date = ''
+      if (point.date.includes('|')) {
+        // New format: "2025-09-09T11:45:35.209Z|07:45"
+        date = point.date.split('T')[0] // Extract "2025-09-09"
+      } else {
+        // Legacy format: "2025-09-09 07:45"
+        date = point.date.split(' ')[0] // Extract "2025-09-09"
+      }
       if (!acc[date]) acc[date] = []
       acc[date].push(point)
       return acc
@@ -269,6 +276,13 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
 
       return {
         ...point,
+        // Portfolio values for bar charts (contributions + profit/loss)
+        portfolioValue: point.portfolio,
+        stockPortfolioValue: point.stockPortfolio,
+        cryptoPortfolioValue: point.cryptoPortfolio,
+        // Cumulative contribution amount for bar chart
+        cumulativeContribution: totalContributions,
+
         // Absolute percentages (for reference, not displayed)
         portfolioAbsolute,
         hisaAbsolute,
@@ -329,6 +343,10 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
 
         return {
           ...point,
+          portfolioValue: point.portfolioValue, // Keep portfolio values unchanged
+          stockPortfolioValue: point.stockPortfolioValue,
+          cryptoPortfolioValue: point.cryptoPortfolioValue,
+          cumulativeContribution: point.cumulativeContribution, // Keep contribution amounts unchanged
           portfolioPercent: smoothValue('portfolioPercent'),
           hisaPercent: 0, // Keep HISA at 0
           sp500Percent: smoothValue('sp500Percent'),
@@ -378,6 +396,10 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
 
         return {
           ...point,
+          portfolioValue: point.portfolioValue, // Keep portfolio values unchanged
+          stockPortfolioValue: point.stockPortfolioValue,
+          cryptoPortfolioValue: point.cryptoPortfolioValue,
+          cumulativeContribution: point.cumulativeContribution, // Keep contribution amounts unchanged
           portfolioPercent: smoothValue('portfolioPercent'),
           hisaPercent: 0, // Keep HISA at 0
           sp500Percent: smoothValue('sp500Percent'),
@@ -437,12 +459,25 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
 
   const [minValue, maxValue] = getYAxisDomain()
 
+  // Calculate portfolio value axis domain
+  const getPortfolioValueAxisDomain = () => {
+    const portfolioValues = percentageData.map(point => point.portfolioValue || 0)
+    const maxPortfolioValue = Math.max(...portfolioValues, 1) // At least 1 to show scale
+
+    // Set a nice round max value
+    const niceMax = Math.ceil(maxPortfolioValue / 10) * 10
+    return [0, niceMax]
+  }
+
+  const [minPortfolioValue, maxPortfolioValue] = getPortfolioValueAxisDomain()
+
   const renderLines = () => {
     switch (view) {
       case 'combined':
         return (
           <>
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="portfolioPercent"
               stroke="hsl(var(--primary))"
@@ -453,6 +488,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="hisaPercent"
               stroke="#10b981"
@@ -463,6 +499,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="sp500Percent"
               stroke="#f59e0b"
@@ -480,6 +517,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
         return (
           <>
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="stockPortfolioPercent"
               stroke="#3b82f6"
@@ -490,6 +528,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="stockHisaPercent"
               stroke="#10b981"
@@ -500,6 +539,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="stockSP500Percent"
               stroke="#f59e0b"
@@ -517,6 +557,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
         return (
           <>
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="cryptoPortfolioPercent"
               stroke="#8b5cf6"
@@ -527,6 +568,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="cryptoHisaPercent"
               stroke="#10b981"
@@ -537,6 +579,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="cryptoSP500Percent"
               stroke="#f59e0b"
@@ -554,6 +597,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
         return (
           <>
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="stockPortfolioPercent"
               stroke="#3b82f6"
@@ -564,6 +608,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="cryptoPortfolioPercent"
               stroke="#8b5cf6"
@@ -574,6 +619,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="stockHisaPercent"
               stroke="#10b981"
@@ -584,6 +630,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               animationDuration={800}
             />
             <Line
+              yAxisId="percentage"
               type="monotone"
               dataKey="stockSP500Percent"
               stroke="#f59e0b"
@@ -608,21 +655,24 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
         items.push(
           { name: 'Portfolio vs HISA', color: '#8884d8' },
           { name: 'HISA (Baseline)', color: '#82ca9d' },
-          { name: 'S&P 500 vs HISA', color: '#ffc658' }
+          { name: 'S&P 500 vs HISA', color: '#ffc658' },
+          { name: 'Portfolio Value', color: '#f1f5f9' }
         )
         break
       case 'stock':
         items.push(
           { name: 'Stock vs HISA', color: '#8884d8' },
           { name: 'HISA (Baseline)', color: '#82ca9d' },
-          { name: 'S&P 500 vs HISA', color: '#ffc658' }
+          { name: 'S&P 500 vs HISA', color: '#ffc658' },
+          { name: 'Stock Portfolio Value', color: '#f0f9ff' }
         )
         break
       case 'crypto':
         items.push(
           { name: 'Crypto vs HISA', color: '#8884d8' },
           { name: 'HISA (Baseline)', color: '#82ca9d' },
-          { name: 'S&P 500 vs HISA', color: '#ffc658' }
+          { name: 'S&P 500 vs HISA', color: '#ffc658' },
+          { name: 'Crypto Portfolio Value', color: '#faf5ff' }
         )
         break
       case 'stock-vs-crypto':
@@ -701,11 +751,11 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
           height="100%"
           className="transition-all duration-300"
         >
-          <LineChart
+          <ComposedChart
             data={percentageData}
             margin={isMobile ?
-              { top: 5, right: 10, left: 10, bottom: 5 } :
-              { top: 5, right: 30, left: 20, bottom: 5 }
+              { top: 5, right: 60, left: 10, bottom: 5 } :
+              { top: 5, right: 80, left: 20, bottom: 5 }
             }
             key={`${view}-${dateRange}`} // Force re-render for smooth transitions
             style={{ transition: 'all 0.3s ease-in-out' }}
@@ -740,6 +790,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               }}
             />
             <YAxis
+              yAxisId="percentage"
               className="text-sm"
               tick={{ fontSize: isMobile ? 10 : 12 }}
               tickFormatter={(value) => {
@@ -749,8 +800,23 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               tickCount={6}
               width={isMobile ? 50 : 60}
             />
+            <YAxis
+              yAxisId="portfolio"
+              orientation="right"
+              className="text-sm"
+              tick={{ fontSize: isMobile ? 10 : 12 }}
+              tickFormatter={(value) => {
+                return `$${value}`
+              }}
+              domain={[minPortfolioValue, maxPortfolioValue]}
+              tickCount={4}
+              width={isMobile ? 40 : 50}
+            />
             <Tooltip
               formatter={(value: number, name: string) => {
+                if (name === 'Portfolio Value' || name === 'Stock Portfolio Value' || name === 'Crypto Portfolio Value') {
+                  return [`$${value.toFixed(2)}`, name]
+                }
                 return [`${value.toFixed(1)}%`, name]
               }}
               labelFormatter={(_label: number, payload: unknown) => {
@@ -791,8 +857,45 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
                 verticalAlign="bottom"
               />
             )}
+            {/* Conditional bar charts based on view */}
+            {view === 'combined' && (
+              <Bar
+                yAxisId="portfolio"
+                dataKey="portfolioValue"
+                fill="none"
+                stroke="#f1f5f9"
+                strokeWidth={1}
+                name="Portfolio Value"
+                animationBegin={0}
+                animationDuration={600}
+              />
+            )}
+            {view === 'stock' && (
+              <Bar
+                yAxisId="portfolio"
+                dataKey="stockPortfolioValue"
+                fill="none"
+                stroke="#f0f9ff"
+                strokeWidth={1}
+                name="Stock Portfolio Value"
+                animationBegin={0}
+                animationDuration={600}
+              />
+            )}
+            {view === 'crypto' && (
+              <Bar
+                yAxisId="portfolio"
+                dataKey="cryptoPortfolioValue"
+                fill="none"
+                stroke="#faf5ff"
+                strokeWidth={1}
+                name="Crypto Portfolio Value"
+                animationBegin={0}
+                animationDuration={600}
+              />
+            )}
             {renderLines()}
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
 

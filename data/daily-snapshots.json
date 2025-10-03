@@ -2269,5 +2269,47 @@
       "BNB": 1496.98,
       "SNX": 1.75
     }
+  },
+  {
+    "timestamp": "2025-10-03T01:46:09.504Z",
+    "portfolio_value": 102.985587136736,
+    "stock_value": 51.513781,
+    "crypto_value": 51.47180613673601,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 47.39,
+      "FM.TO": 31.57,
+      "CNQ.TO": 43.92,
+      "TECK.B.TO": 60.54,
+      "DOGE": 0.360614,
+      "AVAX": 42.75,
+      "DOT": 5.93,
+      "ENA": 0.865078,
+      "WLD": 1.86,
+      "MOODENG": 0.22093,
+      "BNB": 1527.33,
+      "SNX": 1.69
+    }
+  },
+  {
+    "timestamp": "2025-10-03T16:26:26.958Z",
+    "portfolio_value": 105.1217340576945,
+    "stock_value": 51.956683999999996,
+    "crypto_value": 53.1650500576945,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 47.29,
+      "FM.TO": 32.12,
+      "CNQ.TO": 44.49,
+      "TECK.B.TO": 60.87,
+      "DOGE": 0.365565,
+      "AVAX": 43.63,
+      "DOT": 6.06,
+      "ENA": 0.874483,
+      "WLD": 1.9,
+      "MOODENG": 0.22931,
+      "BNB": 1609.72,
+      "SNX": 1.74
+    }
   }
 ]
