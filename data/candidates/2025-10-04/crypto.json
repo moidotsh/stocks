@@ -1,0 +1,565 @@
+{
+  "as_of": "2025-10-04",
+  "exchange": "Wealthsimple Crypto (non-registered)",
+  "cash_available_cad": 14.0,
+  "constraints": {
+    "max_positions": 10,
+    "max_weight_per_position": 0.2,
+    "min_trade_size_cad": 1.0
+  },
+  "fractional_allowed": true,
+  "order_mode": "market_only",
+  "fee_rate": 0.02,
+  "holdings": [
+    {
+      "symbol": "AVAX",
+      "amount": 0.110013,
+      "avg_cost_cad": 31.3629,
+      "market_price_cad": 43.63,
+      "effective_buy_price_cad": 44.5026,
+      "effective_sell_price_cad": 42.7574
+    },
+    {
+      "symbol": "BNB",
+      "amount": 0.00825,
+      "avg_cost_cad": 1421.52,
+      "market_price_cad": 1649.94,
+      "effective_buy_price_cad": 1682.9388,
+      "effective_sell_price_cad": 1616.9412
+    },
+    {
+      "symbol": "DOGE",
+      "amount": 11.707648,
+      "avg_cost_cad": 0.3467,
+      "market_price_cad": 0.354909,
+      "effective_buy_price_cad": 0.362007,
+      "effective_sell_price_cad": 0.347811
+    },
+    {
+      "symbol": "DOT",
+      "amount": 0.36,
+      "avg_cost_cad": 5.72,
+      "market_price_cad": 6.0,
+      "effective_buy_price_cad": 6.12,
+      "effective_sell_price_cad": 5.88
+    },
+    {
+      "symbol": "ENA",
+      "amount": 0.98,
+      "avg_cost_cad": 1.06,
+      "market_price_cad": 0.853941,
+      "effective_buy_price_cad": 0.87102,
+      "effective_sell_price_cad": 0.836862
+    },
+    {
+      "symbol": "MOODENG",
+      "amount": 19.227765,
+      "avg_cost_cad": 0.298,
+      "market_price_cad": 0.228727,
+      "effective_buy_price_cad": 0.233302,
+      "effective_sell_price_cad": 0.224152
+    },
+    {
+      "symbol": "SNX",
+      "amount": 11.210797,
+      "avg_cost_cad": 1.46,
+      "market_price_cad": 1.67,
+      "effective_buy_price_cad": 1.7034,
+      "effective_sell_price_cad": 1.6366
+    },
+    {
+      "symbol": "WLD",
+      "amount": 2.026621,
+      "avg_cost_cad": 1.8317,
+      "market_price_cad": 1.84,
+      "effective_buy_price_cad": 1.8768,
+      "effective_sell_price_cad": 1.8032
+    }
+  ],
+  "candidates": [
+    {
+      "id": "bitcoin",
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "price_cad": 171432.0,
+      "pct_change_1w": 12.160206752162598,
+      "vol_24h": 114944683825.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 174860.64,
+      "effective_sell_price_cad": 168003.36
+    },
+    {
+      "id": "ethereum",
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "price_cad": 6290.33,
+      "pct_change_1w": 12.19702412173021,
+      "vol_24h": 60284106960.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 6416.1366,
+      "effective_sell_price_cad": 6164.5234
+    },
+    {
+      "id": "solana",
+      "symbol": "SOL",
+      "name": "Solana",
+      "price_cad": 321.39,
+      "pct_change_1w": 13.163855510773795,
+      "vol_24h": 12835812358.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 327.8178,
+      "effective_sell_price_cad": 314.9622
+    },
+    {
+      "id": "binancecoin",
+      "symbol": "BNB",
+      "name": "BNB",
+      "price_cad": 1649.94,
+      "pct_change_1w": 22.38947862832489,
+      "vol_24h": 6609129826.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 1682.9388,
+      "effective_sell_price_cad": 1616.9412
+    },
+    {
+      "id": "litecoin",
+      "symbol": "LTC",
+      "name": "Litecoin",
+      "price_cad": 166.76,
+      "pct_change_1w": 15.085795602103824,
+      "vol_24h": 1490688849.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 170.0952,
+      "effective_sell_price_cad": 163.4248
+    },
+    {
+      "id": "pancakeswap-token",
+      "symbol": "CAKE",
+      "name": "PancakeSwap",
+      "price_cad": 5.07,
+      "pct_change_1w": 39.960797012205575,
+      "vol_24h": 1206653643.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 5.1714,
+      "effective_sell_price_cad": 4.9686
+    },
+    {
+      "id": "stellar",
+      "symbol": "XLM",
+      "name": "Stellar",
+      "price_cad": 0.563506,
+      "pct_change_1w": 11.824787981264858,
+      "vol_24h": 416119763.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 0.574776,
+      "effective_sell_price_cad": 0.552236
+    },
+    {
+      "id": "curve-dao-token",
+      "symbol": "CRV",
+      "name": "Curve DAO",
+      "price_cad": 1.073,
+      "pct_change_1w": 16.331937713880908,
+      "vol_24h": 240704963.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 1.09446,
+      "effective_sell_price_cad": 1.05154
+    },
+    {
+      "id": "ether-fi",
+      "symbol": "ETHFI",
+      "name": "Ether.fi",
+      "price_cad": 2.45,
+      "pct_change_1w": 11.948811208432847,
+      "vol_24h": 229465762.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 2.499,
+      "effective_sell_price_cad": 2.401
+    },
+    {
+      "id": "injective-protocol",
+      "symbol": "INJ",
+      "name": "Injective",
+      "price_cad": 18.6,
+      "pct_change_1w": 13.585092862334552,
+      "vol_24h": 213677296.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 18.972,
+      "effective_sell_price_cad": 18.228
+    },
+    {
+      "id": "celo",
+      "symbol": "CELO",
+      "name": "Celo",
+      "price_cad": 0.470994,
+      "pct_change_1w": 34.19775642198509,
+      "vol_24h": 182655214.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 0.480414,
+      "effective_sell_price_cad": 0.461574
+    },
+    {
+      "id": "lido-dao",
+      "symbol": "LDO",
+      "name": "Lido DAO",
+      "price_cad": 1.7,
+      "pct_change_1w": 11.717336706423161,
+      "vol_24h": 175869348.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 1.734,
+      "effective_sell_price_cad": 1.666
+    },
+    {
+      "id": "sonic-3",
+      "symbol": "S",
+      "name": "Sonic",
+      "price_cad": 0.39202,
+      "pct_change_1w": 17.699718093992356,
+      "vol_24h": 161867157.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 0.39986,
+      "effective_sell_price_cad": 0.38418
+    },
+    {
+      "id": "spx6900",
+      "symbol": "SPX",
+      "name": "SPX6900",
+      "price_cad": 1.98,
+      "pct_change_1w": 39.626367534407876,
+      "vol_24h": 120977940.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 2.0196,
+      "effective_sell_price_cad": 1.9404
+    },
+    {
+      "id": "chiliz",
+      "symbol": "CHZ",
+      "name": "Chiliz",
+      "price_cad": 0.063305,
+      "pct_change_1w": 15.506477133777796,
+      "vol_24h": 113246105.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 0.064571,
+      "effective_sell_price_cad": 0.062039
+    },
+    {
+      "id": "decentraland",
+      "symbol": "MANA",
+      "name": "Decentraland",
+      "price_cad": 0.476178,
+      "pct_change_1w": 18.928789639899698,
+      "vol_24h": 86316862.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 0.485702,
+      "effective_sell_price_cad": 0.466654
+    },
+    {
+      "id": "raydium",
+      "symbol": "RAY",
+      "name": "Raydium",
+      "price_cad": 4.1,
+      "pct_change_1w": 11.862068818410561,
+      "vol_24h": 74719825.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 4.182,
+      "effective_sell_price_cad": 4.018
+    },
+    {
+      "id": "superfarm",
+      "symbol": "SUPER",
+      "name": "SuperVerse",
+      "price_cad": 0.886474,
+      "pct_change_1w": 19.775936923527652,
+      "vol_24h": 36793810.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 0.904203,
+      "effective_sell_price_cad": 0.868745
+    },
+    {
+      "id": "quant-network",
+      "symbol": "QNT",
+      "name": "Quant",
+      "price_cad": 148.12,
+      "pct_change_1w": 14.744606967237791,
+      "vol_24h": 28205960.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 151.0824,
+      "effective_sell_price_cad": 145.1576
+    },
+    {
+      "id": "helium",
+      "symbol": "HNT",
+      "name": "Helium",
+      "price_cad": 3.69,
+      "pct_change_1w": 20.068260646896682,
+      "vol_24h": 12163722.0,
+      "bucket": "up",
+      "effective_buy_price_cad": 3.7638,
+      "effective_sell_price_cad": 3.6162
+    },
+    {
+      "id": "usd-coin",
+      "symbol": "USDC",
+      "name": "USDC",
+      "price_cad": 1.4,
+      "pct_change_1w": 0.16830551426830834,
+      "vol_24h": 20953476958.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.428,
+      "effective_sell_price_cad": 1.372
+    },
+    {
+      "id": "world-liberty-financial",
+      "symbol": "WLFI",
+      "name": "World Liberty Financial",
+      "price_cad": 0.282815,
+      "pct_change_1w": -2.9786967977486603,
+      "vol_24h": 580375975.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 0.288471,
+      "effective_sell_price_cad": 0.277159
+    },
+    {
+      "id": "ethena",
+      "symbol": "ENA",
+      "name": "Ethena",
+      "price_cad": 0.85394,
+      "pct_change_1w": 3.7174626357630656,
+      "vol_24h": 560422707.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 0.871019,
+      "effective_sell_price_cad": 0.836861
+    },
+    {
+      "id": "worldcoin-wld",
+      "symbol": "WLD",
+      "name": "Worldcoin",
+      "price_cad": 1.84,
+      "pct_change_1w": 0.7209891656692773,
+      "vol_24h": 468664180.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.8768,
+      "effective_sell_price_cad": 1.8032
+    },
+    {
+      "id": "official-trump",
+      "symbol": "TRUMP",
+      "name": "Official Trump",
+      "price_cad": 10.93,
+      "pct_change_1w": 3.524881102466537,
+      "vol_24h": 370006305.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 11.1486,
+      "effective_sell_price_cad": 10.7114
+    },
+    {
+      "id": "arbitrum",
+      "symbol": "ARB",
+      "name": "Arbitrum",
+      "price_cad": 0.619957,
+      "pct_change_1w": 4.843299146750361,
+      "vol_24h": 368836947.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 0.632356,
+      "effective_sell_price_cad": 0.607558
+    },
+    {
+      "id": "dogwifcoin",
+      "symbol": "WIF",
+      "name": "dogwifhat",
+      "price_cad": 1.093,
+      "pct_change_1w": 4.41872138780105,
+      "vol_24h": 319795278.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.11486,
+      "effective_sell_price_cad": 1.07114
+    },
+    {
+      "id": "the-open-network",
+      "symbol": "TON",
+      "name": "Toncoin",
+      "price_cad": 3.95,
+      "pct_change_1w": 4.021571190183322,
+      "vol_24h": 232573200.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 4.029,
+      "effective_sell_price_cad": 3.871
+    },
+    {
+      "id": "cosmos",
+      "symbol": "ATOM",
+      "name": "Cosmos Hub",
+      "price_cad": 5.91,
+      "pct_change_1w": 3.4298882194914024,
+      "vol_24h": 148532300.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 6.0282,
+      "effective_sell_price_cad": 5.7918
+    },
+    {
+      "id": "pendle",
+      "symbol": "PENDLE",
+      "name": "Pendle",
+      "price_cad": 6.76,
+      "pct_change_1w": 4.081520200298813,
+      "vol_24h": 131946696.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 6.8952,
+      "effective_sell_price_cad": 6.6248
+    },
+    {
+      "id": "render-token",
+      "symbol": "RENDER",
+      "name": "Render",
+      "price_cad": 4.97,
+      "pct_change_1w": 4.4320887138896685,
+      "vol_24h": 117333457.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 5.0694,
+      "effective_sell_price_cad": 4.8706
+    },
+    {
+      "id": "fetch-ai",
+      "symbol": "FET",
+      "name": "Artificial Superintelligence Alliance",
+      "price_cad": 0.822122,
+      "pct_change_1w": 1.4821722069230483,
+      "vol_24h": 105948190.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 0.838564,
+      "effective_sell_price_cad": 0.80568
+    },
+    {
+      "id": "grass",
+      "symbol": "GRASS",
+      "name": "Grass",
+      "price_cad": 1.26,
+      "pct_change_1w": 0.9439973856936953,
+      "vol_24h": 72386829.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.2852,
+      "effective_sell_price_cad": 1.2348
+    },
+    {
+      "id": "havven",
+      "symbol": "SNX",
+      "name": "Synthetix Network",
+      "price_cad": 1.67,
+      "pct_change_1w": 3.997772572249271,
+      "vol_24h": 71994471.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.7034,
+      "effective_sell_price_cad": 1.6366
+    },
+    {
+      "id": "the-graph",
+      "symbol": "GRT",
+      "name": "The Graph",
+      "price_cad": 0.1179,
+      "pct_change_1w": 2.997364707218107,
+      "vol_24h": 68496881.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 0.120258,
+      "effective_sell_price_cad": 0.115542
+    },
+    {
+      "id": "jupiter-exchange-solana",
+      "symbol": "JUP",
+      "name": "Jupiter",
+      "price_cad": 0.646008,
+      "pct_change_1w": 4.165465472452875,
+      "vol_24h": 60747079.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 0.658928,
+      "effective_sell_price_cad": 0.633088
+    },
+    {
+      "id": "jito-governance-token",
+      "symbol": "JTO",
+      "name": "Jito",
+      "price_cad": 2.28,
+      "pct_change_1w": 2.1180751660142585,
+      "vol_24h": 45231307.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 2.3256,
+      "effective_sell_price_cad": 2.2344
+    },
+    {
+      "id": "axie-infinity",
+      "symbol": "AXS",
+      "name": "Axie Infinity",
+      "price_cad": 3.16,
+      "pct_change_1w": 4.213231065986263,
+      "vol_24h": 40088884.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 3.2232,
+      "effective_sell_price_cad": 3.0968
+    },
+    {
+      "id": "tezos",
+      "symbol": "XTZ",
+      "name": "Tezos",
+      "price_cad": 0.985067,
+      "pct_change_1w": 4.230916536182963,
+      "vol_24h": 32186319.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.004768,
+      "effective_sell_price_cad": 0.965366
+    },
+    {
+      "id": "mask-network",
+      "symbol": "MASK",
+      "name": "Mask Network",
+      "price_cad": 1.79,
+      "pct_change_1w": 3.122917058561806,
+      "vol_24h": 24483498.0,
+      "bucket": "down",
+      "effective_buy_price_cad": 1.8258,
+      "effective_sell_price_cad": 1.7542
+    },
+    {
+      "id": "avalanche-2",
+      "symbol": "AVAX",
+      "name": "AVAX",
+      "price_cad": 43.63,
+      "pct_change_1w": null,
+      "vol_24h": 0.0,
+      "bucket": "holding",
+      "effective_buy_price_cad": 44.5026,
+      "effective_sell_price_cad": 42.7574
+    },
+    {
+      "id": "dogecoin",
+      "symbol": "DOGE",
+      "name": "DOGE",
+      "price_cad": 0.354909,
+      "pct_change_1w": null,
+      "vol_24h": 0.0,
+      "bucket": "holding",
+      "effective_buy_price_cad": 0.362007,
+      "effective_sell_price_cad": 0.347811
+    },
+    {
+      "id": "polkadot",
+      "symbol": "DOT",
+      "name": "DOT",
+      "price_cad": 6.0,
+      "pct_change_1w": null,
+      "vol_24h": 0.0,
+      "bucket": "holding",
+      "effective_buy_price_cad": 6.12,
+      "effective_sell_price_cad": 5.88
+    },
+    {
+      "id": "moo-deng",
+      "symbol": "MOODENG",
+      "name": "MOODENG",
+      "price_cad": 0.228727,
+      "pct_change_1w": null,
+      "vol_24h": 0.0,
+      "bucket": "holding",
+      "effective_buy_price_cad": 0.233302,
+      "effective_sell_price_cad": 0.224152
+    }
+  ]
+}

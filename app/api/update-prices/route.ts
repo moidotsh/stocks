@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
+import { promises as fs } from 'fs'
 import { updateMarketPrices } from '@/lib/price-api'
 import { getEntriesData, getCryptoEntriesData } from '@/lib/data'
 import { withFileMutex, writeJsonAtomic } from '@/lib/file-utils'
@@ -35,12 +36,23 @@ export async function POST(request: Request) {
     
     // Fetch live prices
     const { stocks, crypto } = await updateMarketPrices(stockTickers, cryptoSymbols)
-    
-    // Create updated market prices object
+
+    // Load existing market prices to preserve crypto data if fetch fails
+    let existingCryptoPrices = {}
+    try {
+      const dataDir = path.join(process.cwd(), 'data')
+      const filePath = path.join(dataDir, 'market-prices.json')
+      const existingData = JSON.parse(await fs.readFile(filePath, 'utf8'))
+      existingCryptoPrices = existingData.crypto || {}
+    } catch (error) {
+      console.warn('Could not load existing crypto prices:', error)
+    }
+
+    // Create updated market prices object, preserve existing crypto if new fetch is empty
     const marketPrices = {
       as_of: new Date().toISOString().split('T')[0],
       stocks,
-      crypto
+      crypto: Object.keys(crypto).length > 0 ? crypto : existingCryptoPrices
     }
     
     // Write to file atomically, protected by mutex

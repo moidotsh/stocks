@@ -52,7 +52,7 @@ export async function getCryptoEntriesData(): Promise<Entry[]> {
     const filePath = path.join(DATA_DIR, 'crypto_entries.json')
     const fileContent = await fs.readFile(filePath, 'utf8')
     const data = JSON.parse(fileContent)
-    
+
     // Validate with Zod - assume crypto_entries uses same format as entries
     const entries = data.map((entry: unknown) => EntrySchema.parse(entry))
     return entries.sort((a: Entry, b: Entry) => new Date(a.week_start).getTime() - new Date(b.week_start).getTime())
@@ -156,7 +156,7 @@ function adjustForSameDayTrades(
         if (trade.ticker === pos.ticker && trade.action === 'buy') {
           const isCrypto = ['DOGE', 'AVAX', 'DOT', 'ENA', 'WLD', 'MOODENG', 'SNX'].includes(trade.ticker)
           if (!isCrypto) {
-            // Stock trade - use market price unless traded today
+              // Stock trade - use market price unless traded today
             const priceToUse = entry.week_start === today ? trade.price : pos.market_price
             totalValue += trade.qty * priceToUse
             totalQty += trade.qty
@@ -191,6 +191,7 @@ function adjustForSameDayTrades(
       // Check crypto_trades field
       for (const trade of entry.crypto_trades || []) {
         if (trade.symbol === pos.symbol && trade.action === 'buy') {
+          // Use purchase price for today's trades, market price for older trades
           const priceToUse = entry.week_start === today ? trade.price : pos.current_price
           totalValue += trade.qty * priceToUse
           totalQty += trade.qty
@@ -222,37 +223,37 @@ export async function getHoldingsData(): Promise<Holdings> {
   const entries = await getEntriesData()
   const cryptoEntries = await getCryptoEntriesData()
   const marketPrices = await getMarketPricesData()
-  
+
   // Calculate positions from trade history
   const stockPositions = calculateStockPositions(entries)
   const cryptoPositions = calculateCryptoPositions(entries, cryptoEntries)
-  
+
   // Apply current market prices
   const { positions, crypto_positions } = applyMarketPrices(
-    stockPositions, 
-    cryptoPositions, 
+    stockPositions,
+    cryptoPositions,
     marketPrices
   )
-  
+
   // Adjust for same-day trades (zero gain until tomorrow)
   const { adjustedPositions, adjustedCryptoPositions } = adjustForSameDayTrades(
     entries,
-    cryptoEntries, 
+    cryptoEntries,
     positions,
     crypto_positions,
     marketPrices.as_of
   )
-  
+
   // Calculate remaining cash
   const cash_cad = calculateCashRemaining(entries, cryptoEntries)
-  
+
   const holdings: Holdings = {
     as_of: marketPrices.as_of,
     positions: adjustedPositions,
     crypto_positions: adjustedCryptoPositions.length > 0 ? adjustedCryptoPositions : undefined,
     cash_cad
   }
-  
+
   return HoldingsSchema.parse(holdings)
 }
 

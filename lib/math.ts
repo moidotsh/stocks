@@ -288,11 +288,11 @@ export function generateChartData(
     })
   }
   
-  // Add today's data point with current market values if different from last entry date
+  // Always add today's data point with current market values
   const lastEntryDate = uniqueDates[uniqueDates.length - 1]
   const todayDate = holdings.as_of
-  
-  if (todayDate !== lastEntryDate) {
+
+  if (true) { // Always add current market values to override stale daily snapshots
     const stockDepositFlows = stockEntries.map(e => ({ date: e.week_start, amount: e.deposit_cad }))
     const cryptoDepositFlows = cryptoEntries.map(e => ({ date: e.week_start, amount: e.deposit_cad }))
     const allDepositFlows = allEntries.map(e => ({ date: e.week_start, amount: e.deposit_cad }))

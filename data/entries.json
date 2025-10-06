@@ -50,5 +50,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-05",
+    "deposit_cad": 14,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "SHOP.TO",
+        "qty": 0.0623,
+        "price": 224.89,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

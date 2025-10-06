@@ -55,7 +55,7 @@
         "action": "buy",
         "ticker": "AVAX",
         "qty": 0.0400132,
-        "price": 25.00,
+        "price": 25,
         "currency": "CAD"
       },
       {
@@ -110,6 +110,19 @@
         "ticker": "SNX",
         "qty": 8.892182,
         "price": 1.46,
+        "currency": "CAD"
+      }
+    ]
+  },
+  {
+    "week_start": "2025-10-05",
+    "deposit_cad": 14,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "CELO",
+        "qty": 24.908519,
+        "price": 0.56,
         "currency": "CAD"
       }
     ]

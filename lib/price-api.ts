@@ -195,7 +195,7 @@ const CRYPTO_ID_MAPPING: Record<string, string> = {
   'ALGO': 'algorand',
   'FET': 'fetch-ai',
   'ARB': 'arbitrum',
-  'SNX': 'havven',
+  'SNX': 'synthetix-network',
   'LDO': 'lido-dao',
   'ATOM': 'cosmos',
   'MORPHO': 'morpho',
@@ -308,14 +308,31 @@ export async function fetchCryptoPrices(symbols: string[]): Promise<Record<strin
 
 // Fetch all market prices and update the data file
 export async function updateMarketPrices(
-  stockTickers: string[], 
+  stockTickers: string[],
   cryptoSymbols: string[]
 ): Promise<{ stocks: Record<string, number>; crypto: Record<string, number> }> {
   const [stockPrices, cryptoPrices] = await Promise.all([
     fetchStockPrices(stockTickers),
     fetchCryptoPrices(cryptoSymbols)
   ])
-  
+
+  // Safeguard: If crypto prices are empty, try to preserve existing data
+  if (Object.keys(cryptoPrices).length === 0) {
+    console.warn('Crypto price fetch returned empty results, preserving existing prices')
+    try {
+      const fs = require('fs').promises
+      const path = require('path')
+      const filePath = path.join(process.cwd(), 'data', 'market-prices.json')
+      const existingData = JSON.parse(await fs.readFile(filePath, 'utf8'))
+      return {
+        stocks: stockPrices,
+        crypto: existingData.crypto || {}
+      }
+    } catch (error) {
+      console.warn('Could not preserve existing crypto prices:', error)
+    }
+  }
+
   return {
     stocks: stockPrices,
     crypto: cryptoPrices

@@ -249,9 +249,10 @@ export function tradesToEntryFormat(
   cryptoTrades.forEach(trade => {
     entryTrades.push({
       action: trade.action,
-      symbol: trade.symbol,
+      ticker: trade.symbol, // Use "ticker" field for consistency with holdings calculator
       qty: trade.qty,
-      price: trade.unit_price
+      price: trade.unit_price,
+      currency: 'CAD' // Crypto trades are always in CAD
     })
   })
 

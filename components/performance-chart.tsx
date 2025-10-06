@@ -238,8 +238,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         let totalContributions = 0
 
         // Add contributions for all weeks up to and including current week
-        for (let week = 1; week <= weeks && week <= 4; week++) {
-          const weekContribution = 10 + (week - 1) * 1 // $10 for week 1, $11 for week 2, etc.
+        for (let week = 1; week <= weeks && week <= 5; week++) {
+          const weekContribution = 20 + (week - 1) * 2 // $20 for week 1, $22 for week 2, etc.
           totalContributions += weekContribution * 2 // Stock + crypto
         }
 
