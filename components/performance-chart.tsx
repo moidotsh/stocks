@@ -237,10 +237,10 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         const weeks = Math.ceil(days / 7)
         let totalContributions = 0
 
-        // Add contributions for all weeks up to and including current week
+        // Add contributions for all weeks up to and including current week (total contributions to both accounts)
         for (let week = 1; week <= weeks && week <= 5; week++) {
-          const weekContribution = 20 + (week - 1) * 2 // $20 for week 1, $22 for week 2, etc.
-          totalContributions += weekContribution * 2 // Stock + crypto
+          const weekContribution = 10 + (week - 1) // $10 for week 1, $11 for week 2, etc.
+          totalContributions += weekContribution * 2 // Stock + crypto contributions
         }
 
         return totalContributions
@@ -387,6 +387,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               dot={false}
               animationBegin={0}
               animationDuration={800}
+              fill={usePercentageData ? "hsl(var(--primary))" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
             <Line
               type="monotone"
@@ -398,6 +400,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeDasharray="5 5"
               animationBegin={200}
               animationDuration={800}
+              fill={usePercentageData ? "#10b981" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
             <Line
               type="monotone"
@@ -409,6 +413,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeDasharray="5 5"
               animationBegin={400}
               animationDuration={800}
+              fill={usePercentageData ? "#f59e0b" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
           </>
         )
@@ -425,6 +431,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               dot={false}
               animationBegin={0}
               animationDuration={800}
+              fill={usePercentageData ? "#3b82f6" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
             <Line
               type="monotone"
@@ -436,6 +444,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeDasharray="5 5"
               animationBegin={200}
               animationDuration={800}
+              fill={usePercentageData ? "#10b981" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
             <Line
               type="monotone"
@@ -447,6 +457,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeDasharray="5 5"
               animationBegin={400}
               animationDuration={800}
+              fill={usePercentageData ? "#f59e0b" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
           </>
         )
@@ -463,6 +475,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               dot={false}
               animationBegin={0}
               animationDuration={800}
+              fill={usePercentageData ? "#8b5cf6" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
             <Line
               type="monotone"
@@ -474,6 +488,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeDasharray="5 5"
               animationBegin={200}
               animationDuration={800}
+              fill={usePercentageData ? "#10b981" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
             <Line
               type="monotone"
@@ -485,6 +501,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               strokeDasharray="5 5"
               animationBegin={400}
               animationDuration={800}
+              fill={usePercentageData ? "#f59e0b" : "none"}
+              fillOpacity={usePercentageData ? 0.1 : 0}
             />
           </>
         )

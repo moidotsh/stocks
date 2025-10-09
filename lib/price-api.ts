@@ -195,7 +195,7 @@ const CRYPTO_ID_MAPPING: Record<string, string> = {
   'ALGO': 'algorand',
   'FET': 'fetch-ai',
   'ARB': 'arbitrum',
-  'SNX': 'synthetix-network',
+  'SNX': 'havven',
   'LDO': 'lido-dao',
   'ATOM': 'cosmos',
   'MORPHO': 'morpho',

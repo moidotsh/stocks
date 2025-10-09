@@ -240,10 +240,9 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
         const weeks = Math.ceil(days / 7)
         let totalContributions = 0
 
-        // Add contributions for all weeks up to and including current week
-        // Week 1: $20 (10+10), Week 2: $22 (11+11), Week 3: $24 (12+12), Week 4: $26 (13+13), Week 5: $28 (14+14)
+        // Add contributions for all weeks up to and including current week (total contributions to both accounts)
         for (let week = 1; week <= weeks && week <= 5; week++) {
-          const weekContribution = 20 + (week - 1) * 2 // $20 for week 1, $22 for week 2, etc.
+          const weekContribution = 10 + (week - 1) // $10 for week 1, $11 for week 2, etc.
           totalContributions += weekContribution * 2 // Stock + crypto contributions
         }
 
