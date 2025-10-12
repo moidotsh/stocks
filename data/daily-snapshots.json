@@ -2985,5 +2985,28 @@
       "SNX": 1.34,
       "CELO": 0.389793
     }
+  },
+  {
+    "timestamp": "2025-10-12T18:56:36.348Z",
+    "portfolio_value": 129.3343026221461,
+    "stock_value": 63.956919,
+    "crypto_value": 65.37738362214611,
+    "cash_value": 0,
+    "market_prices": {
+      "ABX.TO": 45.86,
+      "FM.TO": 31.75,
+      "CNQ.TO": 43.97,
+      "TECK.B.TO": 58.64,
+      "SHOP.TO": 211.39,
+      "DOGE": 0.289594,
+      "AVAX": 31.59,
+      "DOT": 4.52,
+      "ENA": 0.563976,
+      "WLD": 1.41,
+      "MOODENG": 0.178093,
+      "BNB": 1818.67,
+      "SNX": 2.22,
+      "CELO": 0.407806
+    }
   }
 ]
