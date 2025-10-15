@@ -126,5 +126,53 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-12",
+    "deposit_cad": 15,
+    "trades": [
+      {
+        "action": "sell",
+        "ticker": "CELO",
+        "qty": 24.908519,
+        "price": 0.4101,
+        "currency": "CAD"
+      },
+      {
+        "action": "sell",
+        "ticker": "ENA",
+        "qty": 0.98,
+        "price": 0.5679,
+        "currency": "CAD"
+      },
+      {
+        "action": "sell",
+        "ticker": "SNX",
+        "qty": 4.481,
+        "price": 2.45,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "BAT",
+        "qty": 66.95,
+        "price": 0.2433,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "MORPHO",
+        "qty": 5.885,
+        "price": 2.78,
+        "currency": "CAD"
+      },
+      {
+        "action": "buy",
+        "ticker": "CAKE",
+        "qty": 0.620362,
+        "price": 4.72,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

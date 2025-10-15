@@ -63,5 +63,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-12",
+    "deposit_cad": 15,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "RCI.B.TO",
+        "qty": 0.2767,
+        "price": 51.5,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

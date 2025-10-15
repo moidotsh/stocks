@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
 import { PortfolioData } from '@/lib/types'
 import { useCurrency } from '@/lib/currency-context'
 import { formatDate } from '@/lib/utils'
@@ -238,7 +238,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
         let totalContributions = 0
 
         // Add contributions for all weeks up to and including current week (total contributions to both accounts)
-        for (let week = 1; week <= weeks && week <= 5; week++) {
+        for (let week = 1; week <= weeks; week++) {
           const weekContribution = 10 + (week - 1) // $10 for week 1, $11 for week 2, etc.
           totalContributions += weekContribution * 2 // Stock + crypto contributions
         }
@@ -669,6 +669,14 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
             style={{ transition: 'all 0.3s ease-in-out' }}
           >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+
+            {/* Week separator lines */}
+            <ReferenceLine x={0} stroke="#e5e7eb" strokeWidth={1} />
+            <ReferenceLine x={7} stroke="#e5e7eb" strokeWidth={1} />
+            <ReferenceLine x={14} stroke="#e5e7eb" strokeWidth={1} />
+            <ReferenceLine x={21} stroke="#e5e7eb" strokeWidth={1} />
+            <ReferenceLine x={28} stroke="#e5e7eb" strokeWidth={1} />
+            <ReferenceLine x={35} stroke="#e5e7eb" strokeWidth={1} />
             <XAxis
               dataKey="xPosition"
               className="text-sm"
@@ -676,7 +684,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
               type="number"
               domain={[0, 'dataMax']}
               interval={0}
-              ticks={[0, 7, 14, 21, 28]}
+              ticks={[0, 7, 14, 21, 28, 35]}
               tickFormatter={(value) => {
                 // Show date labels for specific day positions
                 const daysFromStart = Math.round(value)
@@ -692,6 +700,8 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
                   return 'Week 4'
                 } else if (daysFromStart === 28) {
                   return 'Week 5'
+                } else if (daysFromStart === 35) {
+                  return 'Week 6'
                 }
 
                 return ''

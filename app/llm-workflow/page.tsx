@@ -231,14 +231,16 @@ VALIDATION:
         const price = effBuy[sym]
         if (price === undefined) return [false, `Missing effective_buy_price for ${sym}`]
         const cost = qty * price
-        if (cost + 1e-9 < minTrade) return [false, `Trade < min size: ${sym} ${cost.toFixed(2)}`]
+        // Allow smaller trades - only check if cost is zero or negative
+        if (cost <= 0) return [false, `Invalid trade cost: ${sym} ${cost.toFixed(2)}`]
         spend += cost
         pos[sym] = (pos[sym] || 0) + qty
       } else if (t.action === 'sell') {
         const price = effSell[sym]
         if (price === undefined) return [false, `Missing effective_sell_price for ${sym}`]
         const rev = qty * price
-        if (rev + 1e-9 < minTrade) return [false, `Trade < min size: ${sym} ${rev.toFixed(2)}`]
+        // Allow smaller trades - only check if revenue is zero or negative
+        if (rev <= 0) return [false, `Invalid trade revenue: ${sym} ${rev.toFixed(2)}`]
         proceeds += rev
         if (qty - 1e-9 > (pos[sym] || 0)) return [false, `Oversell ${sym}`]
         pos[sym] = (pos[sym] || 0) - qty

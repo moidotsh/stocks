@@ -241,7 +241,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
         let totalContributions = 0
 
         // Add contributions for all weeks up to and including current week (total contributions to both accounts)
-        for (let week = 1; week <= weeks && week <= 5; week++) {
+        for (let week = 1; week <= weeks; week++) {
           const weekContribution = 10 + (week - 1) // $10 for week 1, $11 for week 2, etc.
           totalContributions += weekContribution * 2 // Stock + crypto contributions
         }
@@ -769,7 +769,7 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
               type="number"
               domain={[0, 'dataMax']}
               interval={0}
-              ticks={[0, 7, 14, 21, 28]}
+              ticks={[0, 7, 14, 21, 28, 35]}
               tickFormatter={(value) => {
                 // Show date labels for specific day positions
                 const daysFromStart = Math.round(value)
@@ -785,6 +785,8 @@ export function PercentageGrowthChart({ data }: PercentageGrowthChartProps) {
                   return 'Week 4'
                 } else if (daysFromStart === 28) {
                   return 'Week 5'
+                } else if (daysFromStart === 35) {
+                  return 'Week 6'
                 }
 
                 return ''

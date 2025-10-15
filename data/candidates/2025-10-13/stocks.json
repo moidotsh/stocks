@@ -1,10 +1,10 @@
 {
   "as_of": "2025-10-12",
-  "cash_available_cad": 15.0,
+  "cash_available_cad": 15,
   "constraints": {
     "max_positions": 10,
     "max_weight_per_position": 0.2,
-    "min_trade_size_cad": 1.0
+    "min_trade_size_cad": 1
   },
   "fractional_allowed": true,
   "order_mode": "market_only_if_fractional",
@@ -398,7 +398,7 @@
       "currency": "CAD",
       "price": 211.39,
       "price_cad": 211.39,
-      "pct_change_1w": -6.0,
+      "pct_change_1w": -6,
       "avg_volume_5d": 1335240,
       "listing": "CAD",
       "fractional_supported": true,
