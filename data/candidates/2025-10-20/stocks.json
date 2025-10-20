@@ -1,10 +1,10 @@
 {
   "as_of": "2025-10-19",
-  "cash_available_cad": 16.0,
+  "cash_available_cad": 16,
   "constraints": {
     "max_positions": 10,
     "max_weight_per_position": 0.2,
-    "min_trade_size_cad": 1.0
+    "min_trade_size_cad": 1
   },
   "fractional_allowed": true,
   "order_mode": "market_only_if_fractional",
@@ -39,8 +39,8 @@
       "shares": 0.2767,
       "avg_cost": 51.5,
       "currency": "CAD",
-      "market_price": 52.2,
-      "market_price_cad": 52.2
+      "market_price": null,
+      "market_price_cad": null
     },
     {
       "ticker": "SHOP.TO",

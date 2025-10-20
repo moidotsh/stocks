@@ -76,5 +76,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-19",
+    "deposit_cad": 16,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "AEM.TO",
+        "qty": 0.0653,
+        "price": 244.41,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

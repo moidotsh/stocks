@@ -174,5 +174,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-19",
+    "deposit_cad": 16,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "USDC",
+        "qty": 11.19,
+        "price": 1.4019,
+        "currency": "CAD"
+      }
+    ]
   }
 ]
