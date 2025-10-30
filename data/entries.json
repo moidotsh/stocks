@@ -89,5 +89,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-27",
+    "deposit_cad": 16,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "HAL.TO",
+        "qty": 0.6814,
+        "price": 24.92,
+        "currency": "CAD"
+      }
+    ]
   }
 ]

@@ -1,10 +1,10 @@
 {
   "as_of": "2025-10-27",
-  "cash_available_cad": 17.0,
+  "cash_available_cad": 17,
   "constraints": {
     "max_positions": 10,
     "max_weight_per_position": 0.2,
-    "min_trade_size_cad": 1.0
+    "min_trade_size_cad": 1
   },
   "fractional_allowed": true,
   "order_mode": "market_only_if_fractional",
@@ -15,56 +15,56 @@
       "shares": 0.254,
       "avg_cost": 39.37,
       "currency": "CAD",
-      "market_price": 45.49,
-      "market_price_cad": 45.49
+      "market_price": 44.54,
+      "market_price_cad": 44.54
     },
     {
       "ticker": "AEM.TO",
       "shares": 0.0653,
       "avg_cost": 244.41,
       "currency": "CAD",
-      "market_price": 228.58,
-      "market_price_cad": 228.58
+      "market_price": 217.08,
+      "market_price_cad": 217.08
     },
     {
       "ticker": "CNQ.TO",
       "shares": 0.2893,
       "avg_cost": 43.58,
       "currency": "CAD",
-      "market_price": 43.78,
-      "market_price_cad": 43.78
+      "market_price": 44.11,
+      "market_price_cad": 44.11
     },
     {
       "ticker": "FM.TO",
       "shares": 0.4167,
       "avg_cost": 26.32,
       "currency": "CAD",
-      "market_price": 30.34,
-      "market_price_cad": 30.34
+      "market_price": 30.48,
+      "market_price_cad": 30.48
     },
     {
       "ticker": "RCI.B.TO",
       "shares": 0.2767,
       "avg_cost": 51.5,
       "currency": "CAD",
-      "market_price": 55.05,
-      "market_price_cad": 55.05
+      "market_price": null,
+      "market_price_cad": null
     },
     {
       "ticker": "SHOP.TO",
       "shares": 0.0623,
       "avg_cost": 224.89,
       "currency": "CAD",
-      "market_price": 242.12,
-      "market_price_cad": 242.12
+      "market_price": 245.17,
+      "market_price_cad": 245.17
     },
     {
       "ticker": "TECK.B.TO",
       "shares": 0.2249,
       "avg_cost": 57.75,
       "currency": "CAD",
-      "market_price": 59.52,
-      "market_price_cad": 59.52
+      "market_price": 58.5,
+      "market_price_cad": 58.5
     }
   ],
   "candidates": [

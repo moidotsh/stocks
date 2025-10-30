@@ -187,5 +187,18 @@
         "currency": "CAD"
       }
     ]
+  },
+  {
+    "week_start": "2025-10-27",
+    "deposit_cad": 17,
+    "trades": [
+      {
+        "action": "buy",
+        "ticker": "VIRTUAL",
+        "qty": 8.375,
+        "price": 2.03,
+        "currency": "CAD"
+      }
+    ]
   }
 ]
